@@ -1,0 +1,3 @@
+#!/bin/bash -e
+
+xrdb -merge ~/.config/x/xresources/base

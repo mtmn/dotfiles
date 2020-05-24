@@ -11,6 +11,3 @@ for file in "$config_home"/.config/{shell,zsh}/rc/*(N); do
 done
 
 PS1='$(_get_ps1)'
-
-source $HOME/.config/zsh/histdb/histdb-interactive.zsh
-bindkey '^r' _histdb-isearch

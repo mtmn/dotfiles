@@ -9,4 +9,3 @@ for file in "$config_home"/.config/{shell,bash}/profile/*; do
 done
 
 [[ -r "$config_home"/.bashrc ]] && . "$config_home"/.bashrc
-if [ -e /home/mt/.nix-profile/etc/profile.d/nix.sh ]; then . /home/mt/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer

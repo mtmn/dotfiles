@@ -1,0 +1,46 @@
+#!/bin/sh
+
+alias u='udf && exec zsh -l'
+alias x='s -l root'
+alias q='sudo '
+alias lopri='nice -n 19 ionice -c2 -n7 '
+alias scan='sudo nmap -n -PN -sT -sU -p-'
+alias cf='clang-format -i -style=file'
+alias c='ctags --links=no -R .'
+alias k='kubectl'
+
+alias ssm-us='gossm start --profile p-mfa --region us-east-1'
+
+alias ss='sudo systemctl start'
+alias st='sudo systemctl stop'
+alias sd='sudo systemctl -n 100 status'
+
+alias us='systemctl --user start'
+alias ut='systemctl --user stop'
+alias ud='systemctl --user -n 100 status'
+
+m() {
+    moshrc "$@"
+}
+
+g(){
+    sudo gdb -q /proc/"${1?}"/exe "$1"
+}
+
+transfer() {
+    curl --upload-file "${1?}" https://transfer.sh
+}
+
+alias gt=grep-tids
+
+alias gam='xgamma -gamma 3'
+
+alias wipe-disk='shred --verbose --random-source=/dev/urandom -n1'
+
+alias pw='LC_ALL=C tr -dc a-zA-Z0-9 < /dev/urandom | head -c 20; echo'
+
+alias e='PATH=$(get-path-without-env) '
+
+alias pacman-recent='grep '\''\[ALPM\] \(removed\|installed\|upgraded\|downgraded\)'\'' /var/log/pacman.log'
+
+alias mpva='mpv --no-video'

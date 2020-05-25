@@ -45,6 +45,12 @@ bindsym $mod+shift+d exec clipmenu -b -fn 'Terminus-9'
 # start dmenu
 bindsym $mod+d exec dmenu_run -b -fn 'Terminus-9' 
 
+# split workspaces to dedicated monitors
+workspace 1 output DP-2
+workspace 2 output DP-2
+workspace 3 output HDMI-1
+workspace 4 output HDMI-1
+
 # kill focused window
 bindsym $mod+Shift+q kill
 

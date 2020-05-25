@@ -8,6 +8,7 @@ export PYTHONDONTWRITEBYTECODE=1
 export PYTHONSTARTUP="$HOME/.pythonrc"
 export BROWSER=firefox
 export NSS_DEFAULT_DB_TYPE=sql
+export BC_ENV_ARGS="$HOME/.config/bcrc"
 
 source $HOME/git/piano/piano-bash-env/load.sh
 

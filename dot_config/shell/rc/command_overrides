@@ -54,24 +54,6 @@ alias watch='watch '
 
 alias gdb='gdb -q'
 
-# Commands that should be run without any *env shims
-envless_cmds=(
-    berks vagrant chef chef-apply chef-client chef-shell chef-solo chef-vault
-    chef-zero knife duplicity duply reflector get_iplayer xelatex biber
-    latexindent
-)
-for cmd in "${envless_cmds[@]}"; do
-    # shellcheck disable=SC2139
-    alias "$cmd"='PATH=$(get-path-without-env) '"$cmd"
-done
-
-for tool_full in /usr/share/bcc/tools/*; do
-    [[ -f "$tool_full" ]] || continue
-    tool="${tool_full##*/}"
-    # shellcheck disable=SC2139
-    alias "$tool"='PATH=$(get-path-without-env) sudo '"$tool_full"
-done
-
 alias dmesg='dmesg -T --color=always | less -R +G'
 alias mksrcinfo='makepkg --printsrcinfo >| .SRCINFO'
 

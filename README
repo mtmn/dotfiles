@@ -1,5 +1,5 @@
 dotfiles
 ========
 
-Dotfiles I use across my Linux machines. In order to install them simply run:
-    ``chezmoi init https://github.com/mtmn/dotfiles.git``
+In order to apply configuration files and clone vim plugins simply run:
+  ``chezmoi init https://github.com/mtmn/dotfiles.git``

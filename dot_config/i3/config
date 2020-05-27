@@ -50,6 +50,11 @@ workspace 1 output DP-2
 workspace 2 output DP-2
 workspace 3 output HDMI-1
 workspace 4 output HDMI-1
+workspace 5 output HDMI-1
+workspace 6 output eDP-1
+workspace 7 output eDP-1
+workspace 8 output eDP-1
+workspace 9 output eDP-1
 
 # kill focused window
 bindsym $mod+Shift+q kill

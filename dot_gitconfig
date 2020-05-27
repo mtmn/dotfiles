@@ -16,6 +16,7 @@
     autosquash = true
 [alias]
     why-ignore = check-ignore -v
+    gitlab-mr = push -o merge_request.create -o merge_request.target=master
 
 [url "https://github/"]
     insteadOf = "gh:"

@@ -34,6 +34,9 @@
 [submodule "dot_vim/bundle/rust"]
 	path = dot_vim/bundle/rust
 	url = https://github.com/rust-lang/rust.vim
-[submodule "dot_vim/bundle/vim-terraform"]
-	path = dot_vim/bundle/vim-terraform
-	url = https://github.com/hashivim/vim-terraform.git
+[submodule "dot_vim/bundle/terraform"]
+	path = dot_vim/bundle/terraform
+	url = https://github.com/hashivim/vim-terraform
+[submodule "dot_vim/bundle/editorconfig"]
+	path = dot_vim/bundle/editorconfig
+	url = https://github.com/editorconfig/editorconfig-vim

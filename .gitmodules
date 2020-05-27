@@ -37,3 +37,6 @@
 [submodule "dot_vim/bundle/editorconfig"]
 	path = dot_vim/bundle/editorconfig
 	url = https://github.com/editorconfig/editorconfig-vim
+[submodule "dot_vim/bundle/terraform"]
+	path = dot_vim/bundle/terraform
+	url = https://github.com/hashivim/vim-terraform.git

@@ -32,14 +32,9 @@ transfer() {
     curl --upload-file "${1?}" https://transfer.sh
 }
 
-alias gt=grep-tids
 
 alias gam='xgamma -gamma 3'
 
-alias wipe-disk='shred --verbose --random-source=/dev/urandom -n1'
-
 alias pw='LC_ALL=C tr -dc a-zA-Z0-9 < /dev/urandom | head -c 20; echo'
-
-alias pacman-recent='grep '\''\[ALPM\] \(removed\|installed\|upgraded\|downgraded\)'\'' /var/log/pacman.log'
 
 alias mpva='mpv --no-video'

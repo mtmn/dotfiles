@@ -6,8 +6,6 @@ if exists("*pathogen#infect")
   execute pathogen#infect('bundle/{}')
 endif
 
-let g:neocomplete#enable_at_startup = 1
-
 filetype plugin on
 syntax on
 
@@ -38,7 +36,7 @@ set shiftwidth=4
 set shortmess=aoOtI
 set smartcase
 set spell
-set spelllang=en_gb
+set spelllang=en_us
 set synmaxcol=1000
 set textwidth=79
 set viminfo='20,<1000,s1000
@@ -54,10 +52,6 @@ nnoremap <silent> H :set hlsearch!<CR>
 
 highlight TrailingWhitespace ctermbg=black
 call matchadd('TrailingWhitespace', '\s\+$')
-
-" I've got to stop saying this crap
-highlight ShittyWords ctermbg=red ctermfg=black
-call matchadd('ShittyWords', '\<\([Gg]uy\|[Dd]ude\)s\?\>')
 
 " Since we changed solarized colour from #002b36 to #3b5a61, we need to
 " explicitly set this to avoid the whole background becoming that colour
@@ -77,11 +71,6 @@ set directory=~/.vim/swap//
 set undodir=~/.vim/undo//
 set undofile
 
-
-" This avoids <Leader>q getting mapped to MailQuote when in a mail file
-let no_mail_maps = 1
-
-
 " Do not enter ex mode when I fat finger q with shift pressed
 nnoremap Q <nop>
 
@@ -93,7 +82,6 @@ nmap <F1> <nop>
 
 " Do not show command history window when :q gets entered in the wrong order
 map q: :q
-
 
 " When joining, do the right thing to join up function definitions
 vnoremap J J:s/( /(/g<CR>:s/,)/)/g<CR>
@@ -121,12 +109,6 @@ for key in ['d', 'D', 'c', 'C']
     exe keymode . 'noremap <Leader>' . key . ' ' . key
     exe keymode . 'noremap ' . key . ' "_' . key
   endfor
-endfor
-
-" Use xfer file as custom yank/paste. It's 2014 people, why do clipboards still
-" suck :-(
-for keymode in ['n', 'v']
-  exe keymode . 'noremap <silent> <Leader>p :r ~/.vim/xfer<CR>'
 endfor
 
 " gV to highlight previously inserted text
@@ -157,26 +139,21 @@ augroup filetype_settings
   autocmd FileType mail normal }
   autocmd FileType mail setlocal formatoptions+=rw
 
-  for filetype in ['yaml', 'sql', 'ruby', 'html', 'css', 'xml', 'php', 'vim']
+  for filetype in ['yaml', 'sql', 'ruby', 'html', 'css', 'xml', 'vim']
     exe 'autocmd FileType ' . filetype . ' setlocal sw=2 sts=2 ts=2'
   endfor
 
-  for filetype in ['gitcommit', 'mail', 'gitsendemail']
+  for filetype in ['gitcommit']
     exe 'autocmd FileType ' . filetype . ' setlocal joinspaces'
   endfor
 
-  for filetype in ['gitcommit', 'gitsendemail']
+  for filetype in ['gitcommit']
     exe 'autocmd FileType ' . filetype . ' setlocal tw=72'
   endfor
-
-  autocmd BufRead,BufNewFile ~/.local/share/nota/* setlocal filetype=markdown
 
   autocmd BufRead,BufNewFile */linux-mmots/*.c,*/linux-mmots/*.h setlocal textwidth=80
   autocmd BufRead,BufNewFile */systemd/*.c,*/systemd/*.h setlocal textwidth=109
 
-  " Update ctags on write
-  " Disabled for now due to perf
-  " autocmd BufWritePost *.c,*.cpp,*.h,*.py silent! !ctags -R >/tmp/ctags.log 2>&1 &
 augroup END
 
 nnoremap <C-l> <C-l>zz

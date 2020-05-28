@@ -10,8 +10,6 @@ export BROWSER=firefox
 export NSS_DEFAULT_DB_TYPE=sql
 export BC_ENV_ARGS="$HOME/.config/bcrc"
 
-source $HOME/git/work/pbe/load.sh
-
 # shellcheck disable=SC2154
 {
     export PATH="/usr/share/bcc/tools:$config_home/local/bin:$config_home/bin:$config_home/.rbenv/bin:$config_home/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/android-sdk/platform-tools:/usr/bin/core_perl:/usr/bin/vendor_perl:/usr/local/ittools/arcanist/bin:/usr/texbin:/opt/local/bin:$HOME/.pyenv/bin:$HOME/.cargo/bin"

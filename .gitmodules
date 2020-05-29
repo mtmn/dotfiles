@@ -40,3 +40,14 @@
 [submodule "dot_vim/bundle/terraform"]
 	path = dot_vim/bundle/terraform
 	url = https://github.com/hashivim/vim-terraform.git
+[submodule "dot_vim/bundle/elixir"]
+	path = dot_vim/bundle/elixir
+	url = https://github.com/elixir-editors/vim-elixir
+[submodule ".vim/bundle/coc"]
+	path = .vim/bundle/coc
+	url = https://github.com/neoclide/coc.nvim
+	branch = release
+[submodule "dot_vim/bundle/coc"]
+	path = dot_vim/bundle/coc
+	url = https://github.com/neoclide/coc.nvim
+	branch = release

@@ -9,8 +9,7 @@ endif
 filetype plugin on
 syntax on
 
-let g:solarized_termtrans = 1
-silent! colorscheme solarized
+silent! colorscheme gruvbox
 set background=dark
 
 
@@ -53,12 +52,7 @@ nnoremap <silent> H :set hlsearch!<CR>
 highlight TrailingWhitespace ctermbg=black
 call matchadd('TrailingWhitespace', '\s\+$')
 
-" Since we changed solarized colour from #002b36 to #3b5a61, we need to
-" explicitly set this to avoid the whole background becoming that colour
 highlight Normal ctermbg=none
-
-" Solarized colours for parens are quite bad by default, because it's difficult
-" to tell which is the cursor and which is the match.
 highlight MatchParen ctermbg=darkmagenta ctermfg=black
 
 command FixFile :set fileencoding=utf-8 fileformat=unix nobomb | %s/\r$//

@@ -7,9 +7,6 @@
 [submodule "dot_vim/bundle/pathogen"]
 	path = dot_vim/bundle/pathogen
 	url = https://github.com/tpope/vim-pathogen
-[submodule "dot_vim/bundle/solarized"]
-	path = dot_vim/bundle/solarized
-	url = https://github.com/altercation/vim-colors-solarized
 [submodule "dot_vim/bundle/abolish"]
 	path = dot_vim/bundle/abolish
 	url = https://github.com/tpope/vim-abolish
@@ -19,12 +16,6 @@
 [submodule "dot_vim/bundle/fugitive"]
 	path = dot_vim/bundle/fugitive
 	url = https://github.com/tpope/vim-fugitive
-[submodule "dot_vim/bundle/liquid"]
-	path = dot_vim/bundle/liquid
-	url = https://github.com/tpope/vim-liquid
-[submodule "dot_vim/bundle/markdown"]
-	path = dot_vim/bundle/markdown
-	url = https://github.com/tpope/vim-markdown
 [submodule "dot_vim/bundle/sleuth"]
 	path = dot_vim/bundle/sleuth
 	url = https://github.com/tpope/vim-sleuth
@@ -43,10 +34,6 @@
 [submodule "dot_vim/bundle/elixir"]
 	path = dot_vim/bundle/elixir
 	url = https://github.com/elixir-editors/vim-elixir
-[submodule ".vim/bundle/coc"]
-	path = .vim/bundle/coc
-	url = https://github.com/neoclide/coc.nvim
-	branch = release
 [submodule "dot_vim/bundle/coc"]
 	path = dot_vim/bundle/coc
 	url = https://github.com/neoclide/coc.nvim

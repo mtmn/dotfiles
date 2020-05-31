@@ -4,13 +4,14 @@ alias lopri='nice -n 19 ionice -c2 -n7 '
 alias scan='sudo nmap -n -PN -sT -sU -p-'
 alias cf='clang-format -i -style=file'
 alias c='ctags --links=no -R .'
-alias k='kubectl'
 
 alias amfa='aws-mfa --profile work'
 
 alias ssm-us='gossm start --profile work --region us-east-1'
 alias ssm-ap='gossm start --profile work --region ap-northeast-1'
 alias ssm-au='gossm start --profile work-au --region ap-southeast-2'
+
+alias dpsec='docker run --rm -ti --network host -v $PWD:/rose parrotsec/security'
 
 alias ss='sudo systemctl start'
 alias st='sudo systemctl stop'

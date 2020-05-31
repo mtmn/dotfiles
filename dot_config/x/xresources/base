@@ -1,4 +1,4 @@
-URxvt.font: xft:Terminus:size=6, xft:Symbola
+URxvt.font: xft:Cozette:size=6
 URxvt.letterSpace: 0
 URxvt.boldFont:
 URxvt.depth: 32

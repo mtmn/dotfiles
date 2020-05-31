@@ -81,20 +81,12 @@ map q: :q
 vnoremap J J:s/( /(/g<CR>:s/,)/)/g<CR>
 
 " Quickly move around (and into) command mode
-imap jk <Esc>
-imap kj <Esc>:
+" imap jk <Esc>
+" imap kj <Esc>:
 for keymode in ['n', 'v']
   exec keymode . 'noremap ; :'
   exec keymode . 'noremap : ;'
 endfor
-
-" Use easymotion for find/til movements, with <Leader> prefixed version as
-" option to use regular find/til
-for key in ['f', 'F', 't', 'T']
-  exe 'noremap <Leader>' . key . ' ' . key
-  exe 'map ' . key . ' <Plug>(easymotion-' . key . ')'
-endfor
-
 
 " Do not copy to default register on delete/change, use <Leader> prefixed
 " version to use regular delete/change

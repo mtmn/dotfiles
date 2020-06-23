@@ -22,3 +22,5 @@
     insteadOf = "gh:"
 [url "git@github.com:"]
     pushInsteadOf = "gh:"
+[pull]
+	rebase = false

@@ -9,7 +9,7 @@ endif
 filetype plugin on
 syntax on
 
-silent! colorscheme gruvbox
+silent! colorscheme solarized
 set background=dark
 
 

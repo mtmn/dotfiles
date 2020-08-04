@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
+redshift &
+nitrogen --restore &
+xmodmap $HOME/.xmodmap &
+clipmenud &
+dunst &
 while true
 do
-    xsetroot -name "$(date "+%F %R")"
+    xsetroot -name "$(acpi -b | awk '{print $5, $4}' | tr -d ',') | $(date "+%F %R")"
+
 	sleep 1m
 	done &

@@ -4,10 +4,12 @@ alias lopri='nice -n 19 ionice -c2 -n7 '
 alias scan='sudo nmap -n -PN -sT -sU -p-'
 alias cf='clang-format -i -style=file'
 alias c='ctags --links=no -R .'
+alias f='fzf-vim'
 
 alias amfa='aws-mfa --profile work'
 
 alias ssm-us='gossm start --profile work --region us-east-1'
+alias ssm-dr='gossm start --profile work --region us-east-2'
 alias ssm-ap='gossm start --profile work --region ap-northeast-1'
 alias ssm-au='gossm start --profile work-au --region ap-southeast-2'
 

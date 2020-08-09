@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+fzf_then_open_in_editor() {
+  local file=$(fzf-tmux)
+  if [ -n "$file" ]; then
+    ${EDITOR:-vim} "$file"
+  fi
+}
+
+fzf_then_open_in_editor

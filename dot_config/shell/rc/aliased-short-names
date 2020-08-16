@@ -5,7 +5,7 @@ alias scan='sudo nmap -n -PN -sT -sU -p-'
 alias cf='clang-format -i -style=file'
 alias c='ctags --links=no -R .'
 alias f='fzf-vim'
-alias hb='histdb'
+alias hb='histdb | less -R +G'
 
 alias amfa='aws-mfa --profile work'
 
@@ -34,7 +34,7 @@ m() {
 }
 
 am() {
-    add-music-entry "$1"
+    add-music-entry "$@"
 }
 
 g(){

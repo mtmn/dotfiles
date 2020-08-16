@@ -10,6 +10,7 @@ export BROWSER=firefox
 export NSS_DEFAULT_DB_TYPE=sql
 export BC_ENV_ARGS="$HOME/.config/bcrc"
 export TF_PLUGIN_CACHE_DIR="$HOME/.terraform.d/plugin-cache"
+export BLOG_PATH="$HOME/git/personal/blog"
 
 # shellcheck disable=SC2154
 {

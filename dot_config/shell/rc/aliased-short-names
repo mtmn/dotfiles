@@ -5,6 +5,7 @@ alias scan='sudo nmap -n -PN -sT -sU -p-'
 alias cf='clang-format -i -style=file'
 alias c='ctags --links=no -R .'
 alias f='fzf-vim'
+alias hb='histdb'
 
 alias amfa='aws-mfa --profile work'
 
@@ -30,6 +31,10 @@ alias xc='xclip -selection clipboard'
 
 m() {
     moshrc "$@"
+}
+
+am() {
+    add-music-entry "$1"
 }
 
 g(){

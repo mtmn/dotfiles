@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
 redshift &
-nitrogen --restore &
 xmodmap $HOME/.xmodmap &
 clipmenud &
 dunst &
+psi-notify &
+nohup paperview $HOME/.misc/Wallpapers/paperview/2/ 5 >/dev/null 2>&1 &
+
 while true
 do
     xsetroot -name "$(acpi -b | awk '{print $5, $4}' | tr -d ',') | $(date "+%F %R")"
-
-	sleep 1m
-	done &
+sleep 1m
+done &

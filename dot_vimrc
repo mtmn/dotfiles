@@ -43,6 +43,7 @@ set viminfo='20,<1000,s1000
 
 let mapleader = "\<Space>"
 nnoremap <Leader>w :w<CR>
+nnoremap <Leader>gb :Gblame<CR>
 nnoremap <silent> <leader>n :setlocal paste<CR>
 nnoremap <silent> <leader>q :%s/\s\+$//e<CR><C-o>
 nnoremap <silent> / :let @/ = ""<CR>:set hlsearch<CR>/

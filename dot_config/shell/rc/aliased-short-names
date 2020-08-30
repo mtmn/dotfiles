@@ -14,11 +14,6 @@ alias ssm-dr='gossm start --profile work --region us-east-2'
 alias ssm-ap='gossm start --profile work --region ap-northeast-1'
 alias ssm-au='gossm start --profile work-au --region ap-southeast-2'
 
-alias build-up='hcloud server create --name build --image debian-10 --type cx31 --ssh-key tp'
-alias build-down='hcloud server delete build'
-
-alias dpsec='docker run --rm -ti --network host -v $PWD:/rose parrotsec/security'
-
 alias ss='sudo systemctl start'
 alias st='sudo systemctl stop'
 alias sd='sudo systemctl -n 100 status'

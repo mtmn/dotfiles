@@ -1,16 +1,16 @@
 #!/usr/bin/bash
-HOSTNAME="builder"
 STATE="${1}"
-IMAGE="debian-10"
 TYPE="cx31"
+IMAGE="debian-10"
+HOSTNAME="builder"
 SSH_KEY="tp"
 SSH_OPTS="-o StrictHostKeyChecking=no"
+ANSIBLE_USER="root"
 BUILD_USER="root"
 BUILD_FOLDER="$HOME/git/personal/build"
 REMOTE_BUILD_FOLDER="/build"
+ANSIBLE_PLAYBOOK_PATH="$BUILD_FOLDER/ansible/build.yml"
 REMINDER_FOLDER="$HOME/.local/share/nota/todo"
-ANSIBLE_USER="root"
-ANSIBLE_PLAYBOOK="$BUILD_FOLDER/ansible/build.yml"
 
 PACKAGES=(
 	scp
@@ -72,7 +72,7 @@ if [[ $STATE == "ssh" ]]; then
 fi
 
 if [[ $STATE == "ansible" ]]; then
-	ansible-playbook -u "$ANSIBLE_USER" -i "$BUILD_IP", "$ANSIBLE_PLAYBOOK"
+	ansible-playbook -u "$ANSIBLE_USER" -i "$BUILD_IP", "$ANSIBLE_PLAYBOOK_PATH"
 	exit 0
 fi
 
@@ -103,7 +103,7 @@ else
 fi
 
 
-if ! echo "(\"$HOSTNAME\") decommission build server created on $(date -u +%Y-%m-%d)." >> "$REMINDER_FOLDER"; then
+if ! echo "($HOSTNAME) decommission build server created on $(date -u +%Y-%m-%d)." >> "$REMINDER_FOLDER"; then
 	status "unable to add a reminder to decommission build server, skipping..."
 else
 	status "added a reminder to decommission the server."

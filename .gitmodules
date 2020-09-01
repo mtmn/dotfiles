@@ -35,3 +35,9 @@
 	path = dot_vim/bundle/coc
 	url = https://github.com/neoclide/coc.nvim
 	branch = release
+[submodule "dot_vim/bundle/surround"]
+	path = dot_vim/bundle/surround
+	url = https://github.com/tpope/vim-surround
+[submodule "dot_vim/bundle/solarized"]
+	path = dot_vim/bundle/solarized
+	url = https://github.com/altercation/vim-colors-solarized

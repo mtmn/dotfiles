@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 fzf_then_open_in_editor() {
-  local file=$(fzf-tmux)
+  local file=$(fzf-tmux -d 10)
   if [ -n "$file" ]; then
     ${EDITOR:-vim} "$file"
   fi

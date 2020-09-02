@@ -1,4 +1,0 @@
-#!/usr/bin/zsh
-source $config_home/.config/zsh/plugins/histdb/sqlite-history.zsh
-autoload -Uz add-zsh-hook
-add-zsh-hook precmd histdb-update-outcome

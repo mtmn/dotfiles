@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 redshift &
 xmodmap $HOME/.xmodmap &
+xrdb $HOME/.config/x/xresources/base
 clipmenud &
 dunst &
 psi-notify &
-nohup paperview $HOME/.misc/Wallpapers/paperview/2/ 5 >/dev/null 2>&1 &
 
 while true
 do

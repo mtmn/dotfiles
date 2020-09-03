@@ -1,4 +1,4 @@
-URxvt.font: xft:Terminus:size=6
+URxvt.font: xft:Terminus:pixelsize=6
 URxvt.letterSpace: 0
 URxvt.boldFont:
 URxvt.depth: 32

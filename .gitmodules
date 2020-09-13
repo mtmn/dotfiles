@@ -1,42 +1,42 @@
 [submodule "dot_vim/bundle/indent-object"]
-	path = dot_vim/bundle/indent-object
+	path = dot_vim/pack/plugins/start/indent-object
 	url = https://github.com/michaeljsmith/vim-indent-object
 [submodule "dot_vim/bundle/pathogen"]
-	path = dot_vim/bundle/pathogen
+	path = dot_vim/pack/plugins/start/pathogen
 	url = https://github.com/tpope/vim-pathogen
 [submodule "dot_vim/bundle/abolish"]
-	path = dot_vim/bundle/abolish
+	path = dot_vim/pack/plugins/start/abolish
 	url = https://github.com/tpope/vim-abolish
 [submodule "dot_vim/bundle/ctrlp"]
-	path = dot_vim/bundle/ctrlp
+	path = dot_vim/pack/plugins/start/ctrlp
 	url = https://github.com/ctrlpvim/ctrlp.vim
 [submodule "dot_vim/bundle/fugitive"]
-	path = dot_vim/bundle/fugitive
+	path = dot_vim/pack/plugins/start/fugitive
 	url = https://github.com/tpope/vim-fugitive
 [submodule "dot_vim/bundle/sleuth"]
-	path = dot_vim/bundle/sleuth
+	path = dot_vim/pack/plugins/start/sleuth
 	url = https://github.com/tpope/vim-sleuth
 [submodule "dot_vim/bundle/commentary"]
-	path = dot_vim/bundle/commentary
+	path = dot_vim/pack/plugins/start/commentary
 	url = https://github.com/tpope/vim-commentary
 [submodule "dot_vim/bundle/rust"]
-	path = dot_vim/bundle/rust
+	path = dot_vim/pack/plugins/start/rust
 	url = https://github.com/rust-lang/rust.vim
 [submodule "dot_vim/bundle/editorconfig"]
-	path = dot_vim/bundle/editorconfig
+	path = dot_vim/pack/plugins/start/editorconfig
 	url = https://github.com/editorconfig/editorconfig-vim
 [submodule "dot_vim/bundle/elixir"]
-	path = dot_vim/bundle/elixir
+	path = dot_vim/pack/plugins/start/elixir
 	url = https://github.com/elixir-editors/vim-elixir
 [submodule "dot_vim/bundle/coc"]
-	path = dot_vim/bundle/coc
+	path = dot_vim/pack/plugins/start/coc
 	url = https://github.com/neoclide/coc.nvim
 	branch = release
 [submodule "dot_vim/bundle/surround"]
-	path = dot_vim/bundle/surround
+	path = dot_vim/pack/plugins/start/surround
 	url = https://github.com/tpope/vim-surround
 [submodule "dot_vim/bundle/solarized"]
-	path = dot_vim/bundle/solarized
+	path = dot_vim/pack/plugins/start/solarized
 	url = https://github.com/altercation/vim-colors-solarized
 [submodule "dot_vim/bundle/terraform"]
 	path = dot_vim/bundle/terraform

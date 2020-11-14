@@ -34,8 +34,8 @@ for pkg in "${PACKAGES[@]}"; do
 	fi
 done
 
-if  [[ ! $* =~ ^(up|down|ssh|ansible)$ ]]; then
-	echo "only \`up\`, \`down\`, \`ssh\` and \`ansible\` options are available."
+if  [[ ! $* =~ ^(up|down|ssh|ip|ansible)$ ]]; then
+	echo "only \`up\`, \`down\`, \`ssh\`, \`ip\`, and \`ansible\` options are available."
 	exit 1
 fi
 
@@ -65,6 +65,11 @@ else
 	BUILD_IP=$(hcloud server list | grep "${HOSTNAME}" | awk '{print $4}')
 fi
 
+
+if [[ $STATE == "ip" ]]; then
+	hcloud server list | grep "${HOSTNAME}" | awk '{print $4}'
+	exit 0
+fi
 
 if [[ $STATE == "ssh" ]]; then
 	ssh "$BUILD_IP" -q -l "$BUILD_USER" "$SSH_OPTS"

@@ -11,5 +11,3 @@ for file in "$config_home"/.config/{shell,bash}/rc/*; do
 done
 
 PS1='$(_get_ps1)'
-export PATH=$PATH:$HOME/zk/bin
-export ZK_PATH="$HOME/Zettelkasten"

@@ -1,17 +1,10 @@
 exe "set runtimepath=~/.vim," . $VIMRUNTIME
 
-runtime! bundle/pathogen/autoload/pathogen.vim
-
-if exists("*pathogen#infect")
-  execute pathogen#infect('bundle/{}')
-endif
-
 filetype plugin on
 syntax on
 
 silent! colorscheme solarized
 set background=dark
-
 
 set autoindent
 set backspace=indent,eol,start
@@ -40,7 +33,6 @@ set synmaxcol=1000
 set textwidth=79
 set viminfo='20,<1000,s1000
 
-
 let mapleader = "\<Space>"
 nnoremap <Leader>w :w<CR>
 nnoremap <Leader>gb :Gblame<CR>
@@ -48,7 +40,6 @@ nnoremap <silent> <leader>n :setlocal paste<CR>
 nnoremap <silent> <leader>q :%s/\s\+$//e<CR><C-o>
 nnoremap <silent> / :let @/ = ""<CR>:set hlsearch<CR>/
 nnoremap <silent> H :set hlsearch!<CR>
-
 
 highlight TrailingWhitespace ctermbg=black
 call matchadd('TrailingWhitespace', '\s\+$')
@@ -182,6 +173,3 @@ for key in ['k', 'j']
 endfor
 nnoremap <silent> <Leader>E :set wrap<CR>:setlocal formatoptions-=t<CR>:set textwidth=0<CR>
 nnoremap <silent> <Leader>e :set nowrap<CR>:setlocal formatoptions+=t<CR>:set textwidth=79<CR>
-
-" Go to conflict marker
-noremap <silent> <Leader>c /^\(<<<<<<<\\|=======\\|>>>>>>>\)<CR>

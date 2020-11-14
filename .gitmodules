@@ -1,4 +1,4 @@
-[submodule "dot_vim/bundle/indent-object"]
+[submodule "dot_vim/pack/plugins/indent-object"]
 	path = dot_vim/pack/plugins/start/indent-object
 	url = https://github.com/michaeljsmith/vim-indent-object
 [submodule "dot_vim/bundle/pathogen"]

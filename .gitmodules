@@ -32,3 +32,6 @@
 [submodule "dot_vim/pack/plugins/start/terraform"]
 	path = dot_vim/pack/plugins/start/terraform
 	url = https://github.com/hashivim/vim-terraform
+[submodule "dot_vim/pack/plugins/start/go"]
+	path = dot_vim/pack/plugins/start/go
+	url = https://github.com/fatih/vim-go

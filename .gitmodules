@@ -16,15 +16,9 @@
 [submodule "dot_vim/bundle/commentary"]
 	path = dot_vim/pack/plugins/start/commentary
 	url = https://github.com/tpope/vim-commentary
-[submodule "dot_vim/bundle/rust"]
-	path = dot_vim/pack/plugins/start/rust
-	url = https://github.com/rust-lang/rust.vim
 [submodule "dot_vim/bundle/editorconfig"]
 	path = dot_vim/pack/plugins/start/editorconfig
 	url = https://github.com/editorconfig/editorconfig-vim
-[submodule "dot_vim/bundle/elixir"]
-	path = dot_vim/pack/plugins/start/elixir
-	url = https://github.com/elixir-editors/vim-elixir
 [submodule "dot_vim/bundle/coc"]
 	path = dot_vim/pack/plugins/start/coc
 	url = https://github.com/neoclide/coc.nvim

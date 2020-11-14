@@ -29,3 +29,6 @@
 [submodule "dot_vim/pack/plugins/start/solarized"]
 	path = dot_vim/pack/plugins/start/solarized
 	url = https://github.com/altercation/vim-colors-solarized
+[submodule "dot_vim/pack/plugins/start/terraform"]
+	path = dot_vim/pack/plugins/start/terraform
+	url = https://github.com/hashivim/vim-terraform

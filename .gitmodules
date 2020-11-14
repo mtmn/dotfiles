@@ -1,9 +1,6 @@
 [submodule "dot_vim/pack/plugins/indent-object"]
 	path = dot_vim/pack/plugins/start/indent-object
 	url = https://github.com/michaeljsmith/vim-indent-object
-[submodule "dot_vim/bundle/pathogen"]
-	path = dot_vim/pack/plugins/start/pathogen
-	url = https://github.com/tpope/vim-pathogen
 [submodule "dot_vim/bundle/abolish"]
 	path = dot_vim/pack/plugins/start/abolish
 	url = https://github.com/tpope/vim-abolish

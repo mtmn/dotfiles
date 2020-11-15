@@ -42,6 +42,10 @@ gcm() {
     git "${1?}" "${2?}"
 }
 
+fzf-down() {
+  fzf --height 50% "$@" --border
+}
+
 alias gam='xgamma -gamma 3'
 
 alias pw='LC_ALL=C tr -dc a-zA-Z0-9 < /dev/urandom | head -c 20; echo'

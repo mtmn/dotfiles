@@ -12,5 +12,3 @@ done
 
 PS1='$(_get_ps1)'
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-export PATH=$PATH:/home/mt/.git-semantic-commits:$PATH

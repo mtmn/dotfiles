@@ -9,7 +9,7 @@ alias ga='git number add'
 alias gc='git commit -v'
 alias gco='git checkout'
 alias gd='git diff --no-prefix'
-# alias gf='git fetch -p'
+alias gf='git fetch -p'
 alias gg='git grep'
 alias gl='git log'
 alias gm='git merge'
@@ -61,14 +61,6 @@ alias grhu='grh @{u}'
 alias gpf='gp -f'
 alias gu='gf && grrm'
 alias gcl='git clean -dffx'
-
-gf() {
-  git rev-parse HEAD > /dev/null 2>&1
-  git -c color.status=always status --short |
-  fzf-down -m --ansi --nth 2..,.. \
-    --preview '(git diff --color=always -- {-1} | sed 1,4d; cat {-1}) | head -500' |
-  cut -c4- | sed 's/.* -> //'
-}
 
 gb() {
   git rev-parse HEAD > /dev/null 2>&1

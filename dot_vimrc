@@ -3,8 +3,7 @@ exe "set runtimepath=~/.vim," . $VIMRUNTIME
 filetype plugin on
 syntax on
 
-silent! colorscheme solarized
-set background=dark
+colorscheme lucius
 
 set autoindent
 set backspace=indent,eol,start
@@ -27,11 +26,10 @@ set shiftround
 set shiftwidth=4
 set shortmess=aoOtI
 set smartcase
-set spell
-set spelllang=en_us
 set synmaxcol=1000
 set textwidth=79
 set viminfo='20,<1000,s1000
+
 
 let mapleader = "\<Space>"
 nnoremap <Leader>w :w<CR>
@@ -111,10 +109,7 @@ augroup filetype_settings
   autocmd BufNewFile,BufReadPost *.cconf,*.cinc,TARGETS setlocal filetype=python
   autocmd BufNewFile,BufReadPost *.lalrpop setlocal filetype=rust
   autocmd BufNewFile,BufReadPost *.def setlocal filetype=c
-
-  " Seek past headers, since usually we don't want to edit them
-  autocmd FileType mail normal }
-  autocmd FileType mail setlocal formatoptions+=rw
+  autocmd BufNewFile,BufReadPost Jenkinsfile,Jenkinsfile.*,Jenkinsfile-* setlocal filetype=groovy
 
   for filetype in ['yaml', 'sql', 'ruby', 'html', 'css', 'xml', 'vim']
     exe 'autocmd FileType ' . filetype . ' setlocal sw=2 sts=2 ts=2'

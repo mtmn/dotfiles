@@ -30,9 +30,13 @@ set synmaxcol=1000
 set textwidth=79
 set viminfo='20,<1000,s1000
 
+let g:ackprg = 'rg --vimgrep --type-not sql --smart-case'
+let g:ack_use_cword_for_empty_search = 1
+let g:ack_autoclose = 1
 
 let mapleader = "\<Space>"
 nnoremap <Leader>w :w<CR>
+nnoremap <C-a> :Ack!<Space>
 nnoremap <silent> <leader>n :setlocal paste<CR>
 nnoremap <silent> <leader>q :%s/\s\+$//e<CR><C-o>
 nnoremap <silent> / :let @/ = ""<CR>:set hlsearch<CR>/

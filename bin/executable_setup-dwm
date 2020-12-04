@@ -5,6 +5,7 @@ xrdb $HOME/.config/x/xresources/base
 clipmenud &
 dunst &
 psi-notify &
+nitrogen --restore &
 
 while true
 do

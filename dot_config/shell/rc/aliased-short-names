@@ -4,6 +4,7 @@ alias lopri='nice -n 19 ionice -c2 -n7 '
 alias scan='sudo nmap -n -PN -sT -sU -p-'
 alias cf='clang-format -i -style=file'
 alias c='ctags --links=no -R .'
+alias tms='tmux display-message -p "#S"'
 
 alias amfa='aws-mfa --profile work'
 
@@ -38,12 +39,32 @@ transfer() {
     curl --upload-file "${1?}" https://transfer.sh
 }
 
+mirror() {
+    wget --mirror --page-requisites --no-parent --convert-links -P ./ "$@"
+}
+
 gcm() {
     git "${1?}" "${2?}"
 }
 
 fzf-down() {
   fzf --height 50% "$@" --border
+}
+
+erg() {
+  vim \
+      +'/\v'"${1/\//\\/}" \
+      +':silent tabdo :1 | normal! n' \
+      +':tabfirst' \
+      -p $(rg "$@" | cut -d: -f1 | sort -u)
+}
+
+kube-create-cluster() {
+ kind create cluster --name="${1?}" --image="kindest/node:${2:-v1.15.12}"
+}
+
+kube-delete-cluster() {
+ kind delete cluster --name="${1?}"
 }
 
 alias gam='xgamma -gamma 3'

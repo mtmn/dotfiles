@@ -22,6 +22,9 @@ alias ut='systemctl --user stop'
 alias ud='systemctl --user -n 100 status'
 
 alias xc='xclip -selection clipboard'
+alias ssw='xclip -selection clipboard -t image/png -o >| /tmp/clipboard.png'
+
+alias ssu='ssw && upload /tmp/clipboard.png'
 
 m() {
     moshrc "$@"
@@ -35,8 +38,10 @@ g(){
     sudo gdb -q /proc/"${1?}"/exe "$1"
 }
 
-transfer() {
-    curl --upload-file "${1?}" https://transfer.sh
+upload() {
+    xc < <(lufi-cli -s "https://fs.ohno.nu" -u "${1?}" -b | \
+      awk 'NR==2 {print $0}' | \
+      cut -d':' -f2-)
 }
 
 mirror() {
@@ -48,11 +53,11 @@ gcm() {
 }
 
 fzf-down() {
-  fzf --height 50% "$@" --border
+    fzf --height 50% "$@" --border
 }
 
 erg() {
-  vim \
+    vim \
       +'/\v'"${1/\//\\/}" \
       +':silent tabdo :1 | normal! n' \
       +':tabfirst' \
@@ -60,11 +65,11 @@ erg() {
 }
 
 kube-create-cluster() {
- kind create cluster --name="${1?}" --image="kindest/node:${2:-v1.15.12}"
+    kind create cluster --name="${1?}" --image="kindest/node:${2:-v1.15.12}"
 }
 
 kube-delete-cluster() {
- kind delete cluster --name="${1?}"
+    kind delete cluster --name="${1?}"
 }
 
 alias gam='xgamma -gamma 3'

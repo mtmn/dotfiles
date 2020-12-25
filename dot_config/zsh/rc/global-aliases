@@ -1,0 +1,2 @@
+alias -g VV=' |& vim -'
+alias -g LL=' |& less'

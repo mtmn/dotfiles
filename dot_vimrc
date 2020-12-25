@@ -3,7 +3,8 @@ exe "set runtimepath=~/.vim," . $VIMRUNTIME
 filetype plugin on
 syntax on
 
-colorscheme lucius
+silent! colorscheme solarized
+set background=dark
 
 set autoindent
 set backspace=indent,eol,start
@@ -41,6 +42,11 @@ nnoremap <silent> <leader>n :setlocal paste<CR>
 nnoremap <silent> <leader>q :%s/\s\+$//e<CR><C-o>
 nnoremap <silent> / :let @/ = ""<CR>:set hlsearch<CR>/
 nnoremap <silent> H :set hlsearch!<CR>
+
+nmap <F8> :TagbarToggle<CR>
+
+nmap <C-j> 3j3<C-e>
+nmap <C-k> 3k3<C-y>
 
 highlight TrailingWhitespace ctermbg=black
 call matchadd('TrailingWhitespace', '\s\+$')

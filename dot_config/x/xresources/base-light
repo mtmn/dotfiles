@@ -1,4 +1,4 @@
-URxvt.font: xft:Hack:style=Regular:pixelsize=12
+URxvt.font: xft:CtrlD:style=Regular:pixelsize=13
 URxvt.letterSpace: 0
 URxvt.boldFont:
 URxvt.depth: 32
@@ -22,7 +22,7 @@ URxvt.keysym.M-u:            perl:url-select:select_next
 URxvt.keysym.C-C:            perl:clipboard:copy
 URxvt.keysym.C-V:            perl:clipboard:paste
 URxvt.keysym.C-A-V:          perl:clipboard:paste_escaped
-URxvt.keysym.C-9:            command:\033]50;xft:Hack:style=Regular:pixelsize=12\007
+URxvt.keysym.C-9:            command:\033]50;xft:CtrlD:style=Regular:pixelsize=13\007
 URxvt.keysym.C-0:            command:\033]50;xft:Hack:style=Regular:pixelsize=16\007
 
 URxvt.print-pipe: cat > /dev/null

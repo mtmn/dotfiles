@@ -12,6 +12,9 @@ URxvt.iso14755_52: false
 URxvt.secondaryScreen: 1
 URxvt.secondaryScroll: 0
 
+URxvt.pointerBlank: true
+URxvt.pointerBlankDelay: 5
+
 URxvt.perl-ext-common:      default,clipboard,url-select
 URxvt.clipboard.autocopy:   true
 URxvt.url-select.launcher:  firefox

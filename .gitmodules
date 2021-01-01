@@ -35,3 +35,6 @@
 [submodule "dot_vim/pack/plugins/start/go"]
 	path = dot_vim/pack/plugins/start/go
 	url = https://github.com/fatih/vim-go
+[submodule "dot_vim/pack/plugins/start/markdown"]
+	path = dot_vim/pack/plugins/start/markdown
+	url = https://github.com/plasticboy/vim-markdown

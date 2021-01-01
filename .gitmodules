@@ -35,7 +35,3 @@
 [submodule "dot_vim/pack/plugins/start/go"]
 	path = dot_vim/pack/plugins/start/go
 	url = https://github.com/fatih/vim-go
-; TODO: unfuck submodule path
-; [submodule "dot_config/x/dot_vim/pack/plugins/start/lucius"]
-; 	path = dot_config/x/dot_vim/pack/plugins/start/lucius
-; 	url = https://github.com/jonathanfilip/vim-lucius

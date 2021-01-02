@@ -1,6 +1,6 @@
 [user]
     name = mtmn
-    email = mtmn@ohno.nu
+    email = miro@haravara.org
 
 [includeIf "gitdir:~/git/work/"]
     path = ~/git/work/.gitconfig

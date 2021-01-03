@@ -3,7 +3,7 @@ exe "set runtimepath=~/.vim," . $VIMRUNTIME
 filetype plugin on
 syntax on
 
-silent! colorscheme solarized
+silent! colorscheme gruvbox
 set background=dark
 
 set autoindent
@@ -51,7 +51,7 @@ nmap <C-k> 3k3<C-y>
 highlight TrailingWhitespace ctermbg=black
 call matchadd('TrailingWhitespace', '\s\+$')
 
-highlight Normal ctermbg=none
+" highlight Normal ctermbg=none
 highlight MatchParen ctermbg=darkmagenta ctermfg=black
 
 command FixFile :set fileencoding=utf-8 fileformat=unix nobomb | %s/\r$//

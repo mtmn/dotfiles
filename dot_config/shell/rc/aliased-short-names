@@ -4,6 +4,8 @@ alias lopri='nice -n 19 ionice -c2 -n7 '
 alias scan='sudo nmap -n -PN -sT -sU -p-'
 alias cf='clang-format -i -style=file'
 alias c='ctags --links=no -R .'
+alias n='dnote'
+alias nv='dnote view'
 alias tms='tmux display-message -p "#S"'
 
 alias amfa='aws-mfa --profile work'

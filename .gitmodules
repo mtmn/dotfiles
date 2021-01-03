@@ -41,3 +41,6 @@
 [submodule "dot_vim/pack/plugins/start/nix"]
 	path = dot_vim/pack/plugins/start/nix
 	url = https://github.com/LnL7/vim-nix
+[submodule "dot_vim/pack/plugins/start/ack"]
+	path = dot_vim/pack/plugins/start/ack
+	url = https://github.com/mileszs/ack.vim

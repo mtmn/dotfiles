@@ -25,3 +25,5 @@
     pushInsteadOf = "gh:"
 [pull]
     rebase = false
+[init]
+	defaultBranch = main

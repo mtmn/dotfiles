@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-redshift &
 xmodmap $HOME/.xmodmap &
 xrdb $HOME/.config/x/xresources/base
 clipmenud &

@@ -51,7 +51,7 @@ nmap <C-k> 3k3<C-y>
 highlight TrailingWhitespace ctermbg=black
 call matchadd('TrailingWhitespace', '\s\+$')
 
-" highlight Normal ctermbg=none
+highlight Normal ctermbg=none
 highlight MatchParen ctermbg=darkmagenta ctermfg=black
 
 command FixFile :set fileencoding=utf-8 fileformat=unix nobomb | %s/\r$//

@@ -1,4 +1,4 @@
-URxvt.font: xft:Essential PragmataPro:style=Regular:pixelsize=18
+URxvt.font: xft:Essential PragmataPro:style=Regular:pixelsize=16
 URxvt.letterSpace: 0
 URxvt.boldFont:
 URxvt.depth: 32

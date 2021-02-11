@@ -33,7 +33,8 @@ URxvt.print-pipe: cat > /dev/null
 Xcursor.size: 16
 
 ! hard contrast: *background: #1d2021
-*background: #282828
+/* *background: #282828 */
+*background: #1c1c1c
 ! soft contrast: *background: #32302f
 *foreground: #ebdbb2
 ! Black + DarkGrey

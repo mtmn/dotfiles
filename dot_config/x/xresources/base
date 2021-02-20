@@ -1,4 +1,4 @@
-URxvt.font: xft:Essential PragmataPro:style=Regular:pixelsize=16
+URxvt.font: xft:Essential PragmataPro:style=Regular:pixelsize=18
 URxvt.letterSpace: 0
 URxvt.boldFont:
 URxvt.depth: 32
@@ -25,39 +25,29 @@ URxvt.keysym.M-u:            perl:url-select:select_next
 URxvt.keysym.C-C:            perl:clipboard:copy
 URxvt.keysym.C-V:            perl:clipboard:paste
 URxvt.keysym.C-A-V:          perl:clipboard:paste_escaped
-URxvt.keysym.C-9:            command:\033]50;xft:Essential PragmataPro:style=Regular:pixelsize=16\007
+URxvt.keysym.C-9:            command:\033]50;xft:Essential PragmataPro:style=Regular:pixelsize=18\007
 URxvt.keysym.C-0:            command:\033]50;xft:Essential PragmataPro:style=Regular:pixelsize=24\007
 
 URxvt.print-pipe: cat > /dev/null
 
 Xcursor.size: 16
 
-! hard contrast: *background: #1d2021
-/* *background: #282828 */
-*background: #1c1c1c
-! soft contrast: *background: #32302f
-*foreground: #ebdbb2
-! Black + DarkGrey
-*color0:  #282828
-*color8:  #928374
-! DarkRed + Red
-*color1:  #cc241d
-*color9:  #fb4934
-! DarkGreen + Green
-*color2:  #98971a
-*color10: #b8bb26
-! DarkYellow + Yellow
-*color3:  #d79921
-*color11: #fabd2f
-! DarkBlue + Blue
-*color4:  #458588
-*color12: #83a598
-! DarkMagenta + Magenta
-*color5:  #b16286
-*color13: #d3869b
-! DarkCyan + Cyan
-*color6:  #689d6a
-*color14: #8ec07c
-! LightGrey + White
-*color7:  #a89984
-*color15: #ebdbb2
+URxvt.background: #1c1c1c
+URxvt.foreground: #ebdbb2
+
+URxvt.color0:  #282828
+URxvt.color1:  #cc241d
+URxvt.color2:  #98971a
+URxvt.color3:  #d79921
+URxvt.color4:  #458588
+URxvt.color5:  #b16286
+URxvt.color6:  #689d6a
+URxvt.color7:  #a89984
+URxvt.color8:  #928374
+URxvt.color9:  #fb4934
+URxvt.color10: #b8bb26
+URxvt.color11: #fabd2f
+URxvt.color12: #83a598
+URxvt.color13: #d3869b
+URxvt.color14: #8ec07c
+URxvt.color15: #ebdbb2

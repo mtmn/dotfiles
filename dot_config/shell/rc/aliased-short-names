@@ -1,0 +1,91 @@
+#!/bin/sh
+alias q='sudo '
+alias lopri='nice -n 19 ionice -c2 -n7 '
+alias scan='sudo nmap -n -PN -sT -sU -p-'
+alias cf='clang-format -i -style=file'
+alias c='ctags --links=no -R .'
+alias n='nvim'
+
+alias amfa='aws-mfa --profile work'
+
+alias ssm-us='gossm start --profile work --region us-east-1'
+alias ssm-dr='gossm start --profile work --region us-east-2'
+alias ssm-ap='gossm start --profile work --region ap-northeast-1'
+alias ssm-au='gossm start --profile work-au --region ap-southeast-2'
+
+alias ss='sudo systemctl start'
+alias st='sudo systemctl stop'
+alias sd='sudo systemctl -n 100 status'
+
+alias us='systemctl --user start'
+alias ut='systemctl --user stop'
+alias ud='systemctl --user -n 100 status'
+
+alias xc='xclip -selection clipboard'
+
+alias ssu='ssw && upload /tmp/clipboard.png'
+
+m() {
+    moshrc "$@"
+}
+
+am() {
+    add-music-entry "$@"
+}
+
+ssw() {
+    xclip -selection clipboard -t image/png -o >| "${1:-/tmp/clipboard.png}"
+}
+
+g(){
+    sudo gdb -q /proc/"${1?}"/exe "$1"
+}
+
+upload() {
+    xc < <(lufi-cli -s "https://fs.ohno.nu" -u "${1?}" -b | \
+      awk 'NR==2 {print $0}' | cut -d':' -f2-)
+}
+
+mirror() {
+    wget --mirror --page-requisites --no-parent --convert-links -P ./ "$@"
+}
+
+gcm() {
+    git "${1?}" "${2?}"
+}
+
+fzf-down() {
+    fzf --height 50% "$@" --border
+}
+
+erg() {
+    nvim \
+      +'/\v'"${1/\//\\/}" \
+      +':silent tabdo :1 | normal! n' \
+      +':tabfirst' \
+      -p $(rg "$@" | cut -d: -f1 | sort -u)
+}
+
+efd() {
+    nvim \
+      +':tabfirst' \
+      -p $(fd "$@")
+}
+
+kube-create-cluster() {
+    kind create cluster --name="${1?}" --image="kindest/node:${2:-v1.15.12}"
+}
+
+kube-delete-cluster() {
+    kind delete cluster --name="${1?}"
+}
+
+sshs() {
+    printf "ssh "${1?}"@ohno.nu -p 6622\n\r" | xc
+}
+
+alias gam='xgamma -gamma 3'
+
+alias pw='LC_ALL=C tr -dc a-zA-Z0-9 < /dev/urandom | head -c 20; echo'
+
+alias mpva='mpv --no-video'

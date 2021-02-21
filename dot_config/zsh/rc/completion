@@ -1,0 +1,22 @@
+#!/bin/zsh
+
+autoload -U compinit
+compinit -i
+
+LISTMAX=0
+
+# zsh's git tab completion by default is extremely slow. This makes it use
+# local files only. See http://stackoverflow.com/a/9810485/945780.
+__git_files () {
+    _wanted files expl 'local files' _files
+}
+
+# Fuzzy matching
+# 0 -- vanilla completion (abc => abc)
+# 1 -- smart case completion (abc => Abc)
+# 2 -- word flex completion (abc => A-big-Car)
+# 3 -- full flex completion (abc => ABraCadabra)
+zstyle ':completion:*' matcher-list '' \
+  'm:{a-z\-}={A-Z\_}' \
+  'r:[^[:alpha:]]||[[:alpha:]]=** r:|=* m:{a-z\-}={A-Z\_}' \
+  'r:|?=** m:{a-z\-}={A-Z\_}'

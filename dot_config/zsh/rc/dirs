@@ -1,0 +1,6 @@
+#!/bin/zsh
+
+hash -d gw=$config_home/git/work
+hash -d go=$config_home/git/work/gitops
+hash -d tf=$config_home/git/work/terraform
+hash -d blog=$config_home/git/personal/blog

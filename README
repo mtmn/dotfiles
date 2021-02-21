@@ -1,0 +1,5 @@
+dotfiles
+========
+
+In order to apply configuration files and clone vim plugins simply run:
+  chezmoi init git@github.com:mtmn/dotfiles.git

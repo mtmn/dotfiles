@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+xmodmap $HOME/.xmodmap &
+clipmenud &
+dunst &
+psi-notify &
+nitrogen --restore &
+
+while true
+do
+    xsetroot -name "$(acpi -b | awk '{print $5, $4}' | tr -d ',') | $(date "+%F %R")"
+sleep 1m
+done &

@@ -1,0 +1,29 @@
+[user]
+    name = mtmn
+    email = miro@haravara.org
+
+[includeIf "gitdir:~/git/work/"]
+    path = ~/git/work/.gitconfig
+
+[color]
+    ui = auto
+[push]
+    default = current
+[merge]
+    tool = vimdiff
+    conflictstyle = diff3
+[rebase]
+    autosquash = true
+[alias]
+    why-ignore = check-ignore -v
+    mr = push -o merge_request.create -o merge_request.target=master
+    wip = for-each-ref --sort='authordate:iso8601' --format=' %(color:green)%(authordate:relative)%09%(color:white)%(refname:short)' refs/heads
+
+[url "https://github/"]
+    insteadOf = "gh:"
+[url "git@github.com:"]
+    pushInsteadOf = "gh:"
+[pull]
+    rebase = false
+[init]
+	defaultBranch = main

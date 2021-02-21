@@ -1,0 +1,11 @@
+[[ "$-" == *i* ]] || return
+
+config_home="$HOME"
+
+. "$config_home"/.config/shell/early-funcs
+
+for file in "$config_home"/.config/{shell,bash}/profile/*; do
+    [[ -e $file ]] && . "$file"
+done
+
+[[ -r "$config_home"/.bashrc ]] && . "$config_home"/.bashrc

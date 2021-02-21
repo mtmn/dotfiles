@@ -1,0 +1,118 @@
+#!/usr/bin/bash
+STATE="${1}"
+TYPE="cx31"
+IMAGE="debian-10"
+HOSTNAME="builder"
+SSH_KEY="tp"
+SSH_OPTS="-o StrictHostKeyChecking=no"
+ANSIBLE_USER="root"
+BUILD_USER="root"
+BUILD_FOLDER="$HOME/git/personal/build"
+REMOTE_BUILD_FOLDER="/build"
+ANSIBLE_PLAYBOOK_PATH="$BUILD_FOLDER/ansible/build.yml"
+REMINDER_FOLDER="$HOME/.local/share/nota/todo"
+
+PACKAGES=(
+	scp
+	ssh
+	hcloud
+	ansible-playbook
+)
+
+status() {
+	echo "[$(date +'%Y-%m-%dT%H:%M:%S%z')]: $*" >&1
+}
+
+err() {
+	echo "[$(date +'%Y-%m-%dT%H:%M:%S%z')]: $*" >&2
+}
+
+for pkg in "${PACKAGES[@]}"; do
+	if ! command -v "$pkg" &> /dev/null; then
+		err "$pkg is not installed!"
+		exit 1
+	fi
+done
+
+if  [[ ! $* =~ ^(up|down|ssh|ip|ansible)$ ]]; then
+	echo "only \`up\`, \`down\`, \`ssh\`, \`ip\`, and \`ansible\` options are available."
+	exit 1
+fi
+
+
+if [[ $STATE == "up" ]]; then
+	status "creating $HOSTNAME server..."
+	if ! hcloud server create --name "${HOSTNAME}" --image "${IMAGE}" --type "${TYPE}" --ssh-key "${SSH_KEY}" --user-data-from-file "${USERDATA_PATH}" 1> /dev/null; then
+		err "unable to create $HOSTNAME server!"
+		exit 1
+	fi
+
+elif [[ $STATE == "down" ]]; then
+	status "removing $HOSTNAME server..."
+	if ! hcloud server delete "${HOSTNAME}" &> /dev/null; then
+		err "$HOSTNAME server does not exist!"
+		exit 1
+	else
+		status "$HOSTNAME server has been removed."
+		exit 0
+	fi
+fi
+
+if ! hcloud server list -o columns=name | grep -q "${HOSTNAME}"; then
+	err "$HOSTNAME server not found!"
+	exit 1
+else
+	BUILD_IP=$(hcloud server list | grep "${HOSTNAME}" | awk '{print $4}')
+fi
+
+
+if [[ $STATE == "ip" ]]; then
+	hcloud server list | grep "${HOSTNAME}" | awk '{print $4}'
+	exit 0
+fi
+
+if [[ $STATE == "ssh" ]]; then
+	ssh "$BUILD_IP" -q -l "$BUILD_USER" "$SSH_OPTS"
+	exit 0
+fi
+
+if [[ $STATE == "ansible" ]]; then
+	ansible-playbook -u "$ANSIBLE_USER" -i "$BUILD_IP", "$ANSIBLE_PLAYBOOK_PATH"
+	exit 0
+fi
+
+until nc -z "${BUILD_IP}" 22
+do
+	status "waiting for $HOSTNAME server to be fully up..."
+	sleep 5s
+done
+
+if ! ssh-keygen -R "${BUILD_IP}" &> /dev/null; then
+	err "unable to remove $HOSTNAME server from known hosts!"
+	exit 1
+else
+	status "$HOSTNAME server removed from known hosts."
+fi
+
+if ! ssh "$BUILD_IP" -q -l "$BUILD_USER" "$SSH_OPTS" 'echo' &> /dev/null; then
+	err "unable to run dummy command on a $HOSTNAME server!"
+	exit 1
+fi
+
+
+if ! scp -r "$BUILD_FOLDER" "$BUILD_USER"@"$BUILD_IP":"$REMOTE_BUILD_FOLDER" &> /dev/null; then
+	err "unable to copy build files!"
+	exit 1
+else
+	status "build files copied."
+fi
+
+
+if ! echo "($HOSTNAME) decommission build server created on $(date -u +%Y-%m-%d)." >> "$REMINDER_FOLDER"; then
+	status "unable to add a reminder to decommission build server, skipping..."
+else
+	status "added a reminder to decommission the server."
+fi
+
+status "$HOSTNAME server is ready, you can connect to it using \`builder ssh\` and/or provision via \`builder ansible\`."
+exit 0

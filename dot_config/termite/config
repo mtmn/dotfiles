@@ -1,0 +1,50 @@
+[options]
+scroll_on_output = false
+scroll_on_keystroke = true
+audible_bell = false
+mouse_autohide = false
+allow_bold = true
+urgent_on_bell = true
+clickable_url = true
+font = Essential PragmataPro 12
+scrollback_lines = 10000
+search_wrap = true
+
+# "system", "on" or "off"
+cursor_blink = off
+
+# "block", "underline" or "ibeam"
+cursor_shape = block
+
+# set size hints for the window
+size_hints = true
+
+# Hide links that are no longer valid in url select overlay mode
+filter_unmatched_urls = true
+
+# emit escape sequences for extra modified keys
+#modify_other_keys = false
+
+[colors]
+
+foreground= #abb2bf
+background= #2b2d37
+
+color0  = #363a4e
+color8  = #666666
+color1  = #ec7279
+color9  = #fc626b
+color2  = #a0c980
+color10 = #9de465
+color3  = #deb974
+color11 = #efbe63
+color4  = #6cb6eb
+color12 = #5bb9fc
+color5  = #d38aea
+color13 = #da7cf8
+color6  = #5dbbc1
+color14 = #30e2ee
+color7  = #c5cdd9
+color15 = #b2c9ec
+
+vim: ft=dosini cms=#%s

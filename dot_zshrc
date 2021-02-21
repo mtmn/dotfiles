@@ -13,4 +13,10 @@ done
 source $HOME/.fzf/shell/completion.zsh
 source $HOME/.fzf/shell/key-bindings.zsh
 
+alias vim='nvim'
+alias n='nvim'
+
+alias kcc='kubectl config current-context'
+alias sleep='systemctl suspend'
+
 PS1='$(_get_ps1)'

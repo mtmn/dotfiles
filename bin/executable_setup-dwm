@@ -3,7 +3,7 @@ xmodmap $HOME/.xmodmap &
 clipmenud &
 dunst &
 psi-notify &
-nitrogen --restore &
+sh $HOME/.fehbg &
 
 while true
 do

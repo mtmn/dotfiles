@@ -1,2 +1,2 @@
 alias type='type -f'
-alias vim='vim'
+alias vim='nvim'

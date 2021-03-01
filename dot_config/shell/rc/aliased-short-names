@@ -4,7 +4,10 @@ alias lopri='nice -n 19 ionice -c2 -n7 '
 alias scan='sudo nmap -n -PN -sT -sU -p-'
 alias cf='clang-format -i -style=file'
 alias c='ctags --links=no -R .'
+
 alias n='nvim'
+alias nn='nvim .'
+alias vim='nvim'
 
 alias amfa='aws-mfa --profile work'
 

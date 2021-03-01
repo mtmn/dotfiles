@@ -22,9 +22,6 @@ alias startx='exec startx &>| /tmp/startx-$USER'
 # Disable sourcing systemwide vim configuration. Also set PYTHONPATH to
 # include basedir so we can edit tests that get their sys.path munged by nose
 
-# $config_home comes from shell init
-alias vim='vim -u "$config_home/.vimrc" -N'
-
 # Do not disable raw control chars when running less
 alias less='less -R'
 
@@ -47,7 +44,6 @@ for command in ssh{,rc}; do
 done
 
 alias mosh='LC_ALL=en_US.UTF-8 mosh'
-alias vi='vim'
 
 # Allow other aliases to be used after the program name
 alias sudo='sudo '

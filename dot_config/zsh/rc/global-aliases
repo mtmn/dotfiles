@@ -1,3 +1,5 @@
 alias -g VV=' |& vim -'
 alias -g LL=' |& less'
 alias -g GG=' |& grep'
+alias -g AA=' |& awk'
+alias -g SS=' |& sed'

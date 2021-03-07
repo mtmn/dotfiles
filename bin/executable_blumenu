@@ -1,0 +1,9 @@
+#!/bin/sh
+choices="on\noff"
+
+chosen=$(echo -e "$choices" | dmenu "$@")
+
+case $chosen in
+on) bluetoothctl -- power on && bluetoothctl connect '38:18:4C:E9:B1:9D' ;;
+off) bluetoothctl -- power off ;;
+esac

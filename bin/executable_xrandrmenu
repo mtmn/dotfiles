@@ -1,0 +1,22 @@
+#!/bin/sh
+choices="internal\nexternal"
+
+chosen=$(echo -e "$choices" | dmenu "$@")
+
+internalDisplay() {
+    xrandr --output HDMI-2 --off;
+    xrandr --output eDP-1 --auto;
+    sh $HOME/.fehbg;
+}
+
+externalDisplay() {
+    xrandr --output eDP-1 --off;
+    xrandr --output HDMI-2 --auto;
+    sh $HOME/.fehbg;
+    xmodmap "$HOME"/.xmodmap;
+}
+case $chosen in
+    internal) internalDisplay ;;
+    external) externalDisplay ;;
+esac
+

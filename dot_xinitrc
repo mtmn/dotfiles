@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
+xrdb $HOME/.config/x/xresources/base
 setup-dwm
 exec "${WM:-dwm}" > "/tmp/dwm-$USER.log" 2>&1

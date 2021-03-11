@@ -15,7 +15,7 @@ export TF_PLUGIN_CACHE_DIR="$HOME/.terraform.d/plugin-cache"
 
 # shellcheck disable=SC2154
 {
-    export PATH="$config_home/.node_modules/bin:$config_home/bin:/usr/bin/vendor_perl:/usr/bin/core_perl:/usr/bin/site_perl:config_home/bin:$config_home/.local/bin:$config_home/.pyenv/bin:$config_home/.cargo/bin:$config_home/go/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+    export PATH="$config_home/.node_modules/bin:$config_home/bin:/usr/bin/vendor_perl:/usr/bin/core_perl:/usr/bin/site_perl:config_home/bin:$config_home/.local/bin:$config_home/.pyenv/bin:$config_home/.cargo/bin:$config_home/go/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/share/bcc:/usr/share/bcc/tools"
 }
 
 umask 0022

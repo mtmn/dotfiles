@@ -16,10 +16,6 @@
 [submodule "dot_vim/pack/plugins/start/editorconfig"]
 	path = dot_vim/pack/plugins/start/editorconfig
 	url = https://github.com/editorconfig/editorconfig-vim
-[submodule "dot_vim/pack/plugins/start/coc"]
-	path = dot_vim/pack/plugins/start/coc
-	url = https://github.com/neoclide/coc.nvim
-	branch = release
 [submodule "dot_vim/pack/plugins/start/surround"]
 	path = dot_vim/pack/plugins/start/surround
 	url = https://github.com/tpope/vim-surround

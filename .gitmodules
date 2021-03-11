@@ -37,6 +37,3 @@
 [submodule "dot_vim/pack/plugins/start/ack"]
 	path = dot_vim/pack/plugins/start/ack
 	url = https://github.com/mileszs/ack.vim
-[submodule "dot_vim/pack/plugins/start/gruvbox"]
-	path = dot_vim/pack/plugins/start/gruvbox
-	url = https://github.com/morhetz/gruvbox

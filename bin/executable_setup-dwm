@@ -6,6 +6,6 @@ psi-notify &
 
 while true
 do
-    xsetroot -name "$(acpi -b | awk '{print $5, $4}' | tr -d ',') | $(date "+%F %R")"
+    xsetroot -name "$(date "+%F %R")"
 sleep 1m
 done &

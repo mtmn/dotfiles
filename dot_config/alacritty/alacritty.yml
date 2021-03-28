@@ -1,0 +1,38 @@
+font:
+  normal:
+    family: Essential PragmataPro
+  bold:
+    family: Essential PragmataPro
+  italic:
+    family: Essential PragmataPro
+  size: 10.00
+
+# Gruber Darker
+colors:
+  primary:
+    background: '0x181818'
+    foreground: '0xe4e4ef'
+
+  cursor:
+    text:   '0x000000'
+    cursor: '0xf5f5f5'
+
+  normal:
+    black:   '0x282828'
+    red:     '0xf43841'
+    green:   '0x73c936'
+    yellow:  '0xffdd33'
+    blue:    '0x96a6c8'
+    magenta: '0x9e95c7'
+    cyan:    '0x1fad83'
+    white:   '0xf5f5f5'
+
+  bright:
+    black:   '0x484848'
+    red:     '0xff4f58'
+    green:   '0x73c936'
+    yellow:  '0xffdd33'
+    blue:    '0x5f627f'
+    magenta: '0x9e95c7'
+    cyan:    '0x1fad83'
+    white:   '0xffffff'

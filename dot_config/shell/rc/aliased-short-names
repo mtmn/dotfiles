@@ -11,6 +11,7 @@ alias amfa='aws-mfa --profile work'
 
 alias ssm-us='gossm start --profile work --region us-east-1'
 alias ssm-dr='gossm start --profile work --region us-east-2'
+alias ssm-eu='gossm start --profile work --region eu-central-1'
 alias ssm-ap='gossm start --profile work --region ap-northeast-1'
 alias ssm-au='gossm start --profile work-au --region ap-southeast-2'
 
@@ -24,7 +25,7 @@ alias ud='systemctl --user -n 100 status'
 
 alias xc='xclip -selection clipboard'
 
-alias ssu='ssw && upload /tmp/clipboard.png'
+alias ssu='cd $HOME/git/personal/ohno.nu && make screenshot'
 
 m() {
     moshrc "$@"
@@ -40,11 +41,6 @@ ssw() {
 
 g(){
     sudo gdb -q /proc/"${1?}"/exe "$1"
-}
-
-upload() {
-    xc < <(lufi-cli -s "https://fs.ohno.nu" -u "${1?}" -b | \
-      awk 'NR==2 {print $0}' | cut -d':' -f2-)
 }
 
 mirror() {

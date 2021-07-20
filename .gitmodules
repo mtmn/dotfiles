@@ -31,3 +31,6 @@
 [submodule "dot_vim/pack/plugins/start/ack"]
 	path = dot_vim/pack/plugins/start/ack
 	url = https://github.com/mileszs/ack.vim
+[submodule "dot_vim/pack/plugins/start/kotlin"]
+	path = dot_vim/pack/plugins/start/kotlin
+	url = https://github.com/udalov/kotlin-vim.git

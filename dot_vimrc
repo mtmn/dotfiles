@@ -3,7 +3,8 @@ exe "set runtimepath=~/.vim," . $VIMRUNTIME
 filetype plugin on
 syntax on
 
-silent! colorscheme solarized
+colorscheme GruberDarker
+" colorscheme solarized
 set background=dark
 
 set autoindent

@@ -1,0 +1,8 @@
+#!/bin/sh
+choices="reset\n5000\n4500\n4000\n3500\n3000"
+
+chosen=$(echo -e "$choices" | dmenu "$@")
+
+[[ $chosen == "reset" ]] && redshift -x && exit 0
+
+redshift -O "$chosen"

@@ -1,0 +1,13 @@
+#!/bin/sh
+MONITOR=$(gum choose "all" "pivot" "main")
+BRIGHTNESS=$(gum choose "100" "90" "80" "70" "60" "50" "40" "30" "20" "10")
+
+[[ $MONITOR == "pivot" ]] && BUS=6
+[[ $MONITOR == "main" ]] && BUS=7
+
+if [[ $MONITOR == "all" ]]; then
+    ddcutil --bus 6 setvcp 10 "$BRIGHTNESS"
+    ddcutil --bus 7 setvcp 10 "$BRIGHTNESS"
+else
+    ddcutil --bus "$BUS" setvcp 10 "$BRIGHTNESS"
+fi

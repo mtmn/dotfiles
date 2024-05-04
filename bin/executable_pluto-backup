@@ -1,0 +1,18 @@
+#!/bin/bash
+set -euo pipefail
+
+today=$(date -u +"%Y-%m-%d")
+
+borg create \
+    --show-version \
+    --show-rc \
+    --progress \
+    --stats \
+    --compression zstd,8 \
+    --exclude-from $HOME/misc/backup/exclude-folders.rc \
+    /mnt/anton/arch/pluto::$today \
+	$HOME/.gnupg \
+	$HOME/.password-store \
+	$HOME/src $HOME/misc \
+	$HOME/Downloads \
+	$HOME/.mozilla/firefox/**

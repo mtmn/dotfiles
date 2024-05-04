@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+to_export=(DISPLAY XAUTHORITY PATH GTK_IM_MODULE QT_IM_MODULE XMODIFIERS)
+
+systemctl --user import-environment "${to_export[@]}"
+dbus-update-activation-environment "${to_export[@]}"
+
+services_to_start=(
+    battery-notify psi-notify clipmenud no-screensaver
+)
+
+for service in "${services_to_start[@]}"; do
+    systemctl --user restart "$service"
+done
+
+while sleep 10; do
+    xsetroot -name "$(wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk '{print " vol: " $2*100"%"}') | $(acpi -b | awk '{print "bat: " $4}' | head -1 | tr -d ',') | $(date "+%F %R")"
+done &
+
+while sleep 0.5; do
+    "${WM:-dwm}" > "/tmp/$WM-$USER.log" 2>&1
+done

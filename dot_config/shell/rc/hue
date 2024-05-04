@@ -1,0 +1,14 @@
+#!/bin/sh
+
+alias soff='hue light 1 off'
+alias son='hue light 1 on'
+alias woff='hue light 2 off'
+alias won='hue light 2 on'
+
+sb() {
+    hue light 1 brightness "${1?}"%
+}
+
+wb() {
+    hue light 2 brightness "${1?}"%
+}

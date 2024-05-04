@@ -1,0 +1,4 @@
+/* Kill bookmark icons in the Personal Toolbar */
+ toolbarbutton.bookmark-item > .toolbarbutton-icon {
+  display: none !important;
+}

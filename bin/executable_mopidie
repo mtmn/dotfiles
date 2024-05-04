@@ -1,0 +1,15 @@
+#!/bin/bash
+set -xeuo pipefail
+
+rpbi_host="192.168.0.30"
+rpbi_port="22"
+
+ssh "$rpbi_host" -- 'sudo reboot'
+sleep 10
+
+until nc -z "$rpbi_host" "$rpbi_port"
+do
+    sleep 5
+done
+
+ssh rpbi -- 'tmux new-session -d -s mopidy mopidy'

@@ -1,0 +1,12 @@
+[submodule "zsh-histdb"]
+	path = dot_config/zsh/plugins/zsh-histdb
+	url = https://github.com/larkery/zsh-histdb
+	branch = master
+[submodule "fzf-marks"]
+	path = dot_config/zsh/plugins/fzf-marks
+	url = https://github.com/urbainvaes/fzf-marks
+	branch = master
+[submodule "zsh-autopair"]
+	path = dot_config/zsh/plugins/zsh-autopair
+	url = https://github.com/hlissner/zsh-autopair
+	branch = master

@@ -1,0 +1,12 @@
+#!/bin/sh
+ROOMS=$(gum choose "work" "sleep")
+COLORS=$(gum choose "skip" "relax" "concentrate" "reading" "dimmed" "off")
+BRIGHTNESS=$(gum choose "skip" "100%" "90%" "60%" "30%" "10%" "5%" )
+
+[[ $ROOMS == "sleep" ]] && LIGHT=1
+[[ $ROOMS == "work" ]] && LIGHT=2
+
+[[ $COLORS != "skip" ]] && hue light "$LIGHT" "$COLORS"
+[[ $BRIGHTNESS != "skip" ]] && hue "$LIGHT" brightness "$BRIGHTNESS"
+
+[[ $BRIGHTNESS != "skip" ]] && hue "$LIGHT" brightness "$BRIGHTNESS"

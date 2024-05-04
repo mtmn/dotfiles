@@ -1,0 +1,13 @@
+#!/bin/bash
+
+[[ "$-" == *i* ]] || return
+
+config_home="$HOME"
+
+. "$config_home"/.config/shell/early-funcs
+
+for file in "$config_home"/.config/{shell,bash}/rc/*; do
+    [[ -e $file ]] && . "$file"
+done
+
+PS1='$(_get_ps1)'

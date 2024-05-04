@@ -1,0 +1,38 @@
+README
+
+{{ if eq .chezmoi.os "linux" }}
+misc/Brewfile
+{{- end}}
+
+{{ if eq .chezmoi.os "darwin" }}
+.atoprc
+.gtkrc-2.0
+.xinitrc
+.fehbg
+
+.screenlayout/
+.config/battery-notify/
+.config/dunst/
+.config/gtk-3.0/
+.config/private_gtk-4.0/
+.config/systemd/
+
+.atoprc
+.gtkrc-2.0
+.xinitrc
+.fehbg
+
+bin/anton
+bin/aur-remove
+bin/blumenu
+bin/bn
+bin/brightness
+bin/ff2mpv
+bin/hu
+bin/langmenu
+bin/mopidie
+bin/pluto-backup
+bin/screenshot
+bin/tempmenu
+bin/xrandrmenu
+{{- end }}

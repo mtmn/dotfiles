@@ -1,0 +1,87 @@
+#!/bin/sh
+
+alias cdg='cd "$(git rev-parse --show-toplevel)"'
+
+# Base commands that set command defaults
+alias gn='git number --column'
+alias ga='git number add'
+alias gb='git branch'
+alias gba='git branch -a'
+alias gc='git commit -v'
+alias gco='git checkout'
+alias gcp='git cherry-pick --strategy=recursive --strategy-option=diff-algorithm=histogram'
+alias gd='git diff --no-prefix'
+alias gg='git grep'
+alias gl='git lg'
+alias gm='git merge'
+alias gmc='gm --no-ff'
+alias gp='git push'
+alias gs='git show --no-prefix'
+alias gst='git status'
+alias gref='git reflog --date=iso'
+
+gf() {
+    if [ "$1" ]; then
+        git fetch -p "$1"
+    else
+        git fetch -p --all
+    fi
+}
+
+fgb() {
+    git rev-parse HEAD > /dev/null 2>&1 || return
+
+    git branch --color=always --all --sort=-committerdate |
+        grep -v HEAD |
+        fzf --height 50% --ansi --no-multi --preview-window right:65% \
+            --preview 'git log -n 50 --color=always --date=short --pretty="format:%C(auto)%cd %h%d %s" $(sed "s/.* //" <<< {})' |
+        sed "s/.* //"
+}
+
+gcopr() {
+    git fetch origin pull/"${1?need pr num}"/head:pr"$1" && gco pr"$1"
+}
+
+# git-send-patch style
+alias gsp='mutt-patch'
+
+alias gpl='git pull'
+
+# Rebasing
+alias grr='git rebase -r'
+alias gri='grr -i'
+alias grim='gri master@{u}'
+alias grrm='grr master@{u}'
+alias grid='gri develop@{u}'
+alias grrd='grr develop@{u}'
+alias gru='grr @{u}'
+alias gabs='git absorb --and-rebase'
+
+# Diffing
+git-diff-merge-base() {
+    local feature="${2-HEAD}"
+    gd "$(git merge-base "$1" "$feature")..$feature"
+}
+
+alias gdm='git-diff-merge-base master@{u}'
+alias gdmain='git-diff-merge-base main@{u}'
+alias gdd='git-diff-merge-base develop@{u}'
+alias gdu='gd @{u}..'
+alias gdc='gd --cached'
+alias gdw='gd --color-words'
+
+# Logs
+alias glm='gl master@{u}..'
+alias gld='gl develop@{u}..'
+alias glu='gl @{u}..'
+
+# Misc
+alias gap='ga -p'
+alias gbr='gb -r'
+alias gca='gc -a'
+alias gcaa='gca --amend'
+alias grh='git reset --hard'
+alias grhu='grh @{u}'
+alias gpf='gp -f'
+alias gu='gf && grrm'
+alias gcl='git clean -dffx'

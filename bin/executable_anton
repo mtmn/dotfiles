@@ -1,0 +1,40 @@
+#!/bin/bash
+set -eo pipefail
+
+txtred=$(tput setaf 1)
+txtreset=$(tput sgr0)
+
+disk="/dev/sda1"
+mountpoint="/mnt/anton"
+
+anton="/mnt/anton"
+slsk="$anton/slsk/complete"
+red="$anton/red"
+muz="$anton/muz"
+bandcamp="$anton/bandcamp"
+
+case "$1" in
+    mount|m)
+	sudo mount -o uid=1000,gid=1000,umask=0044 "$disk" "$mountpoint"
+	echo "${txtred}mounted $disk at $mountpoint, have fun!${txtreset}"
+	;;
+    umount|u)
+	sudo umount "$mountpoint"
+	echo "${txtred}see ya later, aligator!${txtreset}"
+	;;
+    sync|s)
+	echo "${txtred}getting music from slsk${txtreset}"
+	mack "$slsk" -o "$muz"
+	echo "${txtred}getting music from red${txtreset}"
+	mack "$red" -o "$muz"
+	echo "${txtred}getting music from bandcamp${txtreset}"
+	mack "$bandcamp" -o "$muz"
+	echo "${txtred}running `mpc update`${txtreset}"
+	mpc update
+	;;
+    *)
+	echo "${txtred}only mount, umount, sync options are available!${txtreset}"
+	;;
+esac
+
+

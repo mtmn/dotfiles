@@ -1,0 +1,18 @@
+#!/bin/sh
+choices="en\nsk"
+
+chosen=$(echo -e "$choices" | dmenu "$@")
+
+english() {
+    setxkbmap us;
+}
+
+
+slovak() {
+    setxkbmap sk qwerty;
+}
+
+case $chosen in
+    en) english ;;
+    sk) slovak;;
+esac

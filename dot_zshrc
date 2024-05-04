@@ -1,0 +1,13 @@
+#!/bin/zsh
+
+[[ "$-" == *i* ]] || return
+
+config_home="$HOME"
+
+. "$config_home"/.config/shell/early-funcs
+
+for file in "$config_home"/.config/{shell,zsh}/rc/*(N); do
+    . "$file"
+done
+
+PS1='$(_get_ps1)'

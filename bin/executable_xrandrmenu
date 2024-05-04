@@ -1,0 +1,42 @@
+#!/bin/sh
+choices="internal\nexternal\npivot\ntp-pivot\ntp-external"
+
+chosen=$(echo -e "$choices" | dmenu "$@")
+
+internal() {
+    xrandr --output DP1 --off;
+    xrandr --output DP2 --off;
+    xrandr --output eDP1 --auto;
+    systemctl restart --user dunst;
+}
+
+
+external() {
+    xrandr --output eDP1 --off;
+    xrandr --output DP1 --off;
+    xrandr --output DP2 --auto;
+    systemctl restart --user dunst;
+}
+
+pivot() {
+    sh $HOME/.screenlayout/pivot.sh
+    systemctl restart --user dunst;
+}
+
+tp_external() {
+    sh $HOME/.screenlayout/tp-external.sh
+    systemctl restart --user dunst;
+}
+
+tp_pivot() {
+    sh $HOME/.screenlayout/tp-pivot.sh
+    systemctl restart --user dunst;
+}
+
+case $chosen in
+    internal) internal ;;
+    external) external ;;
+    pivot) pivot ;;
+    tp-external) tp_external ;;
+    tp-pivot) tp_pivot ;;
+esac

@@ -1,9 +1,10 @@
 #!/bin/sh
-choices="qc45\noff"
+choices="qc45\nairpods\noff"
 
 chosen=$(echo -e "$choices" | dmenu "$@")
 
 case $chosen in
 qc45) bluetoothctl -- power on && bluetoothctl connect 'AC:BF:71:09:BF:FD' ;;
+airpods) bluetoothctl -- power on && bluetoothctl connect '50:1F:C6:81:AA:5A' ;;
 off) bluetoothctl -- power off ;;
 esac

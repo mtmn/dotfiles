@@ -1,0 +1,54 @@
+#!/bin/bash
+
+
+if [ $# -eq 0 ]; then
+    echo "Usage: $0 <percentage>"
+    echo "Example: $0 25  # seeks to 25% of current track"
+    exit 1
+fi
+
+percentage=$1
+
+if ! [[ "$percentage" =~ ^[0-9]+(\.[0-9]+)?$ ]] || (( $(echo "$percentage > 100" | bc -l) )); then
+    echo "Error: Please provide a valid percentage (0-100)"
+    exit 1
+fi
+
+status=$(mpc status)
+
+if ! echo "$status" | grep -q "playing\|paused"; then
+    echo "Error: No track is currently loaded"
+    exit 1
+fi
+
+time_info=$(echo "$status" | grep -o '[0-9]*:[0-9]*/[0-9]*:[0-9]*')
+
+if [ -z "$time_info" ]; then
+    echo "Error: Could not get track duration information"
+    exit 1
+fi
+
+total_time=$(echo "$time_info" | cut -d'/' -f2)
+
+# Convert total time to seconds
+IFS=':' read -ra time_parts <<< "$total_time"
+if [ ${#time_parts[@]} -eq 2 ]; then
+    # Format is MM:SS
+    total_seconds=$((${time_parts[0]} * 60 + ${time_parts[1]}))
+elif [ ${#time_parts[@]} -eq 3 ]; then
+    # Format is HH:MM:SS
+    total_seconds=$((${time_parts[0]} * 3600 + ${time_parts[1]} * 60 + ${time_parts[2]}))
+else
+    echo "Error: Could not parse time format"
+    exit 1
+fi
+
+# Calculate target position in seconds
+target_seconds=$(echo "scale=0; $total_seconds * $percentage / 100" | bc)
+
+# Convert back to MM:SS format for mpc
+target_minutes=$((target_seconds / 60))
+target_seconds_remainder=$((target_seconds % 60))
+target_time=$(printf "%d:%02d" $target_minutes $target_seconds_remainder)
+
+mpc seek "$target_time"

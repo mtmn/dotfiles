@@ -1,0 +1,6 @@
+qwerty_keybindings = true
+screens = ["queue", "library"]
+
+[keybindings]
+seek = "C-f"
+seek_backwards = "C-b"

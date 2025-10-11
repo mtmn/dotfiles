@@ -1,0 +1,73 @@
+# vim: ft=sh
+
+# GNU Coreutils that might not be installed with default names on OSX.
+# Lint warning for expansion at definition is disabled as that's intentional.
+#
+# shellcheck disable=SC2139
+{
+alias grep="$(use_first_to_exist grep)"
+alias ls="$(use_first_to_exist eza ls) --color=auto --group-directories-first"
+alias sed="$(use_first_to_exist sed)"
+alias awk="$(use_first_to_exist awk)"
+alias diff="$(use_first_to_exist colordiff diff)"
+}
+alias cp='cp --backup=numbered --reflink=auto --sparse=always'
+alias mv='mv --backup=numbered'
+alias ln='ln --backup=numbered'
+
+alias rg='rg --hidden -i'
+
+alias startx='exec startx &>| /tmp/startx-$USER'
+
+# Disable sourcing systemwide vim configuration. Also set PYTHONPATH to
+# include basedir so we can edit tests that get their sys.path munged by nose
+
+# $config_home comes from shell init
+
+# Do not disable raw control chars when running less
+alias less='less -R'
+
+alias ipython='ipython --no-banner'
+
+# Do not pass a (potentially unsupported) locale when SSHing to random servers.
+# In mosh, a UTF-8 aware locale is needed, so we use en_US.UTF-8 because
+# there's a high likelihood that it will be available ('Murica baby!).
+safe_termname() {
+    case $TERM in
+        rxvt*) echo rxvt ;;
+        xterm*) echo xterm ;;
+        *) echo linux ;;
+    esac
+}
+
+for command in ssh{,rc}; do
+    # shellcheck disable=SC2139
+    alias "$command"='LC_ALL=C TERM="$(safe_termname)" '"$command"
+done
+
+alias mosh='LC_ALL=en_US.UTF-8 mosh'
+
+alias vi='vim'
+alias vim='nvim'
+
+# Allow other aliases to be used after the program name
+alias sudo='sudo '
+alias watch='watch '
+
+alias gdb='gdb -q'
+
+alias dmesg='dmesg -T --color=always | less -R +G'
+alias mksrcinfo='makepkg --printsrcinfo >| .SRCINFO'
+
+alias hyperfine='sudo nice -n -20 sudo -u "$USER" hyperfine'
+
+alias ncdu='sudo ncdu -x --exclude /nix --exclude $HOME/misc/mnt /'
+
+alias b2='bbb2'
+
+alias filen='filen-cli --skip-update'
+alias filen-cli='filen-cli --skip-update'
+
+alias eza='eza -a --sort=modified'
+
+alias backup='bbackup'

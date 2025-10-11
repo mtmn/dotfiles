@@ -1,0 +1,13 @@
+#!/bin/zsh
+
+[[ "$-" == *i* ]] || return
+
+config_home="$HOME"
+
+. "$config_home"/.config/shell/early-funcs
+
+for file in "$config_home"/.config/{shell,zsh}/profile/*(N); do
+    . "$file"
+done
+
+[[ -r "$config_home"/.zshrc ]] && . "$config_home"/.zshrc

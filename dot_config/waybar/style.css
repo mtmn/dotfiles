@@ -1,0 +1,59 @@
+* {
+    font-family: "Cozette";
+    font-size: 12px;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    text-shadow: none;
+}
+window#waybar {
+    background: #000000;
+    color: #B0B0B0;
+}
+#tags button {
+    padding: 0 0px;
+    color: #B0B0B0;
+    background: transparent;
+    min-width: 20px;
+}
+#tags button.focused {
+    color: #B0B0B0;
+    border-bottom: 1px solid #B0B0B0;
+}
+#tags button.occupied {
+    color: #B0B0B0;
+}
+#tags button:hover {
+    background: #1a1a1a;
+    color: #B0B0B0;
+}
+#custom-waybat,
+#custom-gammastep,
+#custom-backlight,
+#custom-network,
+#custom-vpn,
+#custom-music,
+#pulseaudio,
+#battery,
+#clock,
+#disk,
+#network,
+#backlight {
+    padding: 0 10px;
+    color: #B0B0B0;
+}
+#custom-waybat:hover,
+#custom-gammastep:hover,
+#custom-backlight:hover,
+#custom-network:hover,
+#custom-vpn:hover,
+#custom-music:hover,
+#pulseaudio:hover,
+#battery:hover,
+#clock:hover,
+#disk:hover,
+#network:hover,
+#backlight:hover {
+    background: #1a1a1a;
+    color: #B0B0B0;
+}

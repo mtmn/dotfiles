@@ -1,0 +1,8 @@
+connect-timeout = 30
+show-error
+
+# When following a redirect, automatically set the previous URL as referer
+referer = ";auto"
+
+continue-at = -
+location

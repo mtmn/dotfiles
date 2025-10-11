@@ -1,0 +1,3 @@
+dotfiles
+========
+chezmoi init ssh://git@codeberg.org/mtmn/dotfiles.git

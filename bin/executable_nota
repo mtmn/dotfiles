@@ -1,0 +1,73 @@
+#!/bin/bash
+
+shopt -s nullglob
+
+config=${XDG_CONFIG_HOME:-"$HOME/.config"}/nota
+[[ -f "$config" ]] && . "$config"
+
+data_base_dir=${XDG_DATA_HOME:-"$HOME/misc/notes"}
+data_dir=$data_base_dir/nota
+
+mkdir -p "$data_dir"
+cd -- "$data_dir" || exit
+
+: "${NOTA_READ_ONLY=0}"
+: "${GPG=0}"
+
+editor=${EDITOR:-${VISUAL:-vi}}
+(( GPG )) && editor=${PGP_EDITOR:-"$editor"}
+
+if (( NOTA_READ_ONLY )); then
+    # The linter is wrong here, we don't want to do $(cat).
+    # shellcheck disable=SC2209
+    editor=cat
+    (( GPG )) && editor='gpg -q -d'
+fi
+
+unsanitised_basename=${1:-"$(date +%F)"}
+
+case $unsanitised_basename in
+    git|ls) exec "$@" ;;
+    *' days ago'|yesterday|tomorrow|today)
+        unsanitised_basename=$(date -d "$unsanitised_basename" +%F)
+    ;;
+esac
+
+basename=${unsanitised_basename//\//_}
+file=$data_dir/$basename
+(( GPG )) && file=$file.gpg
+(( MARKDOWN )) && file=$file.md
+
+lock_base="$file.lock"
+lock="$lock_base.$$"
+
+if ! (( NOTA_READ_ONLY )); then
+    for existing_lock_file in "$lock_base".*; do
+        pid=${existing_lock_file##*.}
+        if [[ -d "/proc/$pid" ]]; then
+            printf 'Refusing to open %s as it is locked\n' "$file" >&2
+            exit 6
+        else
+            printf 'Removing stale lock %s\n' "$existing_lock_file" >&2
+            rmdir -- "$existing_lock_file"
+        fi
+    done
+
+    trap 'rmdir -- "$lock"' EXIT
+    mkdir -- "$lock"
+fi
+
+$editor -- "$file"
+
+(( NOTA_READ_ONLY )) && exit 0
+
+if ! [[ -f "$file" ]]; then
+    printf 'Not committing as %s is missing\n' "$unsanitised_basename" >&2
+    exit 5
+fi
+
+git init
+git add "$file"
+rmdir -- "$lock"
+trap - EXIT
+git commit -m "Updated $unsanitised_basename"

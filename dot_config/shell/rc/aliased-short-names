@@ -1,0 +1,235 @@
+#!/bin/sh
+alias b='brightnessctl'
+
+alias q='sudo '
+alias lopri='nice -n 19 ionice -c2 -n7 '
+alias scan='sudo nmap -n -PN -sT -sU -p-'
+
+alias t='ta'
+alias tl='tmux ls'
+alias tls='tmux ls'
+alias ts='tmux split-window -l "30%"'
+alias tms='tmux display-message -p "#S"'
+
+alias ss='sudo systemctl start'
+alias st='sudo systemctl stop'
+alias sd='sudo systemctl -n 100 status'
+
+alias us='systemctl --user start'
+alias ut='systemctl --user stop'
+alias ud='systemctl --user -n 100 status'
+
+alias l='ls -l'
+alias n='nota'
+alias o='nvim .'
+
+alias j='jog'
+alias jr='jog_run'
+
+alias pw='LC_ALL=C tr -dc a-zA-Z0-9 < /dev/urandom | head -c 20; echo'
+
+alias mpva='mpv --no-video'
+
+alias to='nota today'
+alias ye='nota yesterday'
+alias tom='nota tomorrow'
+alias todo='nota todo'
+
+alias h='histdb'
+alias hs='histdb-sync'
+
+alias pcm='pcmanfm-qt'
+
+alias duh='du -hs'
+alias dfh='df -h'
+
+alias habits='vim $HOME/.config/habitual/habitual && systemctl restart --user habitual.service'
+
+alias hl='hledger'
+alias hla='hledger iadd'
+
+alias foo='fooyin .'
+alias ncm='ncmpcpp'
+
+alias nb='newsboat'
+alias nbe='vim $HOME/.config/newsboat/urls'
+
+alias cb='cargo build'
+alias cbr='cargo build --release'
+
+alias symlinks='fd --type symlink'
+
+alias laptop-only='wlr-randr --output DP-1 --toggle && wlr-randr --output eDP-1 --toggle'
+
+ta() {
+	session="${1:=magnolia}"
+	
+	if [ -n "$TMUX" ]; then
+		tmux detach-client
+	fi
+	
+	if tmux has-session -t "${session}" 2>/dev/null; then
+		tmux attach -t "${session}"
+	else
+		tmux new -s "${session}"
+	fi
+}
+
+u() {
+	for a in *.zip; do unzip "$a" -d "${a%.zip}"; done
+}
+
+erg() {
+    $EDITOR \
+      +'/\v'"${1/\//\\/}" \
+      +':silent tabdo :1 | normal! n' \
+      +':tabfirst' \
+      -p $(rg "$@" | cut -d: -f1 | sort -u)
+}
+
+efd() {
+    $EDITOR \
+      +':tabfirst' \
+      -p $(fd "$@")
+}
+
+hmark() {
+	cat "${1?}" | html2markdown | tee "$HOME/misc/notes/www/${1?}.md"
+}
+
+ytrss() {
+	CHANNEL_URL="$1"
+	if [ -n "$CHANNEL_URL" ]; then
+		curl -s "$CHANNEL_URL" |
+			grep -Po '<link rel="canonical" href="https://www.youtube.com/channel/\K.*?(?=">)' |
+			xargs -I@ echo 'https://www.youtube.com/feeds/videos.xml?channel_id=@'
+	else
+		echo "Usage: yt-rss https://www.youtube.com/channel"
+	fi
+}
+
+cheadd() {
+	repo=$HOME/.local/share/chezmoi
+	file="${1?}"
+	dir=$(pwd)
+	chezmoi add "$dir"/"$file"
+	git --git-dir=$repo/.git --work-tree=$repo add -A
+	git --git-dir=$repo/.git --work-tree=$repo commit -v
+}
+
+cheadde() {
+	repo=$HOME/.local/share/chezmoi
+	file="${1?}"
+	dir=$(pwd)
+	chezmoi add --encrypt "$dir"/"$file"
+	git --git-dir=$repo/.git --work-tree=$repo add -A
+	git --git-dir=$repo/.git --work-tree=$repo commit -m "who knows"
+}
+
+chediff() {
+	chezmoi diff
+}
+
+cheat() {
+	curl cht.sh/"${1?}"
+}
+
+gts() {
+	sleep "${1?}m" && systemctl suspend
+}
+
+mirror() {
+	wget --mirror --page-requisites --no-parent --convert-links -P ./ "$@"
+}
+
+# https://news.ycombinator.com/item?id=29155825
+jog() {
+	sqlite3 "$HOME"/.histdb/zsh-history.db "
+SELECT
+    replace(commands.argv, '
+', '
+')
+FROM commands
+JOIN history ON history.command_id = commands.id
+JOIN places ON history.place_id = places.id
+WHERE history.exit_status = 0
+AND dir = '${PWD}'
+AND places.host = '${HOST}'
+AND commands.argv != 'jog'
+AND commands.argv NOT LIKE 'z %'
+AND commands.argv NOT LIKE 'cd %'
+AND commands.argv != '..'
+ORDER BY start_time DESC
+LIMIT "${1:-50}""
+}
+
+jog_run() {
+	jog 500 | fzf --height=40% --reverse | read -r selected
+
+	if [[ -n "$selected" ]]; then
+		eval "$selected"
+	fi
+}
+
+zlo() {
+	case "$1" in
+	"up")
+		sudo systemctl start pcscd.socket
+		xdg-open "https://epodpis.ditec.sk/install-check"
+		eID_Client
+		;;
+	"down")
+		pkill -SIGINT -f eID_Client
+		sudo systemctl stop pcscd.socket
+		;;
+	*)
+		systemctl is-active --quiet pcscd.socket && zlo down || zlo up && return
+		;;
+	esac
+}
+
+bat() {
+	_get_bat() {
+		local name=$1 mac=$2
+		bluetoothctl info "$mac" | awk -v name="$name" '/Battery Percentage:/ {battery=$NF; gsub(/[^0-9]/, "", battery)} END {printf "%s %s%%\n", name, battery}'
+	}
+	case "$1" in
+	"buds")
+		pbpctrl show battery
+		;;
+	"sluch")
+		_get_bat "sluch" "AC:BF:71:09:BF:FD"
+
+		;;
+	"controller")
+		_get_bat "controller" "98:7A:14:C9:9A:90"
+		;;
+	"mouse")
+		_get_bat "mouse" "D5:E4:1B:10:D6:75"
+		;;
+	"all")
+		bat sluch
+		bat controller
+		bat mouse
+		bat buds
+		;;
+	*)
+		echo "usage: bat <all|buds|sluch|controller|mouse>"
+		;;
+	esac
+}
+
+sort_keep_timestamp() {
+    local file="$1"
+    local atime=$(stat -c %x "$file")
+    local mtime=$(stat -c %y "$file")
+    
+    sort -u "$file" -o "$file"
+
+    touch -d "$atime" "$file"
+    touch -d "$mtime" -m "$file"
+}
+
+for p in $(seq 0 1 100); do
+	alias b$p="sudo brightnessctl set $p%"
+done

@@ -1,0 +1,2 @@
+#!/bin/sh
+river > "/tmp/river-$USER.log" 2>&1

@@ -1,0 +1,19 @@
+# vim: ft=sh
+
+# normal=$(tput sgr0)
+# green=$(tput setaf 2)
+# yellow=$(tput setaf 3)
+# blue=$(tput setaf 4)
+
+# # Headers and commands
+# export LESS_TERMCAP_mb="$normal"
+# export LESS_TERMCAP_md="$blue"
+# export LESS_TERMCAP_me="$normal"
+
+# # Status bar
+# export LESS_TERMCAP_so="$yellow"
+# export LESS_TERMCAP_se="$normal"
+
+# # Arguments
+# export LESS_TERMCAP_us="$green"
+# export LESS_TERMCAP_ue="$normal"

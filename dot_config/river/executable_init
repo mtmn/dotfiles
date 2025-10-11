@@ -1,0 +1,122 @@
+#!/bin/sh
+set -x
+
+mod="Mod4"
+alt="Mod1"
+term="foot"
+
+wobsock="$XDG_RUNTIME_DIR/wob.sock"
+dmenu_args="-fn 'Cozette-12' -nb '#000000' -nf '#B0B0B0' -sb '#1a1a1a' -sf '#B0B0B0'"
+
+rivertile -view-padding 0 -outer-padding 0 -main-ratio 0.55 &
+
+riverctl border-color-focused "0x00ccc9"
+riverctl border-color-unfocused "0xd5c1c9"
+riverctl border-width 1
+
+riverctl set-repeat 50 300
+
+riverctl default-layout rivertile
+
+riverctl attach-mode top
+riverctl focus-follows-cursor normal
+
+riverctl map normal Super Return zoom
+riverctl map normal $mod+Shift Return spawn "$term"
+
+riverctl map normal $mod p spawn "dmenu_run $dmenu_args"
+
+riverctl map normal $mod b spawn "toggle-waybar"
+
+riverctl map normal Control+$alt l spawn "waylock"
+
+riverctl map normal $mod F1 spawn "firefox"
+riverctl map normal $mod F2 spawn "foot zsh -c 'record'"
+riverctl map normal $mod F3 spawn "pcmanfm-qt"
+riverctl map normal $mod F4 spawn "picard"
+
+riverctl map normal $alt+Shift b spawn "blumenu $dmenu_args"
+riverctl map normal $alt+Shift p spawn "passmenu $dmenu_args"
+riverctl map normal $alt+Shift m spawn "playlistmenu $dmenu_args"
+riverctl map normal $mod+Shift m spawn "playlistmenu $dmenu_args"
+riverctl map normal $mod+Shift h spawn "huemenu $dmenu_args"
+riverctl map normal $mod+Shift p spawn "passmenu $dmenu_args"
+riverctl map normal $mod+Shift l spawn "langmenu $dmenu_args"
+riverctl map normal $mod+Shift t spawn "tempmenu $dmenu_args"
+riverctl map normal $mod+Shift d spawn "cliphist list | sed 's/^[0-9]\+\s\+//' | dmenu -l 10 $dmenu_args | wl-copy"
+riverctl map normal $mod+Shift s spawn "screenshot"
+
+riverctl map normal None XF86AudioMute spawn "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle && (wpctl get-volume @DEFAULT_AUDIO_SINK@ | grep -q MUTED && echo 0 > $wobsock) || wpctl get-volume @DEFAULT_AUDIO_SINK@ | sed 's/[^0-9]//g' > $wobsock"
+riverctl map normal None XF86AudioLowerVolume spawn "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%- && wpctl get-volume @DEFAULT_AUDIO_SINK@ | sed 's/[^0-9]//g' > $wobsock"
+riverctl map normal None XF86AudioRaiseVolume spawn "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+ && wpctl get-volume @DEFAULT_AUDIO_SINK@ | sed 's/[^0-9]//g' > $wobsock"
+
+riverctl map normal None XF86MonBrightnessUp spawn "brightnessctl set +5% | sed -En 's/.*\(([0-9]+)%\).*/\1/p' > $wobsock"
+riverctl map normal None XF86MonBrightnessDown spawn "brightnessctl set 5%- | sed -En 's/.*\(([0-9]+)%\).*/\1/p' > $wobsock"
+
+riverctl map normal $mod+Shift c close
+
+riverctl map normal $mod j focus-view next
+riverctl map normal $mod k focus-view previous
+
+riverctl map normal $mod+Shift j swap next
+riverctl map normal $mod+Shift k swap previous
+
+riverctl map normal $mod h send-layout-cmd rivertile "main-ratio -0.05"
+riverctl map normal $mod l send-layout-cmd rivertile "main-ratio +0.05"
+
+riverctl map normal $mod i send-layout-cmd rivertile "main-count +1"
+riverctl map normal $mod d send-layout-cmd rivertile "main-count -1"
+
+riverctl map normal $mod Space toggle-float
+
+riverctl map normal $mod+Shift Space toggle-float
+
+riverctl map normal $mod+Shift f toggle-fullscreen
+
+for i in $(seq 1 9)
+do
+    tags=$((1 << ($i - 1)))
+    riverctl map normal $mod $i set-focused-tags $tags
+    riverctl map normal $mod+Shift $i set-view-tags $tags
+    riverctl map normal $mod+Control $i toggle-focused-tags $tags
+    riverctl map normal $mod+Shift+Control $i toggle-view-tags $tags
+done
+
+riverctl map normal $mod 0 set-focused-tags $(((1 << 32) - 1))
+riverctl map normal $mod+Shift 0 set-view-tags $(((1 << 32) - 1))
+
+riverctl map-pointer normal $mod BTN_LEFT move-view
+riverctl map-pointer normal $mod BTN_RIGHT resize-view
+riverctl map-pointer normal $mod BTN_MIDDLE toggle-float
+
+riverctl map normal $mod period focus-output next
+riverctl map normal $mod comma focus-output previous
+
+riverctl map normal $mod+Shift period send-to-output next
+riverctl map normal $mod+Shift comma send-to-output previous
+
+riverctl map normal $mod Tab focus-previous-tags
+riverctl map normal $mod+Shift Tab send-to-previous-tags
+
+riverctl xcursor-theme default 16
+
+pcmanfm-qt --daemon-mode &
+swaybg -m fill -i $HOME/misc/wallpapers/05.jpg &
+
+services_to_start=(
+    "batsignal"
+    "battery-notify"
+    "cliphist"
+    "habitual"
+    "kanshi"
+    "mako"
+    "psi-notify"
+    "singlefile-sync"
+    "wob"
+    "xdg-desktop-portal"
+    "xdg-desktop-portal-gtk"
+)
+
+for s in "${services_to_start[@]}"; do
+    systemctl restart --user "$s"
+done

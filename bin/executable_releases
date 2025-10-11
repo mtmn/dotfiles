@@ -1,0 +1,46 @@
+#!/bin/bash
+
+show_usage() {
+    echo "Usage: $0 start_date end_date"
+    echo "Finds FLAC files modified between start_date and end_date"
+    exit 1
+}
+
+validate_date() {
+    local date="$1"
+    if [[ ! "$date" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]]; then
+        echo "Error: Invalid date format for '$date'. Please use YYYY-MM-DD format."
+        show_usage
+    fi
+    
+    local year="${date:0:4}"
+    local month="${date:5:2}"
+    local day="${date:8:2}"
+}
+
+date_to_seconds() {
+    local input_date="$1"
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        date -j -f "%Y-%m-%d" "$input_date" "+%s" 2>/dev/null
+    else
+        date -d "$input_date" "+%s" 2>/dev/null
+    fi
+}
+
+if [ "$#" -ne 2 ]; then
+    echo "Error: Two dates must be provided."
+    show_usage
+fi
+
+start_date="$1"
+end_date="$2"
+
+validate_date "$start_date"
+validate_date "$end_date"
+
+start_seconds=$(date_to_seconds "$start_date")
+end_seconds=$(date_to_seconds "$end_date")
+
+fd -t d \
+    --changed-before "$end_date" \
+    --changed-after "$start_date"

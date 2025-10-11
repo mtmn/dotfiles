@@ -1,0 +1,84 @@
+{
+   "layer":"top",
+   "position":"top",
+   "height":25,
+   "modules-left":[
+      "river/tags",
+      "custom/waybat",
+   ],
+   "modules-center":[
+      "custom/music"
+   ],
+   "modules-right":[
+      "custom/network",
+      "custom/gammastep",
+      "custom/backlight",
+      "pulseaudio",
+      "battery",
+      "clock"
+   ],
+   "battery":{
+      "format":"bat {capacity}%",
+      "states":{
+         "warning":35,
+         "critical":25
+      }
+   },
+   "clock":{
+      "format":"{:%Y-%m-%d %H:%M}",
+      "tooltip-format":"{:%Y-%m-%d | %H:%M}"
+   },
+   "pulseaudio":{
+      "format":"vol {volume}%",
+      "format-muted":"vol muted",
+      "on-scroll-up":"wpctl set-volume @DEFAULT_AUDIO_SINK@ 1%+ && wpctl get-volume @DEFAULT_AUDIO_SINK@ | sed 's/[^0-9]//g' > $XDG_RUNTIME_DIR/wob.sock",
+      "on-scroll-down":"wpctl set-volume @DEFAULT_AUDIO_SINK@ 1%- && wpctl get-volume @DEFAULT_AUDIO_SINK@ | sed 's/[^0-9]//g' > $XDG_RUNTIME_DIR/wob.sock",
+      "on-click":"wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+ && wpctl get-volume @DEFAULT_AUDIO_SINK@ | sed 's/[^0-9]//g' > $XDG_RUNTIME_DIR/wob.sock",
+      "on-click-right":"wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%- && wpctl get-volume @DEFAULT_AUDIO_SINK@ | sed 's/[^0-9]//g' > $XDG_RUNTIME_DIR/wob.sock",
+      "on-click-middle":"wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle && (wpctl get-volume @DEFAULT_AUDIO_SINK@ | grep -q MUTED && echo 0 > $XDG_RUNTIME_DIR/wob.sock) || wpctl get-volume @DEFAULT_AUDIO_SINK@ | sed 's/[^0-9]//g' > $XDG_RUNTIME_DIR/wob.sock"
+   },
+   "river/tags":{
+      "num-tags":9
+   },
+   "custom/music":{
+      "interval":10,
+      "format":"{}",
+      "justify": "center",
+      "scroll-step": 1,
+      "exec": "~/bin/playing",
+      "on-scroll-up": "mpc seek +1%",
+      "on-scroll-down": "mpc seek +1%",
+      "on-click":"mpc toggle",
+      "on-click-right":"mpc next",
+      "on-click-middle":"add-to-playlist .october_25"
+   },
+   "custom/network":{
+      "format":"{}",
+      "exec":"~/.config/waybar/scripts/network-status.sh",
+      "on-click":"~/.config/waybar/scripts/vpn.sh",
+      "interval":10
+   },
+   "custom/vpn":{
+      "exec":"~/.config/waybar/scripts/vpn-status.sh",
+      "format":"{}",
+      "interval":10
+   },
+   "custom/backlight":{
+      "exec":"~/.config/waybar/scripts/backlight-status.sh",
+      "on-click-middle": "sudo brightnessctl set 10% | sed -En 's/.*\\(([0-9]+)%\\).*/\\1/p' > $XDG_RUNTIME_DIR/wob.sock",
+      "on-click-right": "sudo brightnessctl set 5%- | sed -En 's/.*\\(([0-9]+)%\\).*/\\1/p' > $XDG_RUNTIME_DIR/wob.sock",
+      "on-click": "sudo brightnessctl set +5% | sed -En 's/.*\\(([0-9]+)%\\).*/\\1/p' > $XDG_RUNTIME_DIR/wob.sock",
+      "format":"{}",
+      "interval":10
+   },
+   "custom/gammastep":{
+      "exec":"~/.config/waybar/scripts/gammastep-status.sh",
+      "format":"{}",
+      "interval":10
+   },
+   "custom/waybat":{
+      "exec":"~/bin/rs-waybat",
+      "format":"{}",
+      "interval":10
+   }
+}

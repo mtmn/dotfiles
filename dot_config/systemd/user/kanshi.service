@@ -1,0 +1,11 @@
+[Unit]
+Description=Dynamic output configuration for Wayland compositors
+Documentation=https://gitlab.freedesktop.org/emersion/kanshi
+
+[Service]
+Type=simple
+Environment=WAYLAND_DISPLAY=wayland-1
+ExecStart=/usr/bin/kanshi
+
+[Install]
+WantedBy=graphical-session.target

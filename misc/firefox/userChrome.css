@@ -1,0 +1,20 @@
+toolbarbutton.bookmark-item > .toolbarbutton-icon {
+  display: none !important;
+}
+
+* {
+  font-family: "Tamzen" !important;
+  font-size: 11px;
+}
+
+.urlbarView-url,
+.searchbar-textbox,
+#urlbar-input,
+.tab-label-container,
+.menu-text,
+.menu-iconic-text,
+.sidebar-placesTreechildren,
+#bookmarks-view treechildren,
+#historyTree treechildren {
+  font-family: "Tamzen" !important;
+}

@@ -1,3 +1,4 @@
 #!/bin/sh
+mkdir -p "$HOME"/misc/recordings
 wf-recorder -g "$(slurp)" -c libx264 -p ultrafast -f recording.mp4 --audio=alsa_output.pci-0000_07_00.6.HiFi__Speaker__sink.monitor.monitor
-mv recording.mp4 $HOME/misc/recordings/$(date +%s).mp4
+mv recording.mp4 "$HOME"/misc/recordings/"$(date +%s)".mp4

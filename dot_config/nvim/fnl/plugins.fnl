@@ -92,6 +92,7 @@
             ((. (require :mason-tool-installer) :setup) {:ensure_installed [:lua-language-server
                                                                             :vim-language-server
                                                                             :stylua
+                                                                            :expert
                                                                             :shellcheck
                                                                             :gofumpt
                                                                             :golines
@@ -113,10 +114,14 @@
                     :clangd {}
                     :fennel_ls {}
                     :dockerls {}
-                    :expert {}
                     :bashls {}
                     :rust_analyzer {}
                     :ruby-lsp {}
+                    :expert {:settings {:expert {:cmd [:expert]
+                                                 :root_markers [:mix.exs :.git]
+                                                 :filetypes [:elixir
+                                                             :eelixir
+                                                             :heex]}}}
                     :gopls {:settings {:gopls {:analyses {:unusedparams true}
                                                :staticcheck true
                                                :gofumpt true}}}
@@ -137,13 +142,8 @@
                                                        :plaintex
                                                        :tex]}}}})
             (each [server config (pairs servers)]
-              (vim.lsp.config server config))
+              (vim.lsp.enable server config))
             (local open-floating-preview vim.lsp.util.open_floating_preview)
-            (vim.lsp.config :expert
-                            {:cmd [:expert]
-                             :root_markers [:mix.exs :.git]
-                             :filetypes [:elixir :eelixir :heex]})
-            (vim.lsp.enable :expert)
             (set vim.lsp.util.open_floating_preview
                  (fn [contents syntax opts ...]
                    (local opts (or opts {}))

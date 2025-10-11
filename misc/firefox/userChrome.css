@@ -3,8 +3,8 @@ toolbarbutton.bookmark-item > .toolbarbutton-icon {
 }
 
 * {
-  font-family: "Tamzen" !important;
-  font-size: 11px;
+  font-family: "Comic Mono" !important;
+  font-size: 12px;
 }
 
 .urlbarView-url,
@@ -16,5 +16,5 @@ toolbarbutton.bookmark-item > .toolbarbutton-icon {
 .sidebar-placesTreechildren,
 #bookmarks-view treechildren,
 #historyTree treechildren {
-  font-family: "Tamzen" !important;
+  font-family: "Comic Mono" !important;
 }

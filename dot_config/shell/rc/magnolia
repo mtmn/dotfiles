@@ -4,7 +4,7 @@ alias rd='magnolia recent-dirs'
 alias rf='magnolia recent-files'
 
 fzf_down() {
-    fzf --height=40% "$@" --reverse
+    fzf --height=40% --reverse
 }
 
 fzf_log_directory_change() {
@@ -32,7 +32,7 @@ cd() {
 	builtin cd "$@" && fzf_log_directory_change "$1"
 }
 
-fg() {
+fgg() {
 	local ext="${file##*.}"
 	target_file=$(magnolia change-to-file "$@")
 	if [ -n "$target_file" ]; then

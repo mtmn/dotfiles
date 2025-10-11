@@ -1,0 +1,5 @@
+#!/bin/bash
+export HEADSCALE_CLI_ADDRESS=$(pass show headscale-cli-address)
+export HEADSCALE_CLI_API_KEY=$(pass show headscale-cli-api-key)
+
+headscale nodes list

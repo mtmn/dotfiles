@@ -43,7 +43,8 @@ riverctl map normal $mod+Shift h spawn "huemenu $dmenu_args"
 riverctl map normal $mod+Shift p spawn "passmenu $dmenu_args"
 riverctl map normal $mod+Shift l spawn "langmenu $dmenu_args"
 riverctl map normal $mod+Shift t spawn "tempmenu $dmenu_args"
-riverctl map normal $mod+Shift d spawn "cliphist list | sed 's/^[0-9]\+\s\+//' | dmenu -l 10 $dmenu_args | wl-copy"
+riverctl map normal $mod+Shift d spawn "cliphist list | sed 's/^[0-9]\+\s\+//; /^.$/d' | dmenu -l 10 $dmenu_args | wl-copy"
+
 riverctl map normal $mod+Shift s spawn "screenshot"
 
 riverctl map normal None XF86AudioMute spawn "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle && (wpctl get-volume @DEFAULT_AUDIO_SINK@ | grep -q MUTED && echo 0 > $wobsock) || wpctl get-volume @DEFAULT_AUDIO_SINK@ | sed 's/[^0-9]//g' > $wobsock"

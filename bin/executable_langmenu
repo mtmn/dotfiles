@@ -1,0 +1,31 @@
+#!/bin/sh
+set -e
+
+readonly CHOICES="en\nsk"
+readonly CHOSEN=$(echo -e "$CHOICES" | dmenu "$@")
+
+set_wayland_layout() {
+    case "$1" in
+        en) riverctl keyboard-layout us ;;
+        sk) riverctl keyboard-layout -variant qwerty sk ;;
+        *) echo "Error: Unknown layout '$1'" >&2; exit 1 ;;
+    esac
+}
+
+set_x11_layout() {
+    case "$1" in
+        en) setxkbmap us ;;
+        sk) setxkbmap sk qwerty ;;
+        *) echo "Error: Unknown layout '$1'" >&2; exit 1 ;;
+    esac
+}
+
+main() {
+    if [ -n "$WAYLAND_DISPLAY" ]; then
+        set_wayland_layout "$CHOSEN"
+    else
+        set_x11_layout "$CHOSEN"
+    fi
+}
+
+main "$@"

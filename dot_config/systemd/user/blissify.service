@@ -1,0 +1,19 @@
+[Unit]
+Description=Blissify Update Service
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=%h/bin/blissify update
+WorkingDirectory=%h
+Environment=MPD_HOST=127.0.0.1
+Environment=MPD_PORT=6695
+Restart=always
+RestartSec=10s
+StandardOutput=journal
+StandardError=journal
+MemoryHigh=3000M
+MemoryMax=3500M
+
+[Install]
+WantedBy=default.target

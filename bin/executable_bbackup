@@ -1,0 +1,124 @@
+#!/bin/bash
+declare -A dirs=(
+	["nota"]="$HOME/misc/notes/nota"
+	["obsidian"]="$HOME/misc/notes"
+	["pass"]="$HOME/.password-store"
+	["releases"]="$HOME/misc/notes/releases"
+	["dotfiles"]="$HOME/.local/share/chezmoi"
+)
+
+PUSH_FLAG=false
+BACKUP_TYPE=""
+
+for arg in "$@"; do
+	case "$arg" in
+	--push)
+		PUSH_FLAG=true
+		;;
+	*)
+		if [[ -z "$BACKUP_TYPE" ]]; then
+			BACKUP_TYPE="$arg"
+		fi
+		;;
+	esac
+done
+
+git_backup() {
+	local dir="$1"
+	git --git-dir="$dir"/.git --work-tree="$dir" add -A >/dev/null
+	git --git-dir="$dir"/.git --work-tree="$dir" commit -v
+	if [[ "$PUSH_FLAG" == true ]]; then git --git-dir="$dir"/.git --work-tree="$dir" push; fi
+}
+
+self="$0"
+
+backup_type="$1"
+age_pub_key=$(<$HOME/misc/random/age.pub)
+
+chezmoi_dir="$HOME/.local/share/chezmoi"
+mpd_dir="$HOME"/src/codeberg.org/mtmn/mpd
+
+if [[ -z "$backup_type" ]]; then
+	echo "Usage: $0 <backup_type>" >&2
+	exit 1
+fi
+
+case "$backup_type" in
+"all")
+	$self nota
+	$self obsidian
+	$self pass
+	$self releases
+	$self magnolia
+	$self mpd
+	$self nvim
+	$self twitch
+	$self maloja
+	;;
+"push")
+	$self nota --push
+	$self obsidian --push
+	$self pass --push
+	$self releases --push
+	$self mpd --push
+	;;
+"ls")
+	echo nota
+	echo obsidian
+	echo pass
+	echo releases
+	echo magnolia
+	echo mpd
+	echo nvim
+	echo twitch
+	echo maloja
+	;;
+
+"filen")
+	filen-cli sync
+	;;
+"magnolia")
+	age -r "$age_pub_key" "$HOME"/.magnolia.db >"$chezmoi_dir"/encrypted_dot_magnolia.db.age
+	chmod 644 "$chezmoi_dir"/encrypted_dot_magnolia.db.age
+	git --git-dir="$chezmoi_dir"/.git --work-tree="$chezmoi_dir" add -A >/dev/null
+	git --git-dir="$chezmoi_dir"/.git --work-tree="$chezmoi_dir" commit -m "chore: magnolia.db"
+	if [[ "$PUSH_FLAG" == true ]]; then git --git-dir="$dir"/.git --work-tree="$dir" push; fi
+	;;
+"mpd")
+	cp -r "$HOME/.config/mpd" "$mpd_dir"
+	git_backup "$mpd_dir"
+	;;
+"nvim")
+	for lang in fnl lua; do
+		cp -r "$HOME/.config/nvim/$lang" "$chezmoi_dir"/dot_config/nvim/
+		git --git-dir="$chezmoi_dir"/.git --work-tree="$chezmoi_dir" add -A >/dev/null
+	done
+	git --git-dir="$chezmoi_dir"/.git --work-tree="$chezmoi_dir" commit -v
+	if [[ "$PUSH_FLAG" == true ]]; then git --git-dir="$dir"/.git --work-tree="$dir" push; fi
+	;;
+"twitch")
+	age -r "$age_pub_key" "$HOME"/.config/twitch/channels >"$chezmoi_dir"/dot_config/twitch/encrypted_channels.age
+	chmod 644 "$chezmoi_dir"/dot_config/twitch/encrypted_channels.age
+	git --git-dir="$chezmoi_dir"/.git --work-tree="$chezmoi_dir" add -A >/dev/null
+	git --git-dir="$chezmoi_dir"/.git --work-tree="$chezmoi_dir" commit -m "chore: twitch"
+	if [[ "$PUSH_FLAG" == true ]]; then git --git-dir="$dir"/.git --work-tree="$dir" push; fi
+	;;
+"maloja")
+	rm $HOME/misc/random/malojadb.sqlite
+	for i in {1..3}; do http -h 'https://scrobbler.mtmn.name' && sleep 1; done
+	flyctl -a mtmn-maloja ssh sftp get /data/malojadb.sqlite $HOME/misc/random/malojadb.sqlite
+	age -r "$age_pub_key" "$HOME"/misc/random/malojadb.sqlite >"$chezmoi_dir"/misc/random/encrypted_malojadb.sqlite.age
+	chmod 644 "$chezmoi_dir"/misc/random/encrypted_malojadb.sqlite.age
+	git --git-dir="$chezmoi_dir"/.git --work-tree="$chezmoi_dir" add -A >/dev/null
+	git --git-dir="$chezmoi_dir"/.git --work-tree="$chezmoi_dir" commit -m "chore: maloja"
+	if [[ "$PUSH_FLAG" == true ]]; then git --git-dir="$dir"/.git --work-tree="$dir" push; fi
+	;;
+
+
+*)
+	if [[ -n "${dirs[$backup_type]}" ]]; then
+		echo "Backing up $backup_type"
+		git_backup "${dirs[$backup_type]}"
+	fi
+	;;
+esac

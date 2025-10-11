@@ -1,0 +1,89 @@
+#!/bin/sh
+
+alias cdg='cd "$(git rev-parse --show-toplevel)"'
+alias ng='nvim -c ":Neogit"'
+alias grab='git grab'
+
+alias gn='git number --column'
+alias ga='git number add'
+alias gb='git branch'
+alias gba='git branch -a'
+alias gc='git commit -v'
+alias gco='git checkout'
+alias gcp='git cherry-pick --strategy=recursive --strategy-option=diff-algorithm=histogram'
+alias gd='git diff --no-prefix'
+alias gl='git lg'
+alias gm='git merge'
+alias gmc='gm --no-ff'
+alias gp='git push'
+alias gs='git show --no-prefix'
+alias gst='git status'
+alias gref='git reflog --date=iso'
+
+gcm() {
+	git "${1?}" "${2?}"
+}
+
+submodel() {
+    if [ "$1" ]; then
+	git config -f .gitmodules --remove-section "submodule.$1"
+    else
+	echo "usage: submodel <name>"
+	cat ".gitmodules"
+    fi
+}
+
+submoadd() {
+    if [ "$1" ]; then
+	git submodule add "$1" "$2"
+    else
+	echo "usage: submoadd <git> <path>"
+    fi
+}
+
+gf() {
+    if [ "$1" ]; then
+        git fetch -p "$1"
+    else
+        git fetch -p --all
+    fi
+}
+
+gcopr() {
+    git fetch origin pull/"${1?need pr num}"/head:pr"$1" && gco pr"$1"
+}
+
+alias grr='git rebase -r'
+alias gri='grr -i'
+alias grim='gri master@{u}'
+alias grrm='grr master@{u}'
+alias gru='grr @{u}'
+alias gabs='git absorb --and-rebase'
+
+git_diff_merge_base() {
+    feature="${2-HEAD}"
+    gd "$(git merge-base "$1" "$feature")..$feature"
+}
+
+alias gdm='git_diff_merge_base master@{u}'
+alias gdmain='git_diff_merge_base main@{u}'
+alias gdd='git_diff_merge_base develop@{u}'
+alias gdu='gd @{u}..'
+alias gdc='gd --cached'
+alias gdw='gd --color-words'
+
+# Logs
+alias glm='gl master@{u}..'
+alias gld='gl develop@{u}..'
+alias glu='gl @{u}..'
+
+# Misc
+alias gap='ga -p'
+alias gbr='gb -r'
+alias gca='gc -a'
+alias gcaa='gca --amend'
+alias grh='git reset --hard'
+alias grhu='grh @{u}'
+alias gpf='gp -f'
+alias gu='gf && grrm'
+alias gcl='git clean -dffx'

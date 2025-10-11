@@ -1,0 +1,55 @@
+#!/bin/zsh
+
+# https://github.com/larkery/zsh-histdb
+source $HOME/.config/zsh/plugins/zsh-histdb/sqlite-history.zsh
+source $HOME/.config/zsh/plugins/zsh-histdb/histdb-interactive.zsh
+autoload -Uz add-zsh-hook
+bindkey '^r' _histdb-isearch
+
+# https://github.com/hlissner/zsh-autopair
+source $HOME/.config/zsh/plugins/zsh-autopair/autopair.zsh
+
+# https://github.com/skywind3000/z.lua
+source /usr/share/z.lua/z.lua.plugin.zsh
+
+# https://codeberg.org/mtmn/magnolia
+zle_fzf_change_dir() {
+    local target_dir
+    target_dir=$(magnolia change-to-dir)
+    
+    if [ -n "$target_dir" ]; then
+        cd "$target_dir"
+        
+        fzf_log_directory_change "$target_dir"
+        
+        zle reset-prompt
+    fi
+}
+
+zle_fzf_change_file() {
+    local target_file
+    target_file=$(magnolia change-to-file)
+    
+    if [ -n "$target_file" ]; then
+        $EDITOR "$target_file"
+        
+        fzf_log_file_open "$target_file"
+        
+        zle reset-prompt
+    fi
+}
+
+zle_fzf_freq_dir() {
+    # ~/.config/shell/rc/magnolia
+    g && zle reset-prompt 2>/dev/null || true
+}
+
+zle -N zle_fzf_change_dir
+zle -N zle_fzf_change_file
+zle -N zle_fzf_freq_dir
+
+bindkey '^K' 'zle_fzf_change_dir'
+bindkey '^H' 'zle_fzf_change_file'
+bindkey '^G' 'zle_fzf_freq_dir'
+
+source $HOME/.config/zsh/plugins/twitch

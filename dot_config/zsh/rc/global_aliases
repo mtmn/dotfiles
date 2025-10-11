@@ -1,0 +1,11 @@
+#!/bin/zsh
+alias -g VV=' |& vim -'
+alias -g LL=' |& less'
+alias -g GG=' |& grep'
+alias -g WW=' |& wc -l'
+
+if [[ -n "$WAYLAND_DISPLAY" ]]; then
+    alias -g CC=' |& wl-copy'
+else
+    alias -g CC=' |& xclip -sel clip'
+fi

@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+qemu-system-x86_64 -M q35,usb=on,acpi=on,hpet=off -m 2G \
+  -cpu host,hv_relaxed,hv_frequencies,hv_vpindex,hv_ipi,hv_tlbflush,hv_spinlocks=0x1fff,hv_synic,hv_runtime,hv_time,hv_stimer,hv_vapic \
+  -smp cores=2 -accel kvm -drive file="$HOME"/misc/random/win7.qcow2 -device usb-tablet \
+  -device VGA,vgamem_mb=128 -nic user,model=e1000 -monitor stdio \
+  -device usb-ehci,id=ehci \
+  -device usb-host,bus=ehci.0,vendorid=0x0781,productid=0x5588 \
+  -audiodev pipewire,id=snd0 -device intel-hda -device hda-duplex,audiodev=snd0

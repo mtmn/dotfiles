@@ -1,0 +1,4 @@
+#!/bin/sh
+BRIGHTNESS=$(gum choose $(seq 100 -10 0))
+
+ddcutil --bus "6" setvcp 10 "$BRIGHTNESS"

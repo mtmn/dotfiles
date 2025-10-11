@@ -1,0 +1,6 @@
+[Unit]
+Description = No Swap but HVT for OOM
+[Slice]
+MemorySwapMax = 0
+[Service]
+OOMScoreAdjust = 1000

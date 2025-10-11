@@ -1,0 +1,4 @@
+.filenignore
+
+/dot_config/nvim/lua/
+/dot_config/nvim/fnl/secrets.fnl

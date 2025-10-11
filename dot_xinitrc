@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+to_export=(DISPLAY XAUTHORITY PATH GTK_IM_MODULE QT_IM_MODULE XMODIFIERS)
+
+systemctl --user import-environment "${to_export[@]}"
+dbus-update-activation-environment "${to_export[@]}"
+
+"${WM:-spectrwm}" > "/tmp/$WM-$USER.log" 2>&1

@@ -1,0 +1,15 @@
+#!/bin/bash
+
+inotifywait -m -e create,moved_to --format '%w%f' --include '.*ff\.html$' "$HOME"/Downloads |
+	while IFS= read -r fullpath; do
+		filename=$(basename "$fullpath")
+
+		if [[ -f "$fullpath" ]]; then
+			cat "$fullpath" | "$HOME"/bin/html2markdown | tee "$HOME/misc/notes/www/${filename}.md" >/dev/null
+			mkdir -p "$HOME"/misc/notes/www/html
+			mv "$fullpath" "$HOME"/misc/notes/www/html
+			echo "Processed: $filename"
+		else
+			echo "File not found: $fullpath"
+		fi
+	done

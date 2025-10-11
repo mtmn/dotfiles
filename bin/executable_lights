@@ -1,0 +1,499 @@
+#!/usr/bin/env ruby
+
+require 'lights'
+require 'optparse'
+require 'simpletable'
+
+LIGHTS_CONFIG_PATH = "#{ENV["HOME"]}/.lightsconfig"
+
+class LightsCli
+
+  def initialize
+    @config = {}
+    if File.exist? LIGHTS_CONFIG_PATH
+      @config = JSON.parse( IO.read( LIGHTS_CONFIG_PATH ) )
+    end
+  end
+
+  def configured?
+    @config["username"] && @config["bridge_ip"]
+  end
+
+  def ip_configured?
+    @config["bridge_ip"]
+  end
+  
+  def config
+    options = {}
+    OptionParser.new do |opts|
+      opts.on("-i", "--ip <bridge ip>", String, "Bridge ip address"){|ip| options[:ip]=ip}
+      opts.on("-f", "--force", "Force write to config file"){|f| options[:force]=f}
+      opts.on("-l", "--list", "List saved configuration settings") {|l| options[:list]=l}
+    end.parse!
+ 
+    unless options[:ip] || options[:list]
+      puts "usage:"
+      puts "  #{File.basename(__FILE__)} config (--ip <bridge IP> | --list)"
+      exit 1
+    end
+ 
+    if options[:list]
+      @config.each { |k,v| puts "#{k}: #{v}" }
+    else
+      if !options[:force] && File.exist?(LIGHTS_CONFIG_PATH)
+        overwrite = ""
+        while overwrite[0] != "y" \
+                && overwrite[0] != "Y" \
+                && overwrite[0] != "n" \
+                && overwrite[0] != "N" \
+                && overwrite[0] != "\n"
+          print "Lights config already exists. Overwrite? [Y/n]: "
+          overwrite = STDIN.gets
+        end
+        overwrite.upcase!
+        if overwrite[0] == "N"
+          exit
+        end
+      end
+  
+      @config["bridge_ip"] = options[:ip] || @config["bridge_ip"]
+  
+      write_config
+      puts "Configuration settings saved."
+    end
+  end
+ 
+  def create
+    type = ARGV.shift
+    hue = Lights.new @config["bridge_ip"], @config["username"]
+    options = {}    
+
+    case type
+    when "scene"
+      OptionParser.new do |opts|
+        opts.on("-l", "--lights 1,2,...N", Array, "Which lights are in the scene"){|l| options[:lights]=l}
+        opts.on("-n", "--name <name>", String, "Set scene name"){|n| options[:name]=n}
+        opts.on("-r", "--recycle", "Can bridge recycle scene"){|r| options[:recycle]=r}
+        opts.on("-d", "--duration seconds", OptionParser::DecimalInteger, "Transition duration in seconds"){|d| options[:duration]=d}
+      end.parse!
+
+      if !options[:lights]
+        puts "Must specify which lights are in the scene."
+        exit 1
+      end
+      if !options[:name]
+        puts "Must specify scene name."
+        exit 1
+      end
+
+      s = Scene.new
+      s.name = options[:name]
+      s.lights = options[:lights]
+      s.recycle = options[:recycle] || false
+      s.transition_time = options[:duration]
+      hue.create_scene s
+    when "group"
+      OptionParser.new do |opts|
+        opts.on("-l", "--lights 1,2,...N", Array, "Which lights to put in group"){|l| options[:lights]=l}
+        opts.on("-n", "--name <name>", String, "Set group name"){|n| options[:name]=n}
+      end.parse!
+      
+      if !options[:lights]
+        puts "Must specify which lights to group."
+        exit 1
+      end
+      if !options[:name]
+        puts "Must specify group name."
+        exit 1
+      end
+
+      group = Group.new
+      group.name = options[:name]
+      group.lights = options[:lights] 
+      hue.create_group(group)   
+    when nil
+      STDERR.puts "Must specify a type to create."
+    else
+      STDERR.puts "Don't know how to create type \"#{type}\"."
+    end
+  end
+
+  def edit
+    type = ARGV.shift
+    hue = Lights.new @config["bridge_ip"], @config["username"]
+    options = {}
+
+    case type
+    when "light"
+      id = ARGV.shift
+      if !id
+        puts "Must specify light id."
+        exit 1
+      end
+
+      OptionParser.new do |opts|
+        opts.on("--name", "--name <name>", String, "Set light name"){|n| options[:name]=n}
+      end.parse!
+      if !options[:name]
+        puts "Must specify new light name."
+        exit 1
+      end
+
+      light = Bulb.new(id,{"name"=>options[:name]})
+      hue.edit_bulb light
+    when "group"
+      id = ARGV.shift
+      if !id
+        puts "Must specify group id."
+        exit 1
+      end
+
+      OptionParser.new do |opts|
+        opts.on("--name", "--name <name>", String, "Set light name"){|n| options[:name]=n}
+        opts.on("-l", "--lights 1,2,...N", Array, "Which lights to put in group"){|l| options[:lights]=l}
+      end.parse!
+      if !options[:name] && !options[:lights]
+        puts "Must specify a value to edit."
+        exit 1
+      end
+      group = Group.new(id)
+      group.name = options[:name] if options[:name]
+      group.lights = options[:lights] if options[:lights]
+      hue.edit_group group
+    when nil
+      STDERR.puts "Must specify a type to edit."
+    else
+      STDERR.puts "Don't know how to edit type \"#{type}\"."
+    end
+  end
+
+  def delete
+    type = ARGV.shift
+    hue = Lights.new @config["bridge_ip"], @config["username"]
+
+    case type
+    when "group"
+      id = ARGV.shift
+
+      if !id
+        puts "Must specify group id."
+        exit 1
+      end
+
+      hue.delete_group id
+    when "user"
+      id = ARGV.shift
+
+      if !id
+        puts "Must specify user id."
+        exit 1
+      end
+
+      hue.delete_user id
+    when "scene"
+      id = ARGV.shift
+
+      if !id
+        puts "Must specify scene id."
+        exit 1
+      end
+
+      hue.delete_scene id
+    when nil
+      STDERR.puts "Must specify a type to delete."
+    else
+      STDERR.puts "Don't know how to delete type \"#{type}\"."
+    end
+  end
+ 
+  def list
+    hue = Lights.new @config["bridge_ip"], @config["username"]
+    titles = []
+    methods = []
+
+    options = {}
+    OptionParser.new do |opts|
+      opts.on("-j", "--json", "Print JSON response"){|j| options[:json] = j}
+      opts.on("-n", "--new", "Only list new"){|n| options[:new] = n}
+    end.parse!
+
+    type = ARGV.shift
+    case type
+    when nil, "","lights"
+      response = options[:new] ? hue.request_new_bulb_list : hue.request_bulb_list
+      objects = BulbList.new(response)
+      titles = ["ID","NAME","REACHABLE?"]
+      methods = [:id,:name,[:state,:reachable]]
+    when "sensors"
+      response = options[:new] ? hue.request_new_sensor_list : hue.request_sensor_list
+      objects = SensorList.new(response)
+      titles = ["ID","NAME"]
+      methods = [:id,:name]
+    when "groups"
+      response = hue.request_group_list
+      objects = GroupList.new(response)
+      titles = ["ID","NAME","LIGHTS"]
+      methods = [:id,:name,:lights]
+    when "scenes"
+      response = hue.request_scene_list
+      objects = SceneList.new(response)
+      titles = ["ID","NAME","LIGHTS","RECYCLE"]
+      methods = [:id,:name,:lights,:recycle]
+    when "users"
+      response = hue.request_config
+      objects = UserList.new(response["whitelist"])
+      titles = ["ID","NAME","CREATE DATE","LAST USE DATE"]
+      methods = [:id,:name,:create_date,:last_use_date]
+    when "rules"
+      response = hue.request_rules
+      objects = RuleList.new(response)
+      titles = ["ID","NAME"]
+      methods = [:id,:name]
+    when "schedules"
+      response = hue.request_schedules
+      objects = ScheduleList.new(response)
+      titles = ["ID","NAME","TIME","SCENE","STATUS"]
+      methods = [:id,:name,:time,:scene,:status]
+    when "datastore"
+      response = hue.request_datastore
+      objects = Datastore.new(response)
+      titles = ["TYPE","ID","NAME"]
+      methods = [:class,:id,:name]
+    else
+      puts "Don't know how to list type \"#{type}\"."
+      return
+    end
+    if options[:json]
+      puts JSON.pretty_generate objects.data
+    else
+      puts SimpleTable.new.from_objects(objects.list,titles,methods).text
+    end
+  end
+  
+  def register
+    lights = Lights.new @config["bridge_ip"], @config["username"]
+    response = lights.register
+    @config["username"] = lights.username
+    write_config
+  end
+
+  def discover 
+    options = {}
+    OptionParser.new do |opts|
+      opts.on("-s", "--save", "Save discovered bridge to configuration file"){|s| options[:save]=s}
+    end.parse!
+
+    lights = Lights.new @config["bridge_ip"], @config["username"]
+    bridges = lights.discover_hubs
+    bridges.each_with_index { |b,i| puts "[#{i+1}] #{b.name}: #{b.ip}" }
+
+    if options[:save] && bridges.length >= 1
+      if bridges.length > 1
+        which_bridge = -1
+        while !(which_bridge >=0 && which_bridge <= bridges.length)
+          print "Which bridge would you like to save? (0 for none): "
+          which_bridge = Integer( gets ) rescue -1 
+        end
+      else
+        which_bridge = 1
+      end
+      if which_bridge != 0
+        @config["bridge_ip"] = bridges[which_bridge.to_i-1].ip
+        write_config
+        puts "Discovered bridge IP saved: #{bridges[which_bridge-1].ip}"
+      end
+    elsif bridges.length == 0
+      puts "Did not discover any bridges."
+    end
+  end
+
+  def on
+    on_off true
+  end
+
+  def off
+    on_off false
+  end
+
+  def set
+    options = {}
+    OptionParser.new do |opts|
+      opts.on("-o", "--on", "Turn lights on"){|o| options[:on]=o}
+      opts.on("-f", "--off", "Turn lights off"){|f| options[:off]=f}
+      opts.on("-c", "--color <red|blue|purple|yellow|green|lgreen>", String, "Set color"){|c| options[:color]=c}
+      opts.on("-t", "--ct color_temp", OptionParser::DecimalInteger, "Set color temperature"){|c| options[:ct]=c}
+      opts.on("-b", "--brightness brightness", OptionParser::DecimalInteger, "Set brightness"){|b| options[:brightness]=b}
+      opts.on("-s", "--saturation saturation", OptionParser::DecimalInteger, "Set saturation"){|s| options[:saturation]=s}
+      opts.on("-h", "--hue hue", OptionParser::DecimalInteger, "Set hue"){|h| options[:hue]=h}
+      opts.on("-e", "--effect none|colorloop", String, "Set effect"){|e| options[:effect]=e}
+      opts.on("-a", "--alert none|select|lselect", String, "Set alert"){|a| options[:alert]=a}
+      opts.on("-z", "--xy x,y", Array, "Set xy"){|z| options[:xy]=z}
+      opts.on("-l", "--lights 1,2,...N", Array, "Which lights to control"){|l| options[:lights]=l}
+      opts.on("-g", "--groups 1,2,...N", Array, "Which groups to control"){|g| options[:groups]=g}
+      opts.on("-S", "--scene <id>", String, "Which scene to recall"){|s| options[:scene]=s}
+      opts.on("-d", "--duration seconds", OptionParser::DecimalInteger, "Transition duration in seconds"){|d| options[:duration]=d}
+    end.parse!
+
+    bad_args = false
+    if !options[:on] && !options[:off] \
+        && !options[:ct] && !options[:brightness] \
+        && !options[:hue] && !options[:saturation] \
+        && !options[:effect] && !options[:alert] \
+        && !options[:xy] && !options[:color] \
+        && !options[:scene]
+      puts "Must specify a state to set."
+      bad_args = true
+    end
+    if (options[:hue] || options[:saturation]) \
+        && options[:ct]
+      puts "Cannot set both color temperature and hue/saturation."
+      bad_args = true
+    end
+    exit 1 if bad_args    
+   
+    s = GroupState.new
+    if options[:on]
+      s.on = true
+    elsif options[:off]
+      s.on = false
+    end
+    if options[:color]
+      begin
+        s.hue = BulbState::Hue.const_get options[:color].upcase
+      rescue NameError
+        puts "Unrecognized color: #{options[:color]}"
+        exit 1
+      end
+    end
+    if options[:ct]
+      s.ct = options[:ct]
+    end 
+    if options[:brightness]
+      s.bri = options[:brightness]
+    end
+    if options[:saturation]
+      s.sat = options[:saturation]
+    end
+    if options[:hue]
+      s.hue = options[:hue]
+    end
+    if options[:effect]
+      s.effect = options[:effect]
+    end
+    if options[:duration]
+      s.transition_time = options[:duration] * 10
+    end
+    if options[:alert]
+      s.alert = options[:alert]
+    end
+    if options[:xy]
+      s.xy = options[:xy]
+    end
+    if options[:scene]
+      s.scene = options[:scene]
+    end
+
+    if options[:lights]
+      set_bulb_state(s,options[:lights])
+    elsif options[:groups]
+      set_group_state(s,options[:groups])
+    else
+      set_group_state(s,[0])
+    end
+  end
+
+  def search
+    lights = Lights.new @config["bridge_ip"], @config["username"]
+    response = lights.search_new
+    if response.first["success"]
+      puts "Started search."
+    else
+      puts "Unknown error. Did not begin search."
+    end
+  end
+
+private
+  def set_bulb_state(state,bulbs)
+    lights = Lights.new @config["bridge_ip"], @config["username"]
+    if bulbs.first == "all"
+      lights.set_group_state 0,state
+    else
+      bulbs.each { |l| lights.set_bulb_state(l,state) }
+    end 
+  end
+  
+  def set_group_state(state,groups)
+    hue = Lights.new @config["bridge_ip"], @config["username"]
+    groups.each { |g| hue.set_group_state(g,state) }
+  end
+
+  def write_config
+    File.open(LIGHTS_CONFIG_PATH,"w+") { |file| file.write(@config.to_json) }
+  end
+
+  def on_off(is_on)
+    options = {}
+    OptionParser.new do |opts|
+      opts.on("-l", "--lights 1,2,...N", Array, "Which lights to control"){|l| options[:lights]=l}
+    end.parse!
+
+    options[:lights] = ["all"] if !options[:lights]
+
+    s = BulbState.new
+    s.on = is_on
+    set_bulb_state s, options[:lights]
+  end
+end
+
+  
+if !ARGV[0]
+  STDERR.puts "Must specify a command. (config, list, register, discover, search, on, off, set, create, edit, delete)"
+  exit 1
+end
+
+begin
+  cli = LightsCli.new
+  command = ARGV.shift
+  if command == "config"
+    cli.config
+  elsif command == "discover"
+    cli.discover
+  elsif !cli.ip_configured?
+    puts "Please run 'lights discover -s' or 'lights config --ip <IP>' before using."
+  elsif command == "register"
+    cli.register
+  elsif !cli.configured?
+    puts "Please run 'lights register' before using."
+  elsif command == "list"
+    cli.list
+  elsif command == "on"
+    cli.on
+  elsif command == "off"
+    cli.off
+  elsif command == "set"
+    cli.set
+  elsif command == "create"
+    cli.create
+  elsif command == "delete"
+    cli.delete
+  elsif command == "edit"
+    cli.edit
+  elsif command == "search"
+    cli.search
+  else
+    puts "Cannot find command #{command}."
+  end
+rescue BridgeConnectException,
+        UsernameException,
+        ResourceUnavailableException,
+        ParameterUnavailableException,
+        BulbStateValueOutOfRangeException,
+        BulbStateValueTypeException => e
+  puts e.message
+rescue Errno::ENETUNREACH, Errno::ENETDOWN
+  puts "Please check your internet connection and try again."
+rescue Interrupt
+  puts ""
+end
+
+

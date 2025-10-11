@@ -1,0 +1,149 @@
+#!/bin/zsh
+set -e
+generate_choices() {
+    local choices=(
+        "work"
+        "sleep"
+    )
+    printf '%s\n' "${choices[@]}" | tr '\n' '\n' | sed ':a;N;$!ba;s/\n/\\n/g'
+}
+
+generate_color_choices() {
+    local choices=(
+        "relax"
+        "concentrate"
+        "reading"
+        "dimmed"
+        "skip"
+        "off"
+    )
+    printf '%s\n' "${choices[@]}" | tr '\n' '\n' | sed ':a;N;$!ba;s/\n/\\n/g'
+}
+
+readonly CHOICES="$(generate_choices)"
+readonly COLOR_CHOICES="$(generate_color_choices)"
+
+generate_brightness_choices() {
+    local choices=""
+    for i in $(seq 100 -10 10); do
+        if [ -z "$choices" ]; then
+            choices="${i}%"
+        else
+            choices="${choices}\\n${i}%"
+        fi
+    done
+    echo "$choices"
+}
+
+readonly BRIGHTNESS_CHOICES="$(generate_brightness_choices)"
+
+ruby_set() {
+    eval "$(rbenv init - --no-rehash zsh)"
+    rbenv shell 2.4.10
+}
+ruby_unset() {
+    rbenv shell --unset
+}
+hue_command() {
+    local light="$1"
+    local command="$2"
+    local value="$3"
+    
+    if ! hue "$@"; then
+        echo "Error: Failed to execute hue command: $*" >&2
+        return 1
+    fi
+}
+set_lighting() {
+    local light="$1"
+    local color="$2"
+    local brightness="$3"
+    
+    if [ "$color" != "skip" ]; then
+        if ! hue_command light "$light" "$color"; then
+            echo "Warning: Failed to set color '$color' for light $light" >&2
+        fi
+    fi
+    
+    if [ "$brightness" != "skip" ]; then
+        if ! hue_command "$light" brightness "$brightness"; then
+            echo "Warning: Failed to set brightness '$brightness' for light $light" >&2
+        fi
+    fi
+}
+turn_off_light() {
+    local light="$1"
+    
+    if ! hue_command "$light" off; then
+        echo "Warning: Failed to turn off light $light" >&2
+    fi
+}
+get_menu_choice() {
+    local choices="$1"
+    local prompt="$2"
+    shift 2
+    
+    echo -e "$choices" | dmenu "$@"
+}
+main() {
+    local chosen color_chosen brightness_chosen
+    
+    chosen=$(get_menu_choice "$CHOICES" "Mode:" "$@") || {
+        echo "Error: No mode selected or menu cancelled" >&2
+        exit 1
+    }
+    
+    [ -z "$chosen" ] && {
+        echo "Error: Empty mode selection" >&2
+        exit 1
+    }
+    
+    color_chosen=$(get_menu_choice "$COLOR_CHOICES" "Color:" "$@") || {
+        echo "Error: No color selected or menu cancelled" >&2
+        exit 1
+    }
+    
+    [ -z "$color_chosen" ] && {
+        echo "Error: Empty color selection" >&2
+        exit 1
+    }
+    
+    if [ "$color_chosen" != "off" ]; then
+        brightness_chosen=$(get_menu_choice "$BRIGHTNESS_CHOICES" "Brightness:" "$@") || {
+            echo "Error: No brightness selected or menu cancelled" >&2
+            exit 1
+        }
+        
+        [ -z "$brightness_chosen" ] && {
+            echo "Error: Empty brightness selection" >&2
+            exit 1
+        }
+    fi
+    
+    ruby_set
+    
+    case "$chosen" in
+        work)
+            if [ "$color_chosen" = "off" ]; then
+                turn_off_light 2
+            else
+                set_lighting 2 "$color_chosen" "$brightness_chosen"
+            fi
+            ;;
+        sleep)
+            if [ "$color_chosen" = "off" ]; then
+                turn_off_light 1
+            else
+                set_lighting 1 "$color_chosen" "$brightness_chosen"
+            fi
+            ;;
+        *)
+            echo "Error: Unknown mode '$chosen'" >&2
+            ruby_unset
+            exit 1
+            ;;
+    esac
+    
+    ruby_unset
+}
+main "$@"

@@ -1,0 +1,11 @@
+#!/bin/sh
+export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS \
+--highlight-line \
+--ansi \
+--height=40% \
+--border=none \
+--color=bg:-1,bg+:#1e1e1e,spinner:#2fafff \
+--color=fg:#ffffff,header:#2fafff,info:#989898,pointer:#2fafff \
+--color=marker:#feacd0,fg+:#ffffff,prompt:#2fafff,hl:#44bc44 \
+--color=hl+:#44bc44,gutter:-1,selected-bg:#1e1e1e \
+"

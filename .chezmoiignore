@@ -1,0 +1,15 @@
+*filenignore*
+README
+
+.magnolia.db
+
+.zlua
+.z
+
+misc/random/malojadb.sqlite
+bin/make-cover
+hack/
+
+.config/zsh/plugins/zsh-histdb/histdb-migrate
+.config/nvim/lua
+.config/gtk-2.0

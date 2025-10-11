@@ -1,0 +1,12 @@
+#!/bin/sh
+
+output=$(
+    # Mediocre escaping for notify-send
+    NOTA_READ_ONLY=1 nota todo |
+        sed -e 's/</\&lt;/g' -e 's/>/\&gt;/g' -e 's/&/\&amp;/g'
+)
+
+if [ "$output" ]; then
+    notify-send -- "You still have items on today's TODO list" "$output"
+fi
+

@@ -61,6 +61,8 @@ alias symlinks='fd --type symlink'
 
 alias laptop-only='wlr-randr --output DP-1 --toggle && wlr-randr --output eDP-1 --toggle'
 
+alias tfg='tailscale file get ~/Downloads'
+
 ta() {
 	session="${1:=magnolia}"
 	

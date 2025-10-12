@@ -102,7 +102,7 @@ riverctl map normal $mod+Shift Tab send-to-previous-tags
 riverctl xcursor-theme default 16
 
 pcmanfm-qt --daemon-mode &
-swaybg -m fill -i $HOME/misc/wallpapers/05.jpg &
+swaybg -m fit -c "#000000" -i "$HOME"/misc/wallpapers/09.jpg &
 
 services_to_start=(
     "batsignal"

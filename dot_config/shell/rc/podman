@@ -1,0 +1,9 @@
+#!/bin/sh
+alias pcu='sudo podman-compose up'
+alias pcud='sudo podman-compose up -d'
+
+alias pcdo='sudo podman-compose down'
+alias pcst='sudo podman-compose stop'
+
+alias pcbu='sudo podman-compose build'
+alias pcbuno='sudo podman-compose build --no-cache'

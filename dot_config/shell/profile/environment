@@ -12,8 +12,6 @@ export NSS_DEFAULT_DB_TYPE=sql
 export BC_ENV_ARGS="$HOME/.config/bcrc"
 export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
 export GRAB_HOME="$HOME/src"
-export MPD_HOST="127.0.0.1"
-export MPD_PORT="6695"
 export LEDGER_FILE="$HOME/misc/random/hledger/2025.journal"
 export GOPATH="$HOME/src/misc/go"
 

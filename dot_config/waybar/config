@@ -77,7 +77,7 @@
       "interval":10
    },
    "custom/waybat":{
-      "exec":"~/bin/rs-waybat",
+      "exec":"~/bin/waybat",
       "format":"{}",
       "interval":10
    }

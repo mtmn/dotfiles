@@ -109,7 +109,7 @@ g() {
         "$HOME/src/github.com"
         "$HOME/src/codeberg.org"
         "$HOME/src/codeberg.org/mtmn"
-        "$HOME/src/codeberg.org/mtmn/fly"
+        "$HOME/src/codeberg.org/mtmn/straw"
         "$HOME/.local/share/chezmoi"
         "$HOME/.config"
         "$HOME/Downloads"

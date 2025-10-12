@@ -50,6 +50,7 @@ alias hla='hledger iadd'
 
 alias foo='fooyin .'
 alias ncm='ncmpcpp'
+alias dig='mpc status | tee -a $HOME/misc/notes/nota/digging.md | wl-copy'
 
 alias nb='newsboat'
 alias nbe='vim $HOME/.config/newsboat/urls'

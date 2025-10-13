@@ -66,6 +66,8 @@ alias laptop-only='wlr-randr --output DP-1 --toggle && wlr-randr --output eDP-1 
 
 alias tfg='tailscale file get ~/Downloads'
 
+alias qcalc='xdg-open $HOME/misc/random/qcalc.html'
+
 ta() {
 	session="${1:=magnolia}"
 	
@@ -82,20 +84,6 @@ ta() {
 
 u() {
 	for a in *.zip; do unzip "$a" -d "${a%.zip}"; done
-}
-
-erg() {
-    $EDITOR \
-      +'/\v'"${1/\//\\/}" \
-      +':silent tabdo :1 | normal! n' \
-      +':tabfirst' \
-      -p $(rg "$@" | cut -d: -f1 | sort -u)
-}
-
-efd() {
-    $EDITOR \
-      +':tabfirst' \
-      -p $(fd "$@")
 }
 
 hmark() {
@@ -118,8 +106,8 @@ cheadd() {
 	file="${1?}"
 	dir=$(pwd)
 	chezmoi add "$dir"/"$file"
-	git --git-dir=$repo/.git --work-tree=$repo add -A
-	git --git-dir=$repo/.git --work-tree=$repo commit -v
+	git --git-dir="$repo"/.git --work-tree="$repo" add -A
+	git --git-dir="$repo"/.git --work-tree="$repo" commit -v
 }
 
 cheadde() {
@@ -127,8 +115,8 @@ cheadde() {
 	file="${1?}"
 	dir=$(pwd)
 	chezmoi add --encrypt "$dir"/"$file"
-	git --git-dir=$repo/.git --work-tree=$repo add -A
-	git --git-dir=$repo/.git --work-tree=$repo commit -m "who knows"
+	git --git-dir="$repo"/.git --work-tree="$repo" add -A
+	git --git-dir="$repo"/.git --work-tree="$repo" commit -m "who knows"
 }
 
 chediff() {
@@ -195,7 +183,8 @@ zlo() {
 
 bat() {
 	_get_bat() {
-		local name=$1 mac=$2
+		name="$1"
+		mac="$2"
 		bluetoothctl info "$mac" | awk -v name="$name" '/Battery Percentage:/ {battery=$NF; gsub(/[^0-9]/, "", battery)} END {printf "%s %s%%\n", name, battery}'
 	}
 	case "$1" in
@@ -225,9 +214,9 @@ bat() {
 }
 
 sort_keep_timestamp() {
-    local file="$1"
-    local atime=$(stat -c %x "$file")
-    local mtime=$(stat -c %y "$file")
+    file="$1"
+    atime=$(stat -c %x "$file")
+    mtime=$(stat -c %y "$file")
     
     sort -u "$file" -o "$file"
 

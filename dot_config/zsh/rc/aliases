@@ -1,0 +1,14 @@
+#!/bin/zsh
+erg() {
+    $EDITOR \
+      +'/\v'"${1/\//\\/}" \
+      +':silent tabdo :1 | normal! n' \
+      +':tabfirst' \
+      -p $(rg "$@" | cut -d: -f1 | sort -u)
+}
+
+efd() {
+    $EDITOR \
+      +':tabfirst' \
+      -p $(fd "$@")
+}

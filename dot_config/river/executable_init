@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 set -x
 
 mod="Mod4"
@@ -43,7 +43,7 @@ riverctl map normal $mod+Shift h spawn "huemenu $dmenu_args"
 riverctl map normal $mod+Shift p spawn "passmenu $dmenu_args"
 riverctl map normal $mod+Shift l spawn "langmenu $dmenu_args"
 riverctl map normal $mod+Shift t spawn "tempmenu $dmenu_args"
-riverctl map normal $mod+Shift d spawn "cliphist list | sed 's/^[0-9]\+\s\+//; /^.$/d' | dmenu -l 10 $dmenu_args | wl-copy"
+riverctl map normal $mod+Shift d spawn "cliphist list | sed 's/^[0-9]\+\s\+//; /^.$/d' | uniq | dmenu -l 10 $dmenu_args | wl-copy"
 
 riverctl map normal $mod+Shift s spawn "screenshot"
 

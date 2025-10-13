@@ -38,6 +38,7 @@ age_pub_key=$(<"$HOME"/misc/random/age.pub)
 
 if [[ -z "$backup_type" ]]; then
 	echo "Usage: $0 <backup_type>" >&2
+	$self ls
 	exit 1
 fi
 

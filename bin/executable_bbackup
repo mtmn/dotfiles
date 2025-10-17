@@ -1,5 +1,6 @@
 #!/bin/bash
 declare -A dirs=(
+	["mpd"]="$HOME/.config/mpd"
 	["nota"]="$HOME/misc/notes/nota"
 	["obsidian"]="$HOME/misc/notes"
 	["pass"]="$HOME/.password-store"

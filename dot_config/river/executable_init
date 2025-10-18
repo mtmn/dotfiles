@@ -6,7 +6,7 @@ alt="Mod1"
 term="foot"
 
 wobsock="$XDG_RUNTIME_DIR/wob.sock"
-dmenu_args="-fn 'Cozette-12' -nb '#000000' -nf '#B0B0B0' -sb '#1a1a1a' -sf '#B0B0B0'"
+dmenu_args="-l 10 -fn 'Cozette-12' -nb '#000000' -nf '#B0B0B0' -sb '#1a1a1a' -sf '#B0B0B0'"
 
 rivertile -view-padding 0 -outer-padding 0 -main-ratio 0.55 &
 
@@ -19,6 +19,8 @@ riverctl set-repeat 50 300
 riverctl default-layout rivertile
 
 riverctl input "pointer-1189-32769-BenQ_ZOWIE_BenQ_ZOWIE_Gaming_Mouse" pointer-accel 0.0
+riverctl input "pointer-1133-45108-Logitech_MX_Master_3S" pointer-accel 0.0
+riverctl input "pointer-1133-16500-Logitech_G305" pointer-accel 0.0
 
 riverctl attach-mode top
 riverctl focus-follows-cursor normal
@@ -45,7 +47,7 @@ riverctl map normal $mod+Shift h spawn "huemenu $dmenu_args"
 riverctl map normal $mod+Shift p spawn "passmenu $dmenu_args"
 riverctl map normal $mod+Shift l spawn "langmenu $dmenu_args"
 riverctl map normal $mod+Shift t spawn "tempmenu $dmenu_args"
-riverctl map normal $mod+Shift d spawn "cliphist list | sed 's/^[0-9]\+\s\+//; /^.$/d' | uniq | dmenu -l 10 $dmenu_args | wl-copy"
+riverctl map normal $mod+Shift d spawn "cliphist list | sed 's/^[0-9]\+\s\+//; /^.$/d' | uniq | dmenu $dmenu_args | wl-copy"
 
 riverctl map normal $mod+Shift s spawn "screenshot"
 

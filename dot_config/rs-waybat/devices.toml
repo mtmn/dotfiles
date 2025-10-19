@@ -11,10 +11,6 @@ device_type = "bluetooth"
 mac = "98:7A:14:C9:9A:90"
 device_type = "bluetooth"
 
-[devices.bit]
-mac="98:7A:14:C9:9A:90"
-device_type = "bluetooth"
-
 # [devices.mx]
 # mac = "D5:E4:1B:10:D6:75"
 # device_type = "bluetooth"

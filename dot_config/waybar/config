@@ -73,6 +73,7 @@
    },
    "custom/gammastep":{
       "exec":"~/.config/waybar/scripts/gammastep-status.sh",
+      "on-click-middle":"pkill gammastep",
       "format":"{}",
       "interval":10
    },

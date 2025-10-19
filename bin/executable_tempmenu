@@ -2,8 +2,8 @@
 set -e
 
 generate_choices() {
-    echo "off"
     seq 6000 -500 1000 
+    echo "off"
 }
 
 CHOICES="$(generate_choices | tr '\n' '\n' | sed ':a;N;$!ba;s/\n/\\n/g')"

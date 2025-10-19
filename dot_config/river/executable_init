@@ -6,7 +6,7 @@ alt="Mod1"
 term="foot"
 
 wobsock="$XDG_RUNTIME_DIR/wob.sock"
-dmenu_args="-l 10 -fn 'Cozette-12' -nb '#000000' -nf '#B0B0B0' -sb '#1a1a1a' -sf '#B0B0B0'"
+dmenu_args="-l 5 -fn 'Cozette-12' -nb '#000000' -nf '#B0B0B0' -sb '#1a1a1a' -sf '#B0B0B0'"
 
 rivertile -view-padding 0 -outer-padding 0 -main-ratio 0.55 &
 

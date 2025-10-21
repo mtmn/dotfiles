@@ -1,0 +1,17 @@
+[Unit]
+Description=ListenBrainz submission client for MPD
+Documentation=https://codeberg.org/elomatreb/listenbrainz-mpd
+Documentation=man:listenbrainz-mpd(1)
+After=mpd.service
+
+[Service]
+Type=simple
+Environment=MPD_HOST=127.0.0.1
+Environment=MPD_PORT=6695
+Restart=always
+RestartSec=5
+Environment=WAYLAND_DISPLAY=wayland-1
+ExecStart=%h/bin/listenbrainz-mpd -c %h/.config/listenbrainz-mpd/config.toml
+
+[Install]
+WantedBy=mpd.service

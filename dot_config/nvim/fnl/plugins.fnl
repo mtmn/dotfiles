@@ -117,11 +117,6 @@
                     :bashls {}
                     :rust_analyzer {}
                     :ruby-lsp {}
-                    :expert {:settings {:expert {:cmd [:expert]
-                                                 :root_markers [:mix.exs :.git]
-                                                 :filetypes [:elixir
-                                                             :eelixir
-                                                             :heex]}}}
                     :gopls {:settings {:gopls {:analyses {:unusedparams true}
                                                :staticcheck true
                                                :gofumpt true}}}
@@ -155,7 +150,6 @@
             (local configs (require :nvim-treesitter.configs))
             (configs.setup {:ensure_installed [:bash
                                                :erlang
-                                               :elixir
                                                :fennel
                                                :go
                                                :java

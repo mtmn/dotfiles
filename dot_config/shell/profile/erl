@@ -2,11 +2,7 @@
 
 {
 	erlang_version="28.0.4"
-	elixir_version="1.18.4-28"
-
-	export PATH="$HOME/.mix/escripts:$HOME"/src/misc/erlang/${erlang_version}/bin:"$HOME"/.kiex/elixirs/elixir-${elixir_version}/bin:"$PATH"
-	export MIX_ARCHIVES="$HOME"/.kiex/mix/archives/elixir-${elixir_version}
-
+	export PATH="$HOME/.mix/escripts:$HOME"/src/misc/erlang/${erlang_version}/bin:"$PATH"
 	#shellcheck source=/dev/null
 	. "$HOME"/src/misc/erlang/${erlang_version}/activate
 }

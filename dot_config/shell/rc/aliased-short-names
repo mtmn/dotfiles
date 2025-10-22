@@ -1,4 +1,6 @@
 #!/bin/sh
+
+alias e='emacs -nw .'
 alias b='brightnessctl'
 
 alias q='sudo '
@@ -67,6 +69,10 @@ alias laptop-only='wlr-randr --output DP-1 --toggle && wlr-randr --output eDP-1 
 alias tfg='tailscale file get ~/Downloads'
 
 alias qcalc='xdg-open $HOME/misc/random/qcalc.html'
+
+alias andon='q ss waydroid-container && waydroid session start'
+alias andoff='waydroid session stop && q st waydroid-container'
+alias andui='waydroid show-full-ui'
 
 ta() {
 	session="${1:=magnolia}"

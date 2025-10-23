@@ -88,7 +88,7 @@
                                                                        :dockerls
                                                                        :bashls
                                                                        :gopls
-                                                                       :ltex]})
+                                                                       :zls]})
             ((. (require :mason-tool-installer) :setup) {:ensure_installed [:lua-language-server
                                                                             :vim-language-server
                                                                             :stylua
@@ -117,25 +117,12 @@
                     :bashls {}
                     :rust_analyzer {}
                     :ruby-lsp {}
+                    :zls {}
                     :gopls {:settings {:gopls {:analyses {:unusedparams true}
                                                :staticcheck true
                                                :gofumpt true}}}
                     :harper-ls {:settings {:harper-ls {:SentenceCapitalization false
-                                                       :SpellCheck true}}}
-                    :ltex {:filetypes [:latex
-                                       :typst
-                                       :typ
-                                       :bib
-                                       :markdown
-                                       :plaintex
-                                       :tex]
-                           :settings {:ltex {:enabled [:latex
-                                                       :typst
-                                                       :typ
-                                                       :bib
-                                                       :markdown
-                                                       :plaintex
-                                                       :tex]}}}})
+                                                       :SpellCheck true}}}})
             (each [server config (pairs servers)]
               (vim.lsp.enable server config))
             (local open-floating-preview vim.lsp.util.open_floating_preview)
@@ -159,11 +146,13 @@
                                                :python
                                                :toml
                                                :xml
-                                               :yaml]
+                                               :yaml
+                                               :zig]
                             :sync_install false
                             :highlight {:enable true}
                             :indent {:enable true}}))}
  {1 :L3MON4D3/LuaSnip :dependencies [:saadparwaiz1/cmp_luasnip]}
  [:tpope/vim-commentary :tpope/vim-repeat :tpope/vim-surround]
  :troydm/zoomwintab.vim
- :vim-erlang/vim-erlang-runtime]
+ :vim-erlang/vim-erlang-runtime
+ :ziglang/zig.vim]

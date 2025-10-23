@@ -1,6 +1,6 @@
 #!/bin/sh
 
-alias e='emacs -nw .'
+alias e='emacs -nw'
 alias b='brightnessctl'
 
 alias q='sudo '

@@ -57,3 +57,9 @@
                               :callback (fn []
                                           (set vim.bo.filetype :m3u)
                                           (set vim.bo.syntax :m3u))})
+
+(vim.api.nvim_create_autocmd :BufWritePre
+                             {:callback (fn [ev]
+                                          (vim.lsp.buf.code_action {:apply true
+                                                                    :context {:only [:source.fixAll]}}))
+                              :pattern [:*.zig :*.zon]})

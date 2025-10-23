@@ -134,6 +134,7 @@ cheat() {
 }
 
 gts() {
+	date
 	sleep "${1?}m" && systemctl suspend
 }
 

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source "$HOME"/.config/shell/rc/fantomas
+
 echo "$MPD_HOST"
 echo "$MPD_PORT"
 

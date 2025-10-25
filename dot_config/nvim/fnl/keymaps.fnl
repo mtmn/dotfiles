@@ -9,7 +9,7 @@
 (each [key func (pairs fzf-keymaps)]
   (vim.keymap.set :n key (.. "<cmd>lua require('fzf-lua')." func "()<CR>")))
 
-(local single-keymaps {:<leader>ng :<cmd>Neogit<CR>
+(local single-keymaps {:<leader>g :<cmd>Neogit<CR>
                        :- :<cmd>Oil<CR>
                        :<leader>t :<cmd>ToggleTerm<CR>
                        :f :<cmd>HopWord<CR>

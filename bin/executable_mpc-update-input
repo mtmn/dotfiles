@@ -80,7 +80,8 @@ for directory in "${!top_dirs[@]}"; do
         error_count=$((error_count + 1))
     fi
     
-    sleep 1
+    # set depending on the size of incoming list to avoid mpd queue congestion
+    sleep 5
 done
 
 echo

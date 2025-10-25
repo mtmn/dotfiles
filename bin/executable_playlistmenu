@@ -3,6 +3,7 @@ set -e
 
 CHOICE_MAPPINGS=(
     "october:.october_25"
+    "y2k:.y2k_october_25"
     "pink:pink"
     "ambient:ambient"
     "experimental:experimental"
@@ -44,7 +45,8 @@ add_to_playlist() {
         exit 1
     fi
     
-    add-to-playlist "$playlist_name"
+    zsh -c "add-to-playlist $playlist_name"
+    sleep 10
 }
 
 handle_playlist_selection() {

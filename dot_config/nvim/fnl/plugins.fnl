@@ -112,6 +112,7 @@
                    {:marksman {}
                     :yamlls {}
                     :clangd {}
+                    :elp {}
                     :fennel_ls {}
                     :dockerls {}
                     :bashls {}

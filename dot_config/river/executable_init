@@ -9,8 +9,8 @@ wobsock="$XDG_RUNTIME_DIR/wob.sock"
 
 rivertile -view-padding 0 -outer-padding 0 -main-ratio 0.55 &
 
-riverctl border-color-focused "0x00ccff"
-riverctl border-color-unfocused "0x70819f"
+riverctl border-color-focused "0x00ccc9"
+riverctl border-color-unfocused "0xd5c1c9"
 riverctl border-width 1
 
 riverctl set-repeat 50 300
@@ -28,17 +28,17 @@ riverctl map normal Super Return zoom
 riverctl map normal $mod+Shift Return spawn "$term"
 
 riverctl map normal $mod p spawn "fuzzel"
-riverctl map normal $alt Space spawn "fuzzel"
 
 riverctl map normal $mod b spawn "toggle-waybar"
 
 riverctl map normal Control+$alt l spawn "waylock"
 
 riverctl map normal $mod F1 spawn "firefox"
-riverctl map normal $mod F2 spawn "pcmanfm-qt"
-riverctl map normal $mod F3 spawn "picard"
+riverctl map normal $mod F2 spawn "foot zsh -c 'record'"
+riverctl map normal $mod F3 spawn "pcmanfm-qt"
+riverctl map normal $mod F4 spawn "picard"
 
-riverctl map normal $alt+Shift b spawn "blumenu"
+riverctl map normal $alt+Shift b spawn "btctl connect"
 riverctl map normal $alt+Shift p spawn "fuzzelpass"
 riverctl map normal $alt+Shift m spawn "playlistmenu"
 riverctl map normal $mod+Shift m spawn "playlistmenu"
@@ -49,6 +49,7 @@ riverctl map normal $mod+Shift t spawn "tempmenu"
 riverctl map normal $mod+Shift d spawn "cliphist list | sed 's/^[0-9]\+\s\+//; /^.$/d' | uniq | fuzzel --dmenu | wl-copy"
 
 riverctl map normal $mod+Shift s spawn "screenshot"
+riverctl map normal $alt+Shift s spawn "grim"
 
 riverctl map normal None XF86AudioMute spawn "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle && (wpctl get-volume @DEFAULT_AUDIO_SINK@ | grep -q MUTED && echo 0 > $wobsock) || wpctl get-volume @DEFAULT_AUDIO_SINK@ | sed 's/[^0-9]//g' > $wobsock"
 riverctl map normal None XF86AudioLowerVolume spawn "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%- && wpctl get-volume @DEFAULT_AUDIO_SINK@ | sed 's/[^0-9]//g' > $wobsock"
@@ -102,12 +103,13 @@ riverctl map normal $mod+Shift comma send-to-output previous
 riverctl map normal $mod Tab focus-previous-tags
 riverctl map normal $mod+Shift Tab send-to-previous-tags
 
-riverctl xcursor-theme default 24
+riverctl xcursor-theme default 16
 
 pcmanfm-qt --daemon-mode &
-swaybg -m fill -i "$HOME"/misc/wallpapers/15.jpg &
+swaybg -m fit -c "#000000" -i "$HOME"/misc/wallpapers/06.jpg &
 
 services_to_start=(
+    "battery-notify"
     "cliphist"
     "dunst"
     "kanshi"

@@ -1,0 +1,118 @@
+[env]
+TERM = "xterm-256color"
+
+[window.padding]
+x = 2
+y = 2
+
+[scrolling]
+history = 10000
+
+[mouse]
+hide_when_typing = true
+
+[font]
+size = 14.0
+
+[font.normal]
+family = "UW ttyp0"
+style  = "Regular"
+
+[font.bold]
+family = "UW ttyp0"
+style  = "Regular"
+
+[font.italic]
+family = "UW ttyp0"
+style  = "Regular"
+
+[colors.normal]
+black   = "#221920"
+red     = "#ef6360"
+green   = "#0faa26"
+yellow  = "#bf9032"
+blue    = "#3f95f6"
+magenta = "#d369af"
+cyan    = "#4fbaef"
+white   = "#d0d0d0"
+
+[colors.bright]
+black   = "#4b3f47"
+red     = "#fe5a7a"
+green   = "#00a692"
+yellow  = "#df8a5a"
+blue    = "#029fff"
+magenta = "#af85ff"
+cyan    = "#1dbfcf"
+white   = "#857f8f"
+
+[colors.cursor]
+cursor = "#f0af7f"
+text   = "#130911"
+
+[colors.primary]
+background = "#130911"
+foreground = "#d0d0d0"
+
+[colors.selection]
+background = "#3f2f40"
+text       = "#d0d0d0"
+
+[cursor.style]
+shape    = "Block"
+blinking = "Never"
+
+[[keyboard.bindings]]
+key    = "C"
+mods   = "Control|Shift"
+action = "Copy"
+
+[[keyboard.bindings]]
+key    = "V"
+mods   = "Control|Shift"
+action = "Paste"
+
+[[keyboard.bindings]]
+key    = "Insert"
+mods   = "Shift"
+action = "PasteSelection"
+
+[[keyboard.bindings]]
+key    = "R"
+mods   = "Control|Shift"
+action = "SearchForward"
+
+[[keyboard.bindings]]
+key    = "Plus"
+mods   = "Control"
+action = "IncreaseFontSize"
+
+[[keyboard.bindings]]
+key    = "Equals"
+mods   = "Control"
+action = "IncreaseFontSize"
+
+[[keyboard.bindings]]
+key    = "Minus"
+mods   = "Control"
+action = "DecreaseFontSize"
+
+[[keyboard.bindings]]
+key    = "Key0"
+mods   = "Control"
+action = "ResetFontSize"
+
+[[keyboard.bindings]]
+key    = "N"
+mods   = "Control|Shift"
+action = "SpawnNewInstance"
+
+[[keyboard.bindings]]
+key    = "O"
+mods   = "Control|Shift"
+action = "ToggleViMode"
+
+[[keyboard.bindings]]
+key    = "U"
+mods   = "Control|Shift"
+action = "ToggleViMode"

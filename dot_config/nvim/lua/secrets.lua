@@ -1,0 +1,2 @@
+-- [nfnl] secrets.fnl
+return {}

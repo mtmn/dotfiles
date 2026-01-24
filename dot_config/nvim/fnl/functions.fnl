@@ -1,26 +1,4 @@
 (local home (os.getenv :HOME))
-(local secrets (require :secrets))
-
-(fn navigate-to-dir []
-  (let [current-line (vim.api.nvim_get_current_line)
-        clean-line (if (= (current-line:sub -1) "/")
-                       (current-line:sub 1 -2)
-                       current-line)
-        full-path (.. home secrets.magnolia clean-line)]
-    (vim.fn.chdir full-path)
-    (vim.cmd :ToggleTerm)
-    (vim.cmd "cd ~")))
-
-(fn play-dir-in-fooyin []
-  (let [current-line (vim.api.nvim_get_current_line)
-        clean-line (if (= (current-line:sub -1) "/")
-                       (current-line:sub 1 -2)
-                       current-line)
-        full-path (.. home secrets.magnolia clean-line)]
-    (vim.fn.chdir full-path)
-    (vim.system [:fooyin full-path] {:detach true})
-    (vim.cmd "cd ~")))
-
 (fn log-file-event [action]
   (let [file-path (vim.fn.expand "%:p")]
     (when (and (not= file-path "") (not= file-path nil))
@@ -40,9 +18,6 @@
                                {:group augroup
                                 :pattern "*"
                                 :callback (fn [] (log-file-event :open))}))
-
-(vim.api.nvim_create_user_command :Mnav navigate-to-dir {})
-(vim.api.nvim_create_user_command :Mfoo play-dir-in-fooyin {})
 
 (vim.api.nvim_create_autocmd [:BufRead :BufNewFile]
                              {:pattern [:*.m3u :*.m3u8]

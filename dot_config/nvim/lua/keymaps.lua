@@ -1,4 +1,3 @@
--- [nfnl] keymaps.fnl
 local opts = {noremap = true, silent = false}
 local fzf_keymaps = {["<leader><leader>"] = "files", ["<leader>ff"] = "git_status", ["<leader>fh"] = "oldfiles", ["<leader>fg"] = "grep_project", ["<leader>b"] = "buffers"}
 for key, func in pairs(fzf_keymaps) do

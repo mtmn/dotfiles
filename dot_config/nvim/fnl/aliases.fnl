@@ -1,17 +1,9 @@
 (vim.cmd "cnoreabbrev nt botright vert new
-          cnoreabbrev mn navigate-to-dir
-          cnoreabbrev crt %!copy-releases-tracks
-          cnoreabbrev mfp Mfoo
-          cnoreabbrev psst %!play-selected-tracks")
+          cnoreabbrev spt %!saturn_play_tracks")
 
 (local home (os.getenv :HOME))
 
-(local oil-abbreviations {:bl :/misc/music/backlog/
-                          :mi :/misc/
-                          :mu :/misc/music/
-                          :no :/misc/notes/nota/
-                          :rls :/misc/notes/releases/
-                          :pls :/.config/mpd/playlists
+(local oil-abbreviations {:mi :/misc/
                           :src :/src/})
 
 (each [abbrev path (pairs oil-abbreviations)]

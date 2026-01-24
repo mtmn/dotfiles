@@ -1,2 +1,2 @@
--- [nfnl] secrets.fnl
+-- Secrets removed
 return {}

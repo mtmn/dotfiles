@@ -1,0 +1,50 @@
+#!/bin/zsh
+
+d() {
+	local target_dir
+	target_dir=$(fd --type directory --hidden --exclude .git --exclude .filenignore -0 --strip-cwd-prefix | xargs -r -0 stat --format '%Y %n' | sort -nr | cut -d' ' -f2- | magnolia_fzf_custom)
+
+	if [ -n "$target_dir" ]; then
+		cd "$target_dir" && magnolia_log_dir_change "$target_dir"
+	fi
+}
+
+f() {
+	local file
+	file=$(fd --hidden --exclude .git --exclude .filenignore -0 --strip-cwd-prefix | xargs -r -0 stat --format '%Y %n' | sort -nr | cut -d' ' -f2- | magnolia_fzf_custom)
+
+	if [ -n "$file" ]; then
+		local ext="${file##*.}"
+
+		case "$ext" in
+		mp4 | mkv | avi | webm)
+			action="media_player"
+			mpv "$file" && magnolia_log_file_open "$file" "$ext" "$action"
+			;;
+		flac | aiff | aif | mp3 | wav)
+			action="audio_player"
+			mpv "$file" && magnolia_log_file_open "$file" "$ext" "$action"
+			;;
+		jpg | jpeg | png | webp | svg)
+			action="image_viewer"
+			nsxiv-rifle "$file" && magnolia_log_file_open "$file" "$ext" "$action"
+			;;
+		pdf | epub | mobi)
+			action="document_reader"
+			sioyek "$file" && magnolia_log_file_open "$file" "$ext" "$action"
+			;;
+		html)
+			action="web_browser"
+			firefox "$file" && magnolia_log_file_open "$file" "$ext" "$action"
+			;;
+		*)
+			action="text_editor"
+			"$EDITOR" "$file" && magnolia_log_file_open "$file" "$ext" "$action"
+			;;
+		esac
+	fi
+}
+
+cd() {
+	builtin cd "$@" && magnolia_log_dir_change "$1"
+}

@@ -1,10 +1,29 @@
 #!/bin/zsh
+# ~/.config/zsh/plugins/magnolia
+if [[ -f $HOME/.config/zsh/plugins/magnolia ]]; then
+	. $HOME/.config/zsh/plugins/magnolia
+fi
+
+# ~/.config/zsh/plugins/twitch
+if [[ -f $HOME/.config/zsh/plugins/twitch ]]; then
+	. $HOME/.config/zsh/plugins/twitch
+fi
+
+# ~/.config/zsh/plugins/fantomas
+if [[ -f $HOME/.config/zsh/plugins/fantomas/fantomas ]]; then
+	. $HOME/.config/zsh/plugins/fantomas/fantomas
+fi
+
+# https://github.com/hlissner/zsh-autopair
+if [[ -f $HOME/.config/zsh/plugins/zsh-autopair/autopair.zsh ]]; then
+	. $HOME/.config/zsh/plugins/zsh-autopair/autopair.zsh
+fi
 
 # https://github.com/zsh-users/zsh-autosuggestions
-export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#ff9580,bg=#000000,bold"
+export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#ff9580,bold"
 
 if [[ -f /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh ]]; then
-    . /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+	. /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 fi
 
 # https://github.com/larkery/zsh-histdb
@@ -13,31 +32,5 @@ source $HOME/.config/zsh/plugins/zsh-histdb/histdb-interactive.zsh
 autoload -Uz add-zsh-hook
 bindkey '^r' _histdb-isearch
 
-# https://github.com/hlissner/zsh-autopair
-source $HOME/.config/zsh/plugins/zsh-autopair/autopair.zsh
-
-# https://github.com/skywind3000/z.lua
-source /usr/share/z.lua/z.lua.plugin.zsh
-
-# ~/.config/shell/rc/magnolia
-zle_fzf_change_file() {
-    fgg && zle reset-prompt 2>/dev/null || true
-}
-
-zle_fzf_change_dir() {
-    dg && zle reset-prompt 2>/dev/null || true
-}
-
-zle_fzf_freq_dir() {
-    g && zle reset-prompt 2>/dev/null || true
-}
-
-zle -N zle_fzf_change_file
-zle -N zle_fzf_change_dir
-zle -N zle_fzf_freq_dir
-
-bindkey '^H' 'zle_fzf_change_file'
-bindkey '^K' 'zle_fzf_change_dir'
-bindkey '^G' 'zle_fzf_freq_dir'
-
-source $HOME/.config/zsh/plugins/twitch
+# https://github.com/ajeetdsouza/zoxide
+eval "$(zoxide init zsh)"

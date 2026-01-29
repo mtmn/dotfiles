@@ -1,14 +1,8 @@
 #!/bin/zsh
-erg() {
-    $EDITOR \
-      +'/\v'"${1/\//\\/}" \
-      +':silent tabdo :1 | normal! n' \
-      +':tabfirst' \
-      -p $(rg "$@" | cut -d: -f1 | sort -u)
-}
+alias j='jog'
+alias h='histdb'
 
-efd() {
-    $EDITOR \
-      +':tabfirst' \
-      -p $(fd "$@")
-}
+alias jr='jog_run'
+alias hr='histdb_run'
+
+alias l='ls -l'

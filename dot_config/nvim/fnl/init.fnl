@@ -40,7 +40,6 @@
     (use "windwp/nvim-autopairs" {:event :VeryLazy :config true})
     (use "ibhagwan/fzf-lua" {:config true})
     (use "smoka7/hop.nvim" {:version "*" :opts {:keys :etovxqpdygfblzhckisuran}})
-    (use "Olical/nfnl" {:ft :fennel})
 
     (use "nullchilly/fsread.nvim"
          {:version "*"
@@ -74,29 +73,14 @@
           :event [:CmdlineEnter]
           :ft [:go :gomod]})
 
-    (use "mrcjkb/rustaceanvim" {:version :^6 :lazy false})
+    (use "mrcjkb/rustaceanvim" {:version :^7 :lazy false})
 
     (use "hrsh7th/nvim-cmp"
          {:dependencies [:hrsh7th/cmp-nvim-lsp
                         :hrsh7th/cmp-buffer
                         :hrsh7th/cmp-path
                         :hrsh7th/cmp-vsnip]
-          :config (fn []
-                    (let [cmp (require :cmp)]
-                      (cmp.setup {:snippet {:expand (fn [args]
-                                                      ((. (require :luasnip)
-                                                          :lsp_expand) args.body))}
-                                  :window {:completion {:winhighlight "Normal:CmpNormal"}
-                                           :documentation {:winhighlight "Normal:CmpNormal"}}
-                                  :mapping (cmp.mapping.preset.insert {:ctrl-b (cmp.mapping.scroll_docs -4)
-                                                                       :ctrl-f (cmp.mapping.scroll_docs 4)
-                                                                       :ctrl-space (cmp.mapping.complete)
-                                                                       :ctrl-e (cmp.mapping.abort)
-                                                                       :enter (cmp.mapping.confirm {:select true})})
-                                  :sources (cmp.config.sources [{:name :nvim_lsp}
-                                                                {:name :luasnip}
-                                                                {:name :path}]
-                                                               [{:name :buffer}])})))})
+          :config #(: (require :config.cmp) :config)})
 
     (use "neovim/nvim-lspconfig"
          {:event :VeryLazy
@@ -105,80 +89,12 @@
                          :williamboman/mason-lspconfig.nvim
                          :WhoIsSethDaniel/mason-tool-installer.nvim]
           :config (fn []
-                    ((. (require :mason) :setup))
-		    ((. (require :mason-tool-installer) :setup) {:ensure_installed [:basedpyright
-                                                                 :bash-debug-adapter
-                                                                 :bash-language-server
-                                                                 :bashls
-                                                                 :black
-                                                                 :buildifier
-                                                                 :codelldb
-                                                                 :dockerls
-                                                                 :fennel_ls
-                                                                 :gofumpt
-                                                                 :golines
-                                                                 :gomodifytags
-                                                                 :gopls
-                                                                 :gotests
-                                                                 :hadolint
-                                                                 :html
-                                                                 :impl
-                                                                 :intelephense
-                                                                 :json-to-struct
-                                                                 :lua-language-server
-                                                                 :luacheck
-                                                                 :php-cs-fixer
-                                                                 :php-debug
-                                                                 :phpactor
-                                                                 :pint
-                                                                 :revive
-                                                                 :rust_analyzer
-                                                                 :shellcheck
-                                                                 :shfmt
-                                                                 :starpls
-                                                                 :staticcheck
-                                                                 :stylua
-                                                                 :vint
-                                                                 :yamlls
-                                                                 :zls]})
-		    (let [servers {:basedpyright {}
-               :bash-language-server {}
-               :bashls {}
-               :clangd {}
-               :dockerls {}
-               :fennel_ls {}
-               :gopls {:settings {:gopls {:analyses {:unusedparams true}
-                                          :staticcheck true
-                                          :gofumpt true}}}
-               :html {}
-               :intelephense {}
-               :lua-language-server {}
-               :phpactor {}
-               :rust_analyzer {}
-               :starpls {}
-               :yamlls {}
-               :zls {}}]
-                      (each [server config (pairs servers)]
-                        (vim.lsp.enable server config))
-                      (let [open-floating-preview vim.lsp.util.open_floating_preview]
-                        (set vim.lsp.util.open_floating_preview
-                             (fn [contents syntax opts ...]
-                                (let [opts (or opts {})]
-                                  (set opts.border (or opts.border :rounded))
-                                  (open-floating-preview contents syntax opts ...)))))))})
-
-    (use "google/vim-bazel")
-    (use "adalessa/laravel.nvim"
-         {:dependencies [:nvim-telescope/telescope.nvim
-                        :tpope/vim-dotenv
-                        :MunifTanjim/nui.nvim
-                        :nvim-lua/plenary.nvim]
-          :config true})
-
+                    (: (require :config.mason) :setup)
+                    (: (require :config.lsp) :config))})
     (use "nvim-treesitter/nvim-treesitter"
          {:branch :main
-          :build #(: (require :treesitter) :build)
-          :config #(: (require :treesitter) :config)})
+          :build #(: (require :config.treesitter) :build)
+          :config #(: (require :config.treesitter) :config)})
 
     (use "L3MON4D3/LuaSnip" {:dependencies [:saadparwaiz1/cmp_luasnip]})
     
@@ -186,42 +102,6 @@
     (use "tpope/vim-repeat")
     (use "tpope/vim-surround")
     (use "troydm/zoomwintab.vim")
-
-    (use "noahfrederick/vim-composer" {:ft :php})
-    (use "rest-nvim/rest.nvim" {:ft :http :config true})
-
-    (use "mfussenegger/nvim-dap"
-         {:dependencies [:rcarriga/nvim-dap-ui :nvim-neotest/nvim-nio]
-          :config (fn []
-                    (let [dap (require :dap)
-                          dapui (require :dapui)]
-                      (dapui.setup)
-                      (set dap.listeners.after.event_initialized.dapui_config #(: dapui :open))
-                      (set dap.listeners.before.event_terminated.dapui_config #(: dapui :close))
-                      (set dap.listeners.before.event_exited.dapui_config #(: dapui :close))
-                      (set dap.adapters.php
-                           {:type :executable
-                            :command :node
-                            :args [(.. (vim.fn.stdpath :data) "/mason/packages/php-debug/extension/out/phpDebug.js")]})
-                      (set dap.configurations.php
-                           [{:type :php
-                             :request :launch
-                             :name "Listen for Xdebug"
-                             :port 9003}])))})
-
-    (use "nvim-neotest/neotest"
-         {:dependencies [:nvim-neotest/nvim-nio
-                        :nvim-lua/plenary.nvim
-                        :antoinemadec/FixCursorHold.nvim
-                        :nvim-treesitter/nvim-treesitter
-                        :olimorris/neotest-phpunit
-                        :rouge8/neotest-rust]
-          :config (fn []
-                    ((. (require :neotest) :setup)
-                     {:adapters [(require :neotest-phpunit)
-                                 (require :neotest-rust)]}))})
-
-    (use "Civitasv/bazel.nvim" {:dependencies [:nvim-lua/plenary.nvim]})
   ])
 
 (fn init []
@@ -235,4 +115,4 @@
   (each [_ module (ipairs [:aliases :keymaps :functions])]
     (require module)))
 
-(if (not g.vscode) (init))
+(init)

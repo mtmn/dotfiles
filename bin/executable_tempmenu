@@ -1,54 +1,24 @@
 #!/bin/bash
-set -e
+set -euo pipefail
 
-generate_choices() {
-    seq 6000 -500 1000 
-    echo "off"
-}
+choices=$(echo "off"; seq 6000 -500 1000)
+chosen=$(printf '%s\n' "$choices" | fuzzel --dmenu "$@")
+[ -z "$chosen" ] && exit 0
 
-CHOICES="$(generate_choices | tr '\n' '\n' | sed ':a;N;$!ba;s/\n/\\n/g')"
-readonly CHOICES
+if [ "$chosen" != "off" ] && ! [[ "$chosen" =~ ^[0-9]+$ ]]; then
+    echo "Error: Invalid temperature '$chosen'" >&2
+    exit 1
+fi
 
-set_wayland_temperature() {
-    case "$1" in
-        off)
-            pkill gammastep || true
-            ;;
-        [0-9]*)
-            pkill gammastep || true
-            gammastep -O "$1"
-            ;;
-        *)
-            echo "Error: Invalid temperature value '$1'" >&2
-            exit 1
-            ;;
-    esac
-}
-
-set_x11_temperature() {
-    case "$1" in
-        off)
-            redshift -x
-            ;;
-        [0-9]*)
-            redshift -O "$1"
-            ;;
-        *)
-            echo "Error: Invalid temperature value '$1'" >&2
-            exit 1
-            ;;
-    esac
-}
-
-main() {
-    local chosen
-    chosen=$(echo -e "$CHOICES" | dmenu "$@")
-    
-    if [ -n "$WAYLAND_DISPLAY" ]; then
-        set_wayland_temperature "$chosen"
-    else
-        set_x11_temperature "$chosen"
+if [ -n "${WAYLAND_DISPLAY:-}" ]; then
+    pkill gammastep || true
+    if [ "$chosen" != "off" ]; then
+        gammastep -O "$chosen" &
     fi
-}
-
-main "$@"
+else
+    if [ "$chosen" = "off" ]; then
+        redshift -x
+    else
+        redshift -O "$chosen"
+    fi
+fi

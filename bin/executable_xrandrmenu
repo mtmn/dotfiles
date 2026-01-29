@@ -1,0 +1,24 @@
+#!/bin/bash
+set -euo pipefail
+
+chosen=$(echo -e "internal\nexternal" | dmenu "$@")
+[ -z "$chosen" ] && exit 0
+
+case "$chosen" in
+    internal)
+        xrandr --output DisplayPort-0 --off \
+               --output DisplayPort-1 --off \
+               --output eDP --auto
+        ;;
+    external)
+        xrandr --output eDP --off \
+               --output DisplayPort-0 --mode 2560x1440 --rate 74.97 --auto \
+               --output DisplayPort-1 --off
+        ;;
+    *)
+        echo "Error: Unknown choice '$chosen'" >&2
+        exit 1
+        ;;
+esac
+
+systemctl restart --user dunst.service

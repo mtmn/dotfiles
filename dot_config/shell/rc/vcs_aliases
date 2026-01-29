@@ -1,13 +1,11 @@
 #!/bin/sh
 
 alias cdg='cd "$(git rev-parse --show-toplevel)"'
-alias ng='nvim -c ":Neogit"'
-alias grab='git grab'
 
+alias ng='nvim -c ":Neogit"'
 alias gn='git number --column'
 alias ga='git number add'
 alias gb='git branch'
-alias gba='git branch -a'
 alias gc='git commit -v'
 alias gco='git checkout'
 alias gcp='git cherry-pick --strategy=recursive --strategy-option=diff-algorithm=histogram'
@@ -16,53 +14,38 @@ alias gl='git lg'
 alias gm='git merge'
 alias gmc='gm --no-ff'
 alias gp='git push'
+alias gpcb='gp codeberg'
 alias gs='git show --no-prefix'
 alias gst='git status'
 alias gref='git reflog --date=iso'
+
+alias grab='git grab'
 
 gcm() {
 	git "${1?}" "${2?}"
 }
 
-submodel() {
-    if [ "$1" ]; then
-	git config -f .gitmodules --remove-section "submodule.$1"
-    else
-	echo "usage: submodel <name>"
-	cat ".gitmodules"
-    fi
-}
-
-submoadd() {
-    if [ "$1" ]; then
-	git submodule add "$1" "$2"
-    else
-	echo "usage: submoadd <git> <path>"
-    fi
-}
-
 gf() {
-    if [ "$1" ]; then
-        git fetch -p "$1"
-    else
-        git fetch -p --all
-    fi
+	if [ "$1" ]; then
+		git fetch -p "$1"
+	else
+		git fetch -p --all
+	fi
 }
 
 gcopr() {
-    git fetch origin pull/"${1?need pr num}"/head:pr"$1" && gco pr"$1"
+	git fetch origin pull/"${1?need pr num}"/head:pr"$1" && gco pr"$1"
 }
 
 alias grr='git rebase -r'
 alias gri='grr -i'
-alias grim='gri master@{u}'
 alias grrm='grr master@{u}'
 alias gru='grr @{u}'
 alias gabs='git absorb --and-rebase'
 
 git_diff_merge_base() {
-    feature="${2-HEAD}"
-    gd "$(git merge-base "$1" "$feature")..$feature"
+	feature="${2-HEAD}"
+	gd "$(git merge-base "$1" "$feature")..$feature"
 }
 
 alias gdm='git_diff_merge_base master@{u}'
@@ -79,7 +62,6 @@ alias glu='gl @{u}..'
 
 # Misc
 alias gap='ga -p'
-alias gbr='gb -r'
 alias gca='gc -a'
 alias gcaa='gca --amend'
 alias grh='git reset --hard'

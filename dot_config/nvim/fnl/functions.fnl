@@ -30,8 +30,8 @@
                              {:pattern (.. (vim.fn.expand :$HOME)
                                            :/misc/notes/releases/*)
                               :callback (fn []
-                                          (set vim.bo.filetype :m3u)
-                                          (set vim.bo.syntax :m3u))})
+                                          (set vim.bo.filetype :txt)
+                                          (set vim.bo.syntax :txt))})
 
 (vim.api.nvim_create_autocmd :BufWritePre
                              {:callback (fn [ev]

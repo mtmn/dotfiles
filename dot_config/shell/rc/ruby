@@ -5,47 +5,7 @@ reval() {
 	ruby --version
 }
 
-hue_ruby_set() {
+doreval() {
 	eval "$(rbenv init - --no-rehash shell)"
-	rbenv shell 2.4.10
-}
-
-ruby_unset() {
-	rbenv shell --unset
-}
-
-soff() {
-	hue_ruby_set
-	hue light 1 off
-	ruby_unset
-}
-
-son() {
-	hue_ruby_set
-	hue light 1 on
-	ruby_unset
-}
-
-woff() {
-	hue_ruby_set
-	hue light 2 off
-	ruby_unset
-}
-
-won() {
-	hue_ruby_set
-	hue light 2 on
-	ruby_unset
-}
-
-sb() {
-	hue_ruby_set
-	hue light 1 brightness "${1?}"%
-	ruby_unset
-}
-
-wb() {
-	hue_ruby_set
-	hue light 2 brightness "${1?}"%
-	ruby_unset
+	ruby --version
 }

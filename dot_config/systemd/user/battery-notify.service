@@ -3,5 +3,5 @@ Documentation=https://github.com/cdown/battery-notify
 
 [Service]
 Type=notify
-Environment=RUST_BACKTRACE=1
-ExecStart=%h/bin/battery-notify
+Environment=RUST_BACKTRACE=0
+ExecStart=%h/.cargo/bin/battery-notify

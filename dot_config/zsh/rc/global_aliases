@@ -5,7 +5,7 @@ alias -g GG=' |& grep'
 alias -g WW=' |& wc -l'
 
 if [[ -n "$WAYLAND_DISPLAY" ]]; then
-    alias -g CC=' |& wl-copy'
+	alias -g CC=' |& wl-copy'
 else
-    alias -g CC=' |& xclip -sel clip'
+	alias -g CC=' |& xclip -sel clip'
 fi

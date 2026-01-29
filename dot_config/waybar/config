@@ -4,12 +4,12 @@
    "height":25,
    "modules-left":[
       "river/tags",
-      "custom/waybat",
    ],
    "modules-center":[
-      "custom/music"
+      "custom/plants",
    ],
    "modules-right":[
+      "custom/tailnet",
       "custom/network",
       "custom/gammastep",
       "custom/backlight",
@@ -18,11 +18,7 @@
       "clock"
    ],
    "battery":{
-      "format":"bat {capacity}%",
-      "states":{
-         "warning":35,
-         "critical":25
-      }
+      "format":"bat {capacity}%"
    },
    "clock":{
       "format":"{:%Y-%m-%d %H:%M}",
@@ -45,17 +41,15 @@
       "format":"{}",
       "justify": "center",
       "scroll-step": 1,
-      "exec": "~/bin/playing",
+      "exec":"~/.config/waybar/scripts/mpc-status.sh",
       "on-scroll-up": "mpc seek +1%",
       "on-scroll-down": "mpc seek +1%",
       "on-click":"mpc toggle",
-      "on-click-right":"mpc next",
-      "on-click-middle":"add-to-playlist .october_25"
+      "on-click-right":"mpc next"
    },
    "custom/network":{
       "format":"{}",
       "exec":"~/.config/waybar/scripts/network-status.sh",
-      "on-click":"~/.config/waybar/scripts/vpn.sh",
       "interval":10
    },
    "custom/vpn":{
@@ -77,9 +71,14 @@
       "format":"{}",
       "interval":10
    },
-   "custom/waybat":{
-      "exec":"~/bin/waybat",
+   "custom/tailnet":{
+      "exec":"~/.config/waybar/scripts/tailnet-status.sh",
       "format":"{}",
       "interval":10
-   }
+   },
+  "custom/plants": {
+      "exec":"/opt/tools/plants-client",
+      "return-type":"json",
+      "format":"{text}",
+  }
 }

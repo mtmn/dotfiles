@@ -1,77 +1,187 @@
 #!/bin/bash
+
+set -euo pipefail
+
+readonly SCRIPT_NAME="${0##*/}"
+
 declare -A dirs=(
-	["mpd"]="$HOME/.config/mpd"
-	["nota"]="$HOME/misc/notes/nota"
-	["obsidian"]="$HOME/misc/notes"
-	["pass"]="$HOME/.password-store"
-	["releases"]="$HOME/misc/notes/releases"
-	["dotfiles"]="$HOME/.local/share/chezmoi"
+	["bliss"]="${HOME}/.config/bliss-rs"
+	["mpd"]="${HOME}/.config/mpd"
+	["notes"]="${HOME}/misc/notes"
+	["nota"]="${HOME}/misc/notes/nota"
+	["pass"]="${HOME}/.password-store"
+	["mixxx"]="${HOME}/.mixxx"
+	["releases"]="${HOME}/misc/notes/releases"
+	["dotfiles"]="${HOME}/.local/share/chezmoi"
 )
 
-PUSH_FLAG=false
-BACKUP_TYPE=""
+err() {
+	echo "[$(date +'%Y-%m-%dT%H:%M:%S%z')]: ${*}" >&2
+}
 
-for arg in "$@"; do
-	case "$arg" in
-	--push)
-		PUSH_FLAG=true
+log() {
+	echo "[$(date +'%Y-%m-%dT%H:%M:%S%z')]: ${*}"
+}
+
+sync_repos() {
+	local dir="$1"
+	local push="${2:-false}"
+	local git_cmd=(git --git-dir="${dir}/.git" --work-tree="${dir}")
+
+	if ! "${git_cmd[@]}" add -A >/dev/null 2>&1; then
+		err "Failed to stage changes in ${dir}"
+		return 1
+	fi
+
+	if "${git_cmd[@]}" diff --cached --quiet 2>/dev/null; then
+		log "Nothing to commit in ${dir}"
+	else
+		local changed_files
+		changed_files=$("${git_cmd[@]}" diff --cached --name-only | tr '\n' ' ')
+		local commit_msg
+		commit_msg="${changed_files% }"
+
+		if ! "${git_cmd[@]}" commit -m "${commit_msg}"; then
+			err "Failed to commit changes in ${dir}"
+			return 1
+		fi
+		log "Committed changes in ${dir}"
+	fi
+
+	if [[ "${push}" == "true" ]]; then
+		log "Pushing changes from ${dir}"
+		if ! "${git_cmd[@]}" push; then
+			err "Failed to push changes from ${dir}"
+			return 1
+		fi
+		log "Successfully pushed changes from ${dir}"
+	fi
+
+	return 0
+}
+
+backup_dirs() {
+	local backup_type="$1"
+	local push="${2:-false}"
+
+	case "${backup_type}" in
+	all)
+		local key
+		for key in "${!dirs[@]}"; do
+			info "Committing ${key} changes: ${key}"
+			if ! backup_dirs "${key}" "${push}"; then
+				err "Failed to backup ${key}"
+			fi
+		done
+		;;
+	push)
+		local key
+		for key in "${!dirs[@]}"; do
+			info "Pushing changes: ${key}"
+			if ! backup_dirs "${key}" "true"; then
+				err "Failed to push ${key}"
+			fi
+		done
+		;;
+	ls)
+		printf '%s\n' "${!dirs[@]}" | sort
+		;;
+	filen)
+		if command -v filen-cli >/dev/null 2>&1; then
+			info "Running filen-cli sync"
+			filen-cli sync
+		else
+			err "filen-cli not found"
+			return 1
+		fi
+		;;
+	histdb)
+		if command -v histdb-sync >/dev/null 2>&1; then
+			info "Running histdb-sync"
+			histdb-sync
+		else
+			err "histdb-sync not found"
+			return 1
+		fi
+		;;
+	amen)
+		if command -v restic >/dev/null 2>&1; then
+			info "Running restic"
+			sudo restic -r /run/media/"${USER}"/TMA/restic/amen --verbose backup /home /etc /usr /var /opt --exclude "$HOME"/misc/mnt --exclude "$HOME"/.BitwigStudio --exclude "$HOME"/.local/share/Steam --exclude "$HOME"/.cache --exclude "$HOME"/.config/Signal --exclude "$HOME"/.antigravity --exclude "$HOME"/misc/music/backlog --exclude /var/cache
+		else
+			err "restic not found"
+			return 1
+		fi
 		;;
 	*)
-		if [[ -z "$BACKUP_TYPE" ]]; then
-			BACKUP_TYPE="$arg"
+		if [[ -n "${dirs[${backup_type}]:-}" ]]; then
+			sync_repos "${dirs[${backup_type}]}" "${push}"
+		else
+			err "Unknown backup type '${backup_type}'"
+			return 1
 		fi
 		;;
 	esac
-done
 
-git_backup() {
-	local dir="$1"
-	git --git-dir="$dir"/.git --work-tree="$dir" add -A >/dev/null
-	git --git-dir="$dir"/.git --work-tree="$dir" commit -v
-	if [[ "$PUSH_FLAG" == true ]]; then git --git-dir="$dir"/.git --work-tree="$dir" push; fi
+	return 0
 }
 
-self="$0"
-backup_type="$1"
+show_usage() {
+	cat >&2 <<-EOF
+		Usage: ${SCRIPT_NAME} <backup_type> [--push]
 
-chezmoi_dir="$HOME/.local/share/chezmoi"
-age_pub_key=$(<"$HOME"/misc/random/age.pub)
+		Backup types:
+		  all          - Backup all repositories
+		  push         - Backup and push all repositories
+		  ls           - List available backup types
+		  histdb       - Sync using histdb-sync
+		  filen        - Sync using filen-cli
+		  amen         - Sync using  restic
+		  <name>       - Backup specific repository (${!dirs[*]})
 
-if [[ -z "$backup_type" ]]; then
-	echo "Usage: $0 <backup_type>" >&2
-	$self ls
-	exit 1
-fi
+		Options:
+		  --push       - Push changes after commit
+		  -h, --help   - Show this help message
+	EOF
+}
 
-case "$backup_type" in
-"all")
-	for k in "${!dirs[@]}"; do
-	    $self "$k"
+main() {
+	local backup_type=""
+	local push_flag="false"
+
+	for arg in "$@"; do
+		case "${arg}" in
+		--push)
+			push_flag="true"
+			;;
+		-h | --help)
+			show_usage
+			exit 0
+			;;
+		*)
+			if [[ -z "${backup_type}" ]]; then
+				backup_type="${arg}"
+			else
+				err "Too many arguments"
+				show_usage
+				exit 1
+			fi
+			;;
+		esac
 	done
-	$self magnolia
-	;;
-"push")
-	for k in "${!dirs[@]}"; do
-	    $self "$k" --push
-	done
-	;;
-"ls")
-	for k in "${!dirs[@]}"; do
-	    echo "$k"
-	done
-	echo magnolia
-	;;
-"magnolia")
-	age -r "$age_pub_key" "$HOME"/.magnolia.db >"$chezmoi_dir"/encrypted_dot_magnolia.db.age
-	chmod 644 "$chezmoi_dir"/encrypted_dot_magnolia.db.age
-	git --git-dir="$chezmoi_dir"/.git --work-tree="$chezmoi_dir" add -A >/dev/null
-	git --git-dir="$chezmoi_dir"/.git --work-tree="$chezmoi_dir" commit -m "chore: magnolia.db"
-	if [[ "$PUSH_FLAG" == true ]]; then git --git-dir="$dir"/.git --work-tree="$dir" push; fi
-	;;
-*)
-	if [[ -n "${dirs[$backup_type]}" ]]; then
-		echo "Backing up $backup_type"
-		git_backup "${dirs[$backup_type]}"
+
+	if [[ -z "${backup_type}" ]]; then
+		err "Missing backup type argument"
+		show_usage
+		exit 1
 	fi
-	;;
-esac
+
+	if ! backup_dirs "${backup_type}" "${push_flag}"; then
+		err "Backup operation failed"
+		exit 1
+	fi
+
+	return 0
+}
+
+main "$@"

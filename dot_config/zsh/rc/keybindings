@@ -26,17 +26,17 @@
 [[ "$terminfo[kend]" == "^[O"* ]] && bindkey -M emacs "${terminfo[kend]/O/[}" end-of-line
 
 if [[ -n ${terminfo[smkx]} ]]; then
-    zle-line-init() {
-        echoti smkx
-    }
-    zle -N zle-line-init
+	zle-line-init() {
+		echoti smkx
+	}
+	zle -N zle-line-init
 fi
 
 if [[ -n ${terminfo[rmkx]} ]]; then
-    zle-line-finish() {
-        echoti rmkx
-    }
-    zle -N zle-line-finish
+	zle-line-finish() {
+		echoti rmkx
+	}
+	zle -N zle-line-finish
 fi
 
 bindkey -e
@@ -50,3 +50,8 @@ shift_left=$(tput kLFT 2>/dev/null)
 
 shift_right=$(tput kRIT 2>/dev/null)
 [[ $shift_right ]] && bindkey "$shift_right" forward-word
+
+# ~/.config/zsh/plugins/magnolia
+bindkey '^F' 'magnolia_zle_change_to_file'
+bindkey '^K' 'magnolia_zle_change_to_dir'
+bindkey '^G' 'magnolia_zle_custom_dirs'

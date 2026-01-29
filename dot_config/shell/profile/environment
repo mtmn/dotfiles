@@ -1,7 +1,7 @@
 #!/bin/sh
 
-export EDITOR=nvim
 export LC_COLLATE=C
+export EDITOR=nvim
 export PAGER=less
 export LESS=-R
 export VISUAL=nvim
@@ -12,12 +12,14 @@ export NSS_DEFAULT_DB_TYPE=sql
 export BC_ENV_ARGS="$HOME/.config/bcrc"
 export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
 export GRAB_HOME="$HOME/src"
-export LEDGER_FILE="$HOME/misc/random/hledger/2025.journal"
-export GOPATH="$HOME/src/misc/go"
+export GOPATH="$HOME/src/go"
+export MPD_HOST="127.0.0.1"
+export MPD_PORT="6695"
+export CARGO_TERM_COLOR="always"
 
 # shellcheck disable=SC2154
 {
-    export PATH="$config_home/.zvm/bin:$config_home/.node_modules/bin:$config_home/bin:/usr/bin/vendor_perl:/usr/bin/core_perl:/usr/bin/site_perl:config_home/bin:$config_home/.local/bin:$config_home/.cargo/bin:$config_home/go/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/share/bcc:/usr/share/bcc/tools"
+    export PATH="$config_home/src/misc/go/bin:$config_home/.node_modules/bin:$config_home/bin:/usr/bin/vendor_perl:/usr/bin/core_perl:/usr/bin/site_perl:config_home/bin:$config_home/.local/bin:$config_home/.cargo/bin:$config_home/go/bin:$config_home/.phpenv/versions/8.5.0/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/share/bcc:/opt/tools"
 }
 
 umask 0022

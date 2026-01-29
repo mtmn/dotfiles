@@ -1,0 +1,121 @@
+#!/bin/sh
+
+nvimrecomp() {
+	nvim_config_path="$HOME/.config/nvim"
+
+	mkdir -p "$nvim_config_path"/lua/config
+
+	find "$nvim_config_path/fnl" -type f -name "*.fnl" | while read -r fnl_file; do
+		rel_path="${fnl_file#"$nvim_config_path"/fnl/}"
+
+		if [ "$rel_path" = "init.fnl" ]; then
+			lua_file="$nvim_config_path/init.lua"
+		else
+			lua_file="$nvim_config_path/lua/${rel_path%.fnl}.lua"
+		fi
+
+		fennel --compile "$fnl_file" | tee "$lua_file" > /dev/null
+		echo "$lua_file recompiled"
+	done
+}
+
+gotosleep() {
+	date
+	sleep "${1?}m" && systemctl suspend
+}
+
+tracklist() {
+	total=0
+	for ext in mp3 flac aif aiff; do
+		for f in *."$ext"; do
+			[ -f "$f" ] || continue
+			echo "$f"
+		done
+	done | sort -V | while read -r f; do
+		filename="${f%.*}"
+		printf "%s %d:%02d\n" "$filename" $((total / 60)) $((total % 60))
+		duration=$(ffprobe -v quiet -show_entries format=duration -of csv=p=0 "$f" 2>/dev/null | cut -d. -f1)
+		total=$((total + duration))
+	done
+}
+
+labels() {
+	input="${1:-all.txt}"
+	base=$(basename "$input" .txt)
+	cat "$input" | cut -d'/' -f1 | sort | uniq | tee "${base}_labels.txt"
+}
+
+cheadd() {
+	repo=$HOME/.local/share/chezmoi
+	file="${1?}"
+	dir=$(pwd)
+	chezmoi add "$dir"/"$file"
+	git --git-dir="$repo"/.git --work-tree="$repo" add -A
+	git --git-dir="$repo"/.git --work-tree="$repo" commit -v
+}
+
+cheadde() {
+	repo=$HOME/.local/share/chezmoi
+	file="${1?}"
+	dir=$(pwd)
+	chezmoi add --encrypt "$dir"/"$file"
+	git --git-dir="$repo"/.git --work-tree="$repo" add -A
+	git --git-dir="$repo"/.git --work-tree="$repo" commit -v
+}
+
+mirror() {
+	wget --mirror --page-requisites --no-parent --convert-links -P ./ "$@"
+}
+
+cheat() {
+	curl cht.sh/"${1?}"
+}
+
+ytrss() {
+	CHANNEL_URL="$1"
+	if [ -n "$CHANNEL_URL" ]; then
+		curl -s "$CHANNEL_URL" |
+			grep -Po '<link rel="canonical" href="https://www.youtube.com/channel/\K.*?(?=">)' |
+			xargs -I@ echo 'https://www.youtube.com/feeds/videos.xml?channel_id=@' | wl-copy
+	fi
+}
+
+mpas() {
+	mpc add "$(yt-dlp -f bestaudio -g "${1?}")"
+}
+
+mpa() {
+	mpc add "${1?}"
+}
+
+ta() {
+	session="${1:=magnolia}"
+
+	if [ -n "$TMUX" ]; then
+		tmux detach-client
+	fi
+
+	if tmux has-session -t "${session}" 2>/dev/null; then
+		tmux attach -t "${session}"
+	else
+		tmux new -s "${session}"
+	fi
+}
+
+u() {
+	if [ -n "$1" ]; then
+		unzip "$1" -d "${1%.zip}"
+	else
+		for a in *.zip; do
+			unzip -n "$a" -d "${a%.zip}"
+		done
+	fi
+}
+
+o() {
+	if [ $# -eq 0 ]; then
+		vim "$(pwd)"
+	else
+		vim "$1"
+	fi
+}

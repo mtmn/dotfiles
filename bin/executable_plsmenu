@@ -1,0 +1,41 @@
+#!/bin/bash
+set -euo pipefail
+
+# Date calculation
+month=$(date "+%B" | tr '[:upper:]' '[:lower:]')
+year=$(date "+%y")
+current_month_playlist=".${month}_${year}"
+
+# Playlist options
+options=(
+    "$month"
+    "infame"
+    "ambient"
+    "experimental"
+    "club"
+    "mud"
+    "weird"
+    "bass"
+    "140"
+    "match"
+    "sad"
+    "happy"
+    "screenshots"
+)
+
+# Select playlist
+# Use printf to separate by newline and pipe to fuzzel
+choice=$(printf '%s\n' "${options[@]}" | fuzzel --dmenu "$@")
+
+# Exit if no choice
+[ -z "$choice" ] && exit 0
+
+# Map display name "month" to actual playlist name
+if [ "$choice" = "$month" ]; then
+    playlist="$current_month_playlist"
+else
+    playlist="$choice"
+fi
+
+# Add to playlist using zsh (preserving original behavior)
+zsh -c "mpd_add_to_playlist '$playlist'"

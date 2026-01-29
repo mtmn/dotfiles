@@ -1,0 +1,6 @@
+#!/bin/sh
+
+{
+	export WOODPECKER_SERVER="https://ci.codeberg.org"
+	export WOODPECKER_TOKEN=""
+}

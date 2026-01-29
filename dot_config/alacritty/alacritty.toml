@@ -12,51 +12,51 @@ history = 10000
 hide_when_typing = true
 
 [font]
-size = 14.0
+size = 12.0
 
 [font.normal]
-family = "UW ttyp0"
+family = "Comic Code"
 style  = "Regular"
 
 [font.bold]
-family = "UW ttyp0"
+family = "Comic Code"
 style  = "Regular"
 
 [font.italic]
-family = "UW ttyp0"
+family = "Comic Code"
 style  = "Regular"
 
 [colors.normal]
-black   = "#221920"
-red     = "#ef6360"
-green   = "#0faa26"
-yellow  = "#bf9032"
-blue    = "#3f95f6"
-magenta = "#d369af"
-cyan    = "#4fbaef"
-white   = "#d0d0d0"
+black   = '#282026'
+red     = '#cf4f5f'
+green   = '#2fa526'
+yellow  = '#c48702'
+blue    = '#379cf6'
+magenta = '#b0648f'
+cyan    = '#3fafcf'
+white   = '#dfd0d5'
 
 [colors.bright]
-black   = "#4b3f47"
-red     = "#fe5a7a"
-green   = "#00a692"
-yellow  = "#df8a5a"
-blue    = "#029fff"
-magenta = "#af85ff"
-cyan    = "#1dbfcf"
-white   = "#857f8f"
+black   = '#554f4f'
+red     = '#d24f7f'
+green   = '#00b066'
+yellow  = '#df8f6f'
+blue    = '#029fff'
+magenta = '#a6699f'
+cyan    = '#4fafaf'
+white   = '#908890'
 
 [colors.cursor]
-cursor = "#f0af7f"
-text   = "#130911"
+cursor = '#fd3333'
+text   = '#15050f'
 
 [colors.primary]
-background = "#130911"
-foreground = "#d0d0d0"
+background = '#15050f'
+foreground = '#dfd0d5'
 
 [colors.selection]
-background = "#3f2f40"
-text       = "#d0d0d0"
+background = '#293140'
+text       = '#dfd0d5'
 
 [cursor.style]
 shape    = "Block"

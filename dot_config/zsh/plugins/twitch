@@ -3,8 +3,7 @@ TWITCH_CHANNELS_FILE="$HOME/.config/twitch/channels"
 
 tww() {
 	local channel="${1?Usage: tww <channel>}"
-	mpv "https://twitch.tv/$channel" --no-resume-playback &
-	disown
+	mpv "https://twitch.tv/$channel" --no-terminal --no-resume-playback & disown
 }
 
 twe() {

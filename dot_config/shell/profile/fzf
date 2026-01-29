@@ -1,11 +1,9 @@
-#!/bin/sh
 export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS \
 --highlight-line \
 --ansi \
---height=40% \
+--layout=reverse \
 --border=none \
---color=bg:-1,bg+:#1e1e1e,spinner:#2fafff \
---color=fg:#ffffff,header:#2fafff,info:#989898,pointer:#2fafff \
---color=marker:#feacd0,fg+:#ffffff,prompt:#2fafff,hl:#44bc44 \
---color=hl+:#44bc44,gutter:-1,selected-bg:#1e1e1e \
+--color=bg+:#441824,bg:#1a1517,spinner:#a6699f,hl:#3fafcf \
+--color=fg:#dfd0d5,header:#b0648f,info:#908890,pointer:#a6699f \
+--color=marker:#a6699f,fg+:#dfd0d5,prompt:#6a84af,hl+:#3fafcf \
 "

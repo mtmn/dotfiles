@@ -1,16 +1,16 @@
 #!/bin/bash
 set -x
 
-mod="Mod4"
-alt="Mod1"
+mod="Mod1"
+alt="Mod4"
 term="alacritty"
 
 wobsock="$XDG_RUNTIME_DIR/wob.sock"
 
 rivertile -view-padding 0 -outer-padding 0 -main-ratio 0.55 &
 
-riverctl border-color-focused "0x00ccc9"
-riverctl border-color-unfocused "0xd5c1c9"
+riverctl border-color-focused "0xb33a4a"
+riverctl border-color-unfocused "0x8b2a3a"
 riverctl border-width 1
 
 riverctl set-repeat 50 300
@@ -25,31 +25,37 @@ riverctl attach-mode top
 riverctl focus-follows-cursor normal
 
 riverctl map normal Super Return zoom
+
 riverctl map normal $mod+Shift Return spawn "$term"
+riverctl map normal $alt+Shift Return spawn "$term"
 
 riverctl map normal $mod p spawn "fuzzel"
+riverctl map normal $alt p spawn "fuzzel"
 
-riverctl map normal $mod b spawn "toggle-waybar"
+riverctl map normal $mod b spawn "waybar_switch"
+riverctl map normal $alt b spawn "waybar_switch"
 
 riverctl map normal Control+$alt l spawn "waylock"
 
 riverctl map normal $mod F1 spawn "firefox"
-riverctl map normal $mod F2 spawn "foot zsh -c 'record'"
 riverctl map normal $mod F3 spawn "pcmanfm-qt"
 riverctl map normal $mod F4 spawn "picard"
 
-riverctl map normal $alt+Shift b spawn "btctl connect"
-riverctl map normal $alt+Shift p spawn "fuzzelpass"
-riverctl map normal $alt+Shift m spawn "playlistmenu"
-riverctl map normal $mod+Shift m spawn "playlistmenu"
-riverctl map normal $mod+Shift h spawn "huemenu"
+riverctl map normal $mod+Shift b spawn "btctl connect"
 riverctl map normal $mod+Shift p spawn "fuzzelpass"
-riverctl map normal $mod+Shift l spawn "langmenu"
-riverctl map normal $mod+Shift t spawn "tempmenu"
-riverctl map normal $mod+Shift d spawn "cliphist list | sed 's/^[0-9]\+\s\+//; /^.$/d' | uniq | fuzzel --dmenu | wl-copy"
+riverctl map normal $mod+Shift m spawn "plsmenu"
+riverctl map normal $mod+Shift p spawn "passmenu"
+riverctl map normal $mod+Shift d spawn "clipmenu"
+riverctl map normal $alt+Shift m spawn "plsmenu"
+riverctl map normal $alt+Shift h spawn "huemenu"
+riverctl map normal $alt+Shift p spawn "passmenu"
+riverctl map normal $alt+Shift l spawn "langmenu"
+riverctl map normal $alt+Shift t spawn "tempmenu"
+riverctl map normal $alt+Shift d spawn "clipmenu"
+riverctl map normal $alt+Shift w spawn "define"
 
 riverctl map normal $mod+Shift s spawn "screenshot"
-riverctl map normal $alt+Shift s spawn "grim"
+riverctl map normal $alt+Shift s spawn "screenshot"
 
 riverctl map normal None XF86AudioMute spawn "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle && (wpctl get-volume @DEFAULT_AUDIO_SINK@ | grep -q MUTED && echo 0 > $wobsock) || wpctl get-volume @DEFAULT_AUDIO_SINK@ | sed 's/[^0-9]//g' > $wobsock"
 riverctl map normal None XF86AudioLowerVolume spawn "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%- && wpctl get-volume @DEFAULT_AUDIO_SINK@ | sed 's/[^0-9]//g' > $wobsock"
@@ -59,6 +65,7 @@ riverctl map normal None XF86MonBrightnessUp spawn "brightnessctl set +5% | sed 
 riverctl map normal None XF86MonBrightnessDown spawn "brightnessctl set 5%- | sed -En 's/.*\(([0-9]+)%\).*/\1/p' > $wobsock"
 
 riverctl map normal $mod+Shift c close
+riverctl map normal $alt+Shift c close
 
 riverctl map normal $mod j focus-view next
 riverctl map normal $mod k focus-view previous
@@ -77,6 +84,7 @@ riverctl map normal $mod Space toggle-float
 riverctl map normal $mod+Shift Space toggle-float
 
 riverctl map normal $mod+Shift f toggle-fullscreen
+riverctl map normal $alt+Shift f toggle-fullscreen
 
 for i in $(seq 1 9)
 do
@@ -85,10 +93,20 @@ do
     riverctl map normal $mod+Shift "$i" set-view-tags "$tags"
     riverctl map normal $mod+Control "$i" toggle-focused-tags "$tags"
     riverctl map normal $mod+Shift+Control "$i" toggle-view-tags "$tags"
+
+    riverctl map normal $alt "$i" set-focused-tags "$tags"
+    riverctl map normal $alt+Shift "$i" set-view-tags "$tags"
+    riverctl map normal $alt+Control "$i" toggle-focused-tags "$tags"
+    riverctl map normal $alt+Shift+Control "$i" toggle-view-tags "$tags"
 done
 
 riverctl map normal $mod 0 set-focused-tags $(((1 << 32) - 1))
+riverctl map normal $mod 0 set-focused-tags $(((1 << 32) - 1))
 riverctl map normal $mod+Shift 0 set-view-tags $(((1 << 32) - 1))
+
+riverctl map normal $alt 0 set-focused-tags $(((1 << 32) - 1))
+riverctl map normal $alt 0 set-focused-tags $(((1 << 32) - 1))
+riverctl map normal $alt+Shift 0 set-view-tags $(((1 << 32) - 1))
 
 riverctl map-pointer normal $mod BTN_LEFT move-view
 riverctl map-pointer normal $mod BTN_RIGHT resize-view
@@ -100,19 +118,24 @@ riverctl map normal $mod comma focus-output previous
 riverctl map normal $mod+Shift period send-to-output next
 riverctl map normal $mod+Shift comma send-to-output previous
 
+riverctl map normal $alt Tab focus-previous-tags
+riverctl map normal $alt+Shift Tab send-to-previous-tags
+
 riverctl map normal $mod Tab focus-previous-tags
 riverctl map normal $mod+Shift Tab send-to-previous-tags
 
 riverctl xcursor-theme default 16
 
 pcmanfm-qt --daemon-mode &
-swaybg -m fit -c "#000000" -i "$HOME"/misc/wallpapers/06.jpg &
+swaybg -m fit -c "#15050f" -i "$HOME"/misc/random/wallpapers/theblanksignature.jpg &
 
 services_to_start=(
     "battery-notify"
     "cliphist"
     "dunst"
     "kanshi"
+    "plants-daemon"
+    "ppctl-autoswitch"
     "psi-notify"
     "singlefile-sync"
     "wob"

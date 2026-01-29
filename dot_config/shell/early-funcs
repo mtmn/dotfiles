@@ -1,15 +1,15 @@
 # vim: ft=sh
 
 use_first_to_exist() {
-    for command; do
-        if command -v "$command" >/dev/null 2>&1; then
-            printf '%s\n' "$command"
-            return 0
-        fi
-    done
+	for command; do
+		if command -v "$command" >/dev/null 2>&1; then
+			printf '%s\n' "$command"
+			return 0
+		fi
+	done
 
-    echo false
-    return 1
+	echo false
+	return 1
 }
 
 setopt NULL_GLOB >/dev/null 2>&1

@@ -29,8 +29,8 @@ local function _4_()
 end
 vim.api.nvim_create_autocmd({"BufRead", "BufNewFile"}, {pattern = {"*.m3u", "*.m3u8"}, callback = _4_})
 local function _5_()
-  vim.bo.filetype = "m3u"
-  vim.bo.syntax = "m3u"
+  vim.bo.filetype = "txt"
+  vim.bo.syntax = "txt"
   return nil
 end
 vim.api.nvim_create_autocmd({"BufRead", "BufNewFile"}, {pattern = (vim.fn.expand("$HOME") .. "/misc/notes/releases/*"), callback = _5_})

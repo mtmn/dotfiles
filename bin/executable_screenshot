@@ -1,4 +1,4 @@
-#!/bin/sh -e
+#!/bin/bash
 
 timestamp=$(date +%s)
 screenshot_file="$HOME/misc/screenshots/${timestamp}.png"
@@ -11,7 +11,7 @@ take_screenshot() {
         grim -g "$area" "$temp_file" || return 1
     else
         selection=$(hacksaw -f "-i %i -g %g" 2>/dev/null) || return 1
-        shotgun $selection "$temp_file" || return 1
+        shotgun "$selection" "$temp_file" || return 1
     fi
     
     return 0
@@ -30,10 +30,9 @@ copy_to_clipboard() {
 if take_screenshot "$screenshot_file"; then
     if [ -f "$screenshot_file" ] && [ -s "$screenshot_file" ]; then
         copy_to_clipboard "$screenshot_file"
-        echo "screenshot saved: $screenshot_file"
     else
         rm -f "$screenshot_file"
-        echo "error - no content captured" >&2
+        echo "no content captured" >&2
         exit 1
     fi
 else

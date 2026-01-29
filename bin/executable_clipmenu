@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+thumbnail_dir="${XDG_CACHE_HOME:-$HOME/.cache}/cliphist/thumbnails"
+cliphist_list=$(cliphist list)
+if [ -z "$cliphist_list" ]; then
+	fuzzel -d --prompt-only
+	rm -rf "$thumbnail_dir"
+	exit
+fi
+[ -d "$thumbnail_dir" ] || mkdir -p "$thumbnail_dir"
+
+# Filter out one-character entries (excluding binary data entries)
+cliphist_list=$(echo "$cliphist_list" | awk '
+  /\[\[ binary data/ { print; next }
+  {
+    # Extract the content after the ID and whitespace
+    match($0, /^[0-9]+\s+(.*)$/, arr)
+    content = arr[1]
+    # Only keep entries where content is longer than 1 character
+    if (length(content) > 1) print
+  }
+')
+
+# Write binary image to cache file if it doesn't exist
+read -r -d '' thumbnail <<EOF
+/^[0-9]+\s<meta http-equiv=/ { next }
+match(\$0, /^([0-9]+)\s(\[\[\s)?binary.*(jpg|jpeg|png|bmp)/, grp) {
+  cliphist_item_id=grp[1]
+  ext=grp[3]
+  thumbnail_file=cliphist_item_id"."ext
+  system("[ -f ${thumbnail_dir}/"thumbnail_file" ] || echo " cliphist_item_id "\\\\\t | cliphist decode >${thumbnail_dir}/"thumbnail_file)
+  print \$0"\0icon\x1f${thumbnail_dir}/"thumbnail_file
+  next
+}
+1
+EOF
+item=$(echo "$cliphist_list" | gawk "$thumbnail" | fuzzel -d --counter --no-sort --with-nth 2)
+[ -z "$item" ] || echo "$item" | cliphist decode | wl-copy
+find "$thumbnail_dir" -type f | while IFS= read -r thumbnail_file; do
+	cliphist_item_id=$(basename "${thumbnail_file%.*}")
+	if ! grep -q "^${cliphist_item_id}\s\[\[ binary data" <<<"$cliphist_list"; then
+		rm "$thumbnail_file"
+	fi
+done

@@ -7,31 +7,31 @@
     text-shadow: none;
 }
 window#waybar {
-    background: #000000;
-    color: #B0B0B0;
+    background: #15050f;
+    color: #dfd0d5;
 }
 #tags button {
     padding: 0 0px;
-    color: #B0B0B0;
+    color: #dfd0d5;
     background: transparent;
     min-width: 20px;
 }
 #tags button.focused {
-    color: #B0B0B0;
-    border-bottom: 1px solid #B0B0B0;
+    color: #dfd0d5;
+    border-bottom: 1px solid #3fafcf;
 }
 #tags button.occupied {
-    color: #B0B0B0;
+    color: #dfd0d5;
 }
 #tags button:hover {
-    background: #1a1a1a;
-    color: #B0B0B0;
+    background: #293140;
+    color: #dfd0d5;
 }
-#custom-waybat,
+#custom-tailnet,
+#custom-plants,
 #custom-gammastep,
 #custom-backlight,
 #custom-network,
-#custom-vpn,
 #custom-music,
 #pulseaudio,
 #battery,
@@ -40,13 +40,12 @@ window#waybar {
 #network,
 #backlight {
     padding: 0 10px;
-    color: #B0B0B0;
+    color: #dfd0d5;
 }
-#custom-waybat:hover,
+#custom-plants:hover,
 #custom-gammastep:hover,
 #custom-backlight:hover,
 #custom-network:hover,
-#custom-vpn:hover,
 #custom-music:hover,
 #pulseaudio:hover,
 #battery:hover,
@@ -54,6 +53,6 @@ window#waybar {
 #disk:hover,
 #network:hover,
 #backlight:hover {
-    background: #1a1a1a;
-    color: #B0B0B0;
+    background: #293140;
+    color: #dfd0d5;
 }

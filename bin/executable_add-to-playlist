@@ -1,8 +1,0 @@
-#!/bin/bash
-
-source "$HOME"/.config/shell/rc/fantomas
-
-echo "$MPD_HOST"
-echo "$MPD_PORT"
-
-"$HOME"/src/codeberg.org/mtmn/playground/c/add-to-playlist "$@"

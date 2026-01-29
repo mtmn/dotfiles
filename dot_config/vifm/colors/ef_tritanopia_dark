@@ -1,0 +1,47 @@
+highlight clear
+
+highlight Win         ctermfg=252 ctermbg=none cterm=none guifg=#dfd0d5 guibg=#15050f gui=none
+highlight Link        ctermfg=80  ctermbg=none cterm=none guifg=#3fafcf guibg=none    gui=none
+highlight BrokenLink  ctermfg=203 ctermbg=none cterm=none guifg=#cf4f5f guibg=none    gui=bold
+highlight Socket      ctermfg=175 ctermbg=none cterm=none guifg=#b0648f guibg=none    gui=none
+highlight Device      ctermfg=178 ctermbg=none cterm=none guifg=#c48702 guibg=none    gui=none
+highlight Fifo        ctermfg=36  ctermbg=none cterm=none guifg=#2fa526 guibg=none    gui=none
+highlight Executable  ctermfg=35  ctermbg=none cterm=none guifg=#00b066 guibg=none    gui=bold
+
+highlight Selected    ctermfg=252 ctermbg=237  cterm=bold guifg=#dfd0d5 guibg=#293140 gui=bold
+highlight CurrLine    ctermfg=252 ctermbg=235  cterm=bold guifg=#dfd0d5 guibg=#282026 gui=bold
+highlight TopLine     ctermfg=252 ctermbg=235  cterm=none guifg=#dfd0d5 guibg=#282026 gui=none
+highlight TopLineSel  ctermfg=75  ctermbg=235  cterm=bold guifg=#379cf6 guibg=#282026 gui=bold
+
+highlight StatusLine  ctermfg=252 ctermbg=235  cterm=none guifg=#dfd0d5 guibg=#282026 gui=none
+highlight WildMenu    ctermfg=16  ctermbg=75   cterm=bold guifg=#15050f guibg=#379cf6 gui=bold
+
+highlight CmdLine     ctermfg=252 ctermbg=none cterm=none guifg=#dfd0d5 guibg=#15050f gui=none
+highlight ErrorMsg    ctermfg=203 ctermbg=none cterm=bold guifg=#cf4f5f guibg=none    gui=bold
+
+highlight Border      ctermfg=240 ctermbg=none cterm=none guifg=#554f4f guibg=none    gui=none
+
+highlight OtherWin    ctermfg=246 ctermbg=none cterm=none guifg=#908890 guibg=#15050f gui=none
+
+highlight JobLine     ctermfg=252 ctermbg=235  cterm=bold guifg=#dfd0d5 guibg=#282026 gui=bold
+
+highlight SuggestBox  ctermfg=252 ctermbg=235  cterm=none guifg=#dfd0d5 guibg=#282026 gui=none
+
+highlight OtherLine   ctermfg=246 ctermbg=none cterm=none guifg=#908890 guibg=none    gui=none
+highlight LineNr      ctermfg=240 ctermbg=none cterm=none guifg=#554f4f guibg=none    gui=none
+
+highlight /^.*\.sh$/i      ctermfg=35  ctermbg=none cterm=none guifg=#00b066 guibg=none gui=none
+highlight /^.*\.py$/i      ctermfg=75  ctermbg=none cterm=none guifg=#379cf6 guibg=none gui=none
+highlight /^.*\.rb$/i      ctermfg=203 ctermbg=none cterm=none guifg=#cf4f5f guibg=none gui=none
+highlight /^.*\.md$/i      ctermfg=178 ctermbg=none cterm=none guifg=#c48702 guibg=none gui=none
+highlight /^.*\.json$/i    ctermfg=178 ctermbg=none cterm=none guifg=#c48702 guibg=none gui=none
+highlight /^.*\.vim$/i     ctermfg=35  ctermbg=none cterm=none guifg=#2fa526 guibg=none gui=none
+
+highlight /^.*\.(zip|tar|gz|bz2|xz|7z|rar)$/i ctermfg=203 ctermbg=none cterm=none guifg=#d24f7f guibg=none gui=none
+
+highlight /^.*\.(jpg|jpeg|png|gif|bmp|svg|webp)$/i    ctermfg=175 ctermbg=none cterm=none guifg=#b0648f guibg=none gui=none
+highlight /^.*\.(mp3|wav|flac|ogg|m4a)$/i             ctermfg=80  ctermbg=none cterm=none guifg=#3fafcf guibg=none gui=none
+highlight /^.*\.(mp4|mkv|avi|mov|webm|flv)$/i         ctermfg=175 ctermbg=none cterm=none guifg=#a6699f guibg=none gui=none
+
+highlight /^.*\.(pdf|doc|docx|odt)$/i  ctermfg=203 ctermbg=none cterm=none guifg=#d24f7f guibg=none gui=none
+highlight /^.*\.(txt|log)$/i           ctermfg=252 ctermbg=none cterm=none guifg=#dfd0d5 guibg=none gui=none

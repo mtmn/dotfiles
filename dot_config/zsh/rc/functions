@@ -1,0 +1,101 @@
+#!/bin/zsh
+for b in $(seq 0 1 100); do
+	alias b"$b"="sudo brightnessctl set $p%"
+done
+
+for t in $(seq 0 1 100); do
+	alias "s$t=seek $i"
+done
+
+for v in $(seq 0 1 100); do
+	alias "v$v=mpc volume $v"
+done
+
+erg() {
+	$EDITOR \
+		+'/\v'"${1/\//\\/}" \
+		+':silent tabdo :1 | normal! n' \
+		+':tabfirst' \
+		-p "$(rg "$@" | cut -d: -f1 | sort -u)"
+}
+
+efd() {
+	$EDITOR \
+		+':tabfirst' \
+		-p "$(fd "$@")"
+}
+
+# https://news.ycombinator.com/item?id=29155825
+jog() {
+	sqlite3 "$HOME"/.histdb/zsh-history.db "
+SELECT
+    replace(commands.argv, '
+', '
+')
+FROM commands
+JOIN history ON history.command_id = commands.id
+JOIN places ON history.place_id = places.id
+WHERE history.exit_status = 0
+AND dir = '${PWD}'
+AND places.host = '${HOST}'
+AND commands.argv != 'jog'
+AND commands.argv != 'jog_run'
+AND commands.argv != 'j'
+AND commands.argv != 'jr'
+AND commands.argv NOT LIKE 'z %'
+AND commands.argv NOT LIKE 'cd %'
+AND commands.argv != '..'
+ORDER BY start_time DESC"
+}
+
+jog_run() {
+	selected=$(jog "$@" | fzf --height=40% --reverse)
+
+	if [[ -n "$selected" ]]; then
+		eval "$selected"
+	fi
+}
+
+histdb_run() {
+	local exclude_exact=(
+		'd'
+		'f'
+		'h'
+		'hr'
+		'histdb'
+	)
+
+	local exclude_patterns=(
+		'z %'
+		'h %'
+		'hr %'
+		'cd %'
+		'cheadd %'
+	)
+
+	local exact_conditions=""
+	for cmd in "${exclude_exact[@]}"; do
+		exact_conditions+="AND commands.argv != '$cmd' "
+	done
+
+	local pattern_conditions=""
+	for pattern in "${exclude_patterns[@]}"; do
+		pattern_conditions+="AND commands.argv NOT LIKE '${pattern}' "
+	done
+
+	selected=$(sqlite3 "$HOME"/.histdb/zsh-history.db "
+SELECT
+    replace(commands.argv, '
+', '
+')
+FROM commands
+JOIN history ON history.command_id = commands.id
+JOIN places ON history.place_id = places.id
+WHERE history.exit_status = 0
+AND places.host = '${HOST}'
+${exact_conditions}${pattern_conditions}ORDER BY start_time DESC" | fzf --height=40% --reverse)
+
+	if [[ -n "$selected" ]]; then
+		eval "$selected"
+	fi
+}

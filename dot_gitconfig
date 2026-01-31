@@ -1,3 +1,9 @@
+[includeIf "gitdir:~/src/"]
+    path = ~/src/misc/gitconfig-gpgsign-enabled
+
+[init]
+    defaultBranch = master
+
 [user]
     name = mtmn
     email = miro@haravara.org
@@ -20,12 +26,6 @@
     wip = for-each-ref --sort='authordate:iso8601' --format=' %(color:green)%(authordate:relative)%09%(color:white)%(refname:short)' refs/heads
     lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
 
-[url "https://github/"]
-    insteadOf = "gh:"
-
-[url "git@github.com:"]
-    pushInsteadOf = "gh:"
-
 [pull]
     rebase = false
 
@@ -41,6 +41,3 @@
 
 [worktree]
     guessRemote = true
-
-[init]
-    defaultBranch = master

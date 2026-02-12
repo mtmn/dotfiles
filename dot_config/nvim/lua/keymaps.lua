@@ -3,7 +3,7 @@ local fzf_keymaps = {["<leader><leader>"] = "files", ["<leader>ff"] = "git_statu
 for key, func in pairs(fzf_keymaps) do
   vim.keymap.set("n", key, ("<cmd>lua require('fzf-lua')." .. func .. "()<CR>"))
 end
-local single_keymaps = {["<leader>g"] = "<cmd>Neogit<CR>", ["-"] = "<cmd>Oil<CR>", ["<leader>t"] = "<cmd>ToggleTerm<CR>", f = "<cmd>HopWord<CR>", mn = "<cmd>Mnav<CR>"}
+local single_keymaps = {["<leader>g"] = "<cmd>Neogit<CR>", ["-"] = "<cmd>Oil<CR>", f = "<cmd>HopWord<CR>", mn = "<cmd>Mnav<CR>"}
 for key, cmd in pairs(single_keymaps) do
   vim.keymap.set("n", key, cmd)
 end

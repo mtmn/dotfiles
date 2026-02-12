@@ -1,5 +1,12 @@
 #!/bin/sh
 
+nixpkgs_cache_index_update() {
+	filename="index-$(uname -m | sed 's/^arm64$/aarch64/')-$(uname | tr A-Z a-z)"
+	mkdir -p ~/.cache/nix-index && cd ~/.cache/nix-index
+	wget -q -N https://github.com/nix-community/nix-index-database/releases/latest/download/$filename
+	ln -f $filename files
+}
+
 nvimrecomp() {
 	nvim_config_path="$HOME/.config/nvim"
 
@@ -14,7 +21,7 @@ nvimrecomp() {
 			lua_file="$nvim_config_path/lua/${rel_path%.fnl}.lua"
 		fi
 
-		fennel --compile "$fnl_file" | tee "$lua_file" > /dev/null
+		fennel --compile "$fnl_file" | tee "$lua_file" >/dev/null
 		echo "$lua_file recompiled"
 	done
 }
@@ -39,10 +46,23 @@ tracklist() {
 	done
 }
 
+fetch_rss() {
+	url="${1?}"
+        curl -s "$url" | xmllint --html --xpath "//link[@type='application/rss+xml' or @type='application/atom+xml']/@href" - 2>/dev/null
+}
+
+tempfox() {
+	profile_dir=$(mktemp -d)
+	trap "rm -rf '$profile_dir'" EXIT
+	cp ~/src/haravara.org/$USER/tools/tempfox/user.js "$profile_dir"/user.js
+	firefox -no-remote -new-instance -profile "$profile_dir"
+}
+
 labels() {
 	input="${1:-all.txt}"
 	base=$(basename "$input" .txt)
-	cat "$input" | cut -d'/' -f1 | sort | uniq | tee "${base}_labels.txt"
+	mkdir -p ./labels
+	cat "$input" | cut -d'/' -f1 | sort | uniq | tee labels/"${base}_labels.txt"
 }
 
 cheadd() {

@@ -9,7 +9,6 @@ alias pcm='pcmanfm-qt'
 alias duh='du -hs'
 alias dfh='df -h'
 
-alias ncduc'/usr/sbin/ncdu'
 alias chediff='chezmoi diff'
 
 alias q='sudo '
@@ -20,7 +19,6 @@ alias tl='tmux ls'
 alias tls='tmux ls'
 
 alias ts='tmux split-window -l "30%"'
-alias tms='tmux display-message -p "#S"'
 
 alias ss='sudo systemctl start'
 alias st='sudo systemctl stop'
@@ -33,7 +31,7 @@ alias ud='systemctl --user -n 100 status'
 alias l='ls -l'
 alias t='ta'
 
-alias foo='fooyin .'
+alias foo='fooyin . & disown'
 alias mpva='mpv --no-video'
 
 alias pp='mpc toggle'
@@ -44,19 +42,22 @@ alias pre='mpc previous'
 alias n='nota'
 alias no='nota'
 
-alias todo='nota todo'
-
 alias to='nota today'
 alias ye='nota yesterday'
 alias tom='nota tomorrow'
 
+alias todo='nota todo'
+
 alias bnp='backup nota --push'
+alias bpp='backup pass --push'
+alias bdp='backup dotfiles --push'
+alias brp='backup releases --push'
 
 alias h='histdb'
 alias hs='histdb-sync'
 
 alias nb='newsboat'
-alias nbe='$EDITOR $HOME/.config/newsboat/urls'
+alias nbe='vim $HOME/.config/newsboat/urls'
 
 alias cbd='cargo build'
 alias cbr='cargo build --release'
@@ -67,7 +68,10 @@ alias btcon='btctl connect'
 alias btdis='btctl disconnect'
 
 alias ze='zeditor .'
-alias zed='ze'
+alias zed='zeditor .'
+
+alias ap='ansible-playbook --diff'
+alias apc='ansible-playbook --check --diff'
 
 alias filen='filen-cli'
 
@@ -81,7 +85,15 @@ alias kat='khal at'
 alias yt_dlp_audio_url='yt-dlp -f bestaudio -g'
 alias yt_dlp_audio='yt-dlp --embed-thumbnail --write-thumbnail --extract-audio --audio-format mp3 --audio-quality 0'
 
-alias datmix='datasette serve $HOME/.mixxx/mixxxdb.sqlite --setting sql_time_limit_ms 50000'
+alias matchamix='matchakey --mixxx ~/.mixxx/mixxxdb.sqlite'
+alias datasmix='datasette serve $HOME/.mixxx/mixxxdb.sqlite --setting sql_time_limit_ms 50000'
 
 alias ag='antigravity .'
 alias agkill='pkill -9 -f antigravity'
+
+alias hm='home-manager'
+alias hms='home-manager switch'
+alias hmsf='hms --flake $HOME/src/haravara.org/$USER/tools/nix/$(hostname)'
+
+alias nts1='mpva https://stream-relay-geo.ntslive.net/stream'
+alias nts2='mpva https://stream-relay-geo.ntslive.net/stream2'

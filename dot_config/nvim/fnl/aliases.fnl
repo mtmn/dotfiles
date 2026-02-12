@@ -5,14 +5,14 @@
 (local home (os.getenv :HOME))
 
 (local oil-abbreviations
-       {:bl :/misc/music/backlog/
-        :mi :/misc/
+       {:mi :/misc/
         :mu :/misc/music/
         :no :/misc/notes/nota/
-        :src :/src/
+        :www :/misc/notes/www/
         :rls :/misc/notes/releases/
-        :pls :/.config/mpd/playlists
-        :mtmn :/src/codeberg.org/mtmn})
+        :src :/src/
+        :cbg :/src/codeberg.org/mtmn
+        :tls :/src/haravara.org/miro/tools})
 
 (each [abbrev path (pairs oil-abbreviations)]
   (vim.cmd (.. "cnoreabbrev " abbrev " Oil " home path)))

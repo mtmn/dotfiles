@@ -1,7 +1,7 @@
 #!/bin/sh
 alias normfont="alafont --font 'Comic Code' --size '12.0'"
 alias bigfont="alafont --font 'Comic Code' --size '16.0'"
-alias bitont="alafont --font 'UW ttyp0' --size '13.0'"
+alias bitfont="alafont --font 'UW ttyp0' --size '13.0'"
 
 testfont() {
 	if [ $# -ne 2 ]; then

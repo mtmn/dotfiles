@@ -1,9 +1,16 @@
 #!/bin/sh
-alias pcu='sudo podman-compose up'
-alias pcud='sudo podman-compose up -d'
 
-alias pcdo='sudo podman-compose down'
-alias pcst='sudo podman-compose stop'
+alias pps='podman ps'
+alias ppsa='podman ps -a'
 
-alias pcbu='sudo podman-compose build'
-alias pcbuno='sudo podman-compose build --no-cache'
+alias plo='podman logs'
+alias plo='podman logs -f'
+
+alias pcup='podman-compose up'
+alias pcupd='podman-compose up -d'
+
+alias pcdo='podman-compose down'
+alias pcst='podman-compose stop'
+
+alias pbu='podman build'
+alias pcbu='podman-compose build'

@@ -1,0 +1,33 @@
+#!/bin/sh
+
+if [ -z "$WEZTERM_EXECUTABLE" ]; then
+	wezterm start -- "$0"
+	exit 0
+fi
+
+cd ~/misc/screenshots || exit 1
+
+UEBERZUG_TMP_DIR="/tmp"
+
+cleanup() {
+	ueberzugpp cmd -s "$SOCKET" -a exit
+}
+
+trap cleanup HUP INT QUIT TERM EXIT
+
+UB_PID_FILE="$UEBERZUG_TMP_DIR/.$(uuidgen)"
+ueberzugpp layer --no-stdin --silent --use-escape-codes --pid-file "$UB_PID_FILE"
+UB_PID=$(cat "$UB_PID_FILE")
+export SOCKET="$UEBERZUG_TMP_DIR"/ueberzugpp-"$UB_PID".socket
+
+PICKED=$(ls -t | fzf --reverse --preview="ueberzugpp cmd -s $SOCKET -i fzfpreview -a add \
+                            -x \$FZF_PREVIEW_LEFT -y \$FZF_PREVIEW_TOP \
+                            --max-width \$FZF_PREVIEW_COLUMNS --max-height \$FZF_PREVIEW_LINES \
+                            -f {}")
+
+ueberzugpp cmd -s "$SOCKET" -a exit
+
+if [ -n "$PICKED" ]; then
+	filen-cli upload "$PICKED" screenshots/
+	printf "\n" | filen-cli links "screenshots/$PICKED" | grep "Link URL:" | sed 's/.*Link URL:[[:space:]]*//' | tr -d '\n' | wl-copy
+fi

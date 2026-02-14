@@ -46,7 +46,7 @@ alias to='nota today'
 alias ye='nota yesterday'
 alias tom='nota tomorrow'
 
-alias todo='nota todo'
+alias todo='rg "^todo:" ~/misc/notes.txt'
 
 alias bnp='backup nota --push'
 alias bpp='backup pass --push'

@@ -1,0 +1,10 @@
+# Ctrl+w
+KEY 17 DeletePrevWord
+
+# Ctrl-Right
+SEQ "\x1b[1;5C" 22
+KEY 22 NextWord >
+
+# Ctrl-Left
+SEQ "\x1b[1;5D" 23
+KEY 23 PrevWord

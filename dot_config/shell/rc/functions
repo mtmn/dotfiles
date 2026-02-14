@@ -108,6 +108,18 @@ mpa() {
 	mpc add "${1?}"
 }
 
+nn() {
+	{
+		echo
+		date --rfc-3339=s
+	} >>~/misc/notes/nota/todo.txt
+	/usr/local/bin/ne + ~/misc/notes/nota/todo.txt
+}
+
+nne() {
+	/usr/local/bin/ne + ~/misc/notes/nota/todo.txt
+}
+
 ta() {
 	session="${1:=magnolia}"
 

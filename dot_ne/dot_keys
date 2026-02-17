@@ -1,10 +1,17 @@
-# Ctrl+w
+# Ctrl+W
 KEY 17 DeletePrevWord
 
-# Ctrl-Right
-SEQ "\x1b[1;5C" 22
-KEY 22 NextWord >
+# Ctrl+D
+KEY 4 Macro replace-todo-with-done
 
-# Ctrl-Left
-SEQ "\x1b[1;5D" 23
-KEY 23 PrevWord
+# Ctrl+T
+KEY 14 insert-todo
+
+# Ctrl-P
+KEY 10 LineUp
+
+# Ctrl-N
+KEY E LineDown
+
+# Ctrl+K
+KEY B DeleteLine

@@ -13,7 +13,7 @@ alias us='systemctl --user start'
 alias ut='systemctl --user stop'
 alias ud='systemctl --user -n 100 status'
 
-cp "$SSHHOME/.sshrc.d/vimrc" ~/.config/.vimrc
+cp "$SSHHOME/.sshrc.d/vimrc" ~/.vimrc
 cp "$SSHHOME/.sshrc.d/podman" ~/.podman.aliases
 cp "$SSHHOME/.sshrc.d/tmuxconf" ~/.config/.tmux.conf
 

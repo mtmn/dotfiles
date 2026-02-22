@@ -51,16 +51,15 @@
                       (vim.api.nvim_create_autocmd :BufEnter
                                                    {:pattern "oil://*"
                                                     :callback oil-cd-on-enter})))})
-    (use "NeogitOrg/neogit"
+    (use "neogitorg/neogit"
          {:dependencies [:nvim-lua/plenary.nvim :sindrets/diffview.nvim]
           :config true})
+    (use "saghen/blink.cmp"
+	{:version :^1
+	:lazy false
+	:dependencies [:L3MON4D3/LuaSnip]
+	:config #(: (require :config.blink) :config)})
     (use "mrcjkb/rustaceanvim" {:version :^7 :lazy false})
-    (use "hrsh7th/nvim-cmp"
-         {:dependencies [:hrsh7th/cmp-nvim-lsp
-                        :hrsh7th/cmp-buffer
-                        :hrsh7th/cmp-path
-                        :hrsh7th/cmp-vsnip]
-          :config #(: (require :config.cmp) :config)})
     (use "neovim/nvim-lspconfig"
          {:event :VeryLazy
           :branch :master
@@ -70,17 +69,15 @@
          {:branch :main
           :build #(: (require :config.treesitter) :build)
           :config #(: (require :config.treesitter) :config)})
-
-    (use "L3MON4D3/LuaSnip" {:dependencies [:saadparwaiz1/cmp_luasnip]})
     (use "tpope/vim-commentary")
     (use "tpope/vim-repeat")
     (use "tpope/vim-surround")
     (use "troydm/zoomwintab.vim")
-    (use "danobi/prr"
-	{:init (fn [] (vim.opt.rtp:prepend (.. (vim.fn.stdpath :data) "/lazy/prr/vim")))})
+(use "danobi/prr"
+     {:init (fn []
+              (vim.opt.rtp:prepend (.. (vim.fn.stdpath :data) "/lazy/prr/vim"))
+              (vim.filetype.add {:extension {:prr :prr}}))})
   ])
-
-(vim.filetype.add {:extension {:prr :prr}})
 
 (fn init []
   (let [vimrc (.. (vim.fn.stdpath :config) :/init_.vim)]

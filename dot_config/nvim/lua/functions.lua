@@ -4,7 +4,7 @@ local function log_file_event(action)
   if ((file_path ~= "") and (file_path ~= nil)) then
     local db_path = (vim.fn.expand("$HOME") .. "/.magnolia.db")
     local escaped_path = file_path:gsub("'", "''")
-    local sql_query = string.format("INSERT INTO file_history (path, file_type, action) VALUES ('%s', '%s', '%s');", escaped_path, __fnl_global__file_2dtype, action)
+    local sql_query = string.format("DELETE FROM file_history WHERE path LIKE 'oil://%%'; INSERT INTO file_history (path, file_type, action) VALUES ('%s', '%s', '%s');", escaped_path, __fnl_global__file_2dtype, action)
     local command = string.format("sqlite3 '%s' \"%s\"", db_path, sql_query)
     return vim.fn.system(command)
   else
@@ -31,4 +31,24 @@ vim.api.nvim_create_autocmd({"BufRead", "BufNewFile"}, {pattern = {"*.m3u", "*.m
 local function _5_(ev)
   return vim.lsp.buf.code_action({apply = true, context = {only = {"source.fixAll"}}})
 end
-return vim.api.nvim_create_autocmd("BufWritePre", {callback = _5_, pattern = {"*.zig", "*.zon"}})
+vim.api.nvim_create_autocmd("BufWritePre", {callback = _5_, pattern = {"*.zig", "*.zon"}})
+local function _6_()
+  vim.opt_local.suffixesadd = ".md"
+  vim.opt_local.includeexpr = "v:lua.follow_md_link()"
+  local function _7_()
+    return vim.v.fname:gsub("%[%[(.-)%]%]", "%1")
+  end
+  follow_md_link = _7_
+  local function _8_()
+    local line = vim.api.nvim_get_current_line()
+    local col = vim.api.nvim_win_get_cursor(0)[2]
+    local link = line:match("%[([%w_%-][%w_%-]+)%]", col)
+    if link then
+      return vim.cmd(("edit " .. link .. ".md"))
+    else
+      return vim.cmd("normal! gf")
+    end
+  end
+  return vim.keymap.set("n", "gf", _8_, {buffer = true})
+end
+return vim.api.nvim_create_autocmd("FileType", {pattern = "markdown", callback = _6_})

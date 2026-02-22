@@ -1,0 +1,20 @@
+alias q='sudo '
+alias dfh='df -h /'
+alias duh='du -hs .'
+
+alias lopri='nice -n 19 ionice -c2 -n7 '
+alias scan='sudo nmap -n -PN -sT -sU -p-'
+
+alias ss='sudo systemctl start'
+alias st='sudo systemctl stop'
+alias sd='sudo systemctl -n 100 status'
+
+alias us='systemctl --user start'
+alias ut='systemctl --user stop'
+alias ud='systemctl --user -n 100 status'
+
+cp "$SSHHOME/.sshrc.d/vimrc" ~/.config/.vimrc
+cp "$SSHHOME/.sshrc.d/podman" ~/.podman.aliases
+cp "$SSHHOME/.sshrc.d/tmuxconf" ~/.config/.tmux.conf
+
+source ~/.podman.aliases

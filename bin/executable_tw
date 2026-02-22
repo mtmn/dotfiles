@@ -1,0 +1,73 @@
+#!/usr/bin/env python3
+import sys
+import os
+import urllib.request
+import urllib.error
+from typing import cast
+from http.client import HTTPResponse
+from concurrent.futures import ThreadPoolExecutor, as_completed
+
+
+def read_channels_file(filepath: str) -> list[tuple[str, str]]:
+    channels: list[tuple[str, str]] = []
+    if not os.path.isfile(filepath):
+        return channels
+
+    with open(filepath, "r") as f:
+        for line in f:
+            line = line.strip()
+            if not line:
+                continue
+            parts = line.split(None, 1)
+            channel = parts[0]
+            description = parts[1] if len(parts) > 1 else ""
+            channels.append((channel, description))
+
+    return channels
+
+
+def check_channel_status(channel: str, description: str) -> tuple[str, str, bool]:
+    try:
+        url = f"https://www.twitch.tv/{channel}"
+        req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+        with cast(HTTPResponse, urllib.request.urlopen(req, timeout=10)) as response:
+            content: str = response.read().decode("utf-8", errors="ignore")
+            is_online: bool = "isLiveBroadcast" in content
+            return (channel, description, is_online)
+    except (urllib.error.URLError, urllib.error.HTTPError, TimeoutError):
+        return (channel, description, False)
+
+
+def main():
+    channels_file = os.path.expanduser("~/.config/twitch/channels")
+    if not os.path.isfile(channels_file):
+        print("Error: ~/.config/twitch/channels not found", file=sys.stderr)
+        sys.exit(1)
+
+    channels = read_channels_file(channels_file)
+    if not channels:
+        return
+
+    max_workers = 10
+
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+        future_to_channel = {
+            executor.submit(check_channel_status, channel, description): (
+                channel,
+                description,
+            )
+            for channel, description in channels
+        }
+
+        for future in as_completed(future_to_channel):
+            channel, description, is_online = future.result()
+
+            if is_online:
+                if description:
+                    print(f"{channel} ({description}) is online")
+                else:
+                    print(f"{channel} is online")
+
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,7 @@
+[Unit]
+Description=Synchronize calendars and contacts
+Documentation=https://vdirsyncer.readthedocs.io
+
+[Service]
+Type=oneshot
+ExecStart=/usr/sbin/vdirsyncer sync

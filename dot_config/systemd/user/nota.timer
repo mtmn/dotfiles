@@ -1,0 +1,9 @@
+[Unit]
+Description=Run nota backup periodically
+
+[Timer]
+OnBootSec=30min
+OnUnitActiveSec=1h
+
+[Install]
+WantedBy=timers.target

@@ -4,7 +4,7 @@ After=graphical-session.target
 
 [Service]
 Type=simple
-ExecStart=/opt/tools/singlefile-sync.sh
+ExecStart=/opt/tools/singlefile-sync
 Restart=on-failure
 RestartSec=30
 KillMode=control-group

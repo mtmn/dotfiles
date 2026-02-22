@@ -1,5 +1,6 @@
-#### To translate [Fennel](https://fennel-lang.org) into [Lua](https://www.lua.org/) I use this shell function:
-```
+To recompile `fnl` files into `lua` I use this shell function:
+
+```bash
 nvimrecomp() {
 	nvim_config_path_path="$HOME/.config/nvim"
 

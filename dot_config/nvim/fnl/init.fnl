@@ -40,17 +40,6 @@
     (use "windwp/nvim-autopairs" {:event :VeryLazy :config true})
     (use "ibhagwan/fzf-lua" {:config true})
     (use "smoka7/hop.nvim" {:version "*" :opts {:keys :etovxqpdygfblzhckisuran}})
-
-    (use "nullchilly/fsread.nvim"
-         {:version "*"
-          :opts {}
-          :config (fn []
-                    (set vim.g.flow_strength 0.7)
-                    (vim.api.nvim_set_hl 0 :FSPrefix {:fg "#cdd6f4"})
-                    (vim.api.nvim_set_hl 0 :FSSuffix {:fg "#6C7086"}))})
-
-    (use "MeanderingProgrammer/render-markdown.nvim" {:version "*" :opts {}})
-
     (use "stevearc/oil.nvim"
          {:config (fn []
                     ((. (require :oil) :setup) {:view_options {:show_hidden false}})
@@ -62,34 +51,20 @@
                       (vim.api.nvim_create_autocmd :BufEnter
                                                    {:pattern "oil://*"
                                                     :callback oil-cd-on-enter})))})
-
     (use "NeogitOrg/neogit"
          {:dependencies [:nvim-lua/plenary.nvim :sindrets/diffview.nvim]
           :config true})
-
-
-    (use "ray-x/go.nvim"
-         {:config (fn [] ((. (require :go) :setup)))
-          :event [:CmdlineEnter]
-          :ft [:go :gomod]})
-
     (use "mrcjkb/rustaceanvim" {:version :^7 :lazy false})
-
     (use "hrsh7th/nvim-cmp"
          {:dependencies [:hrsh7th/cmp-nvim-lsp
                         :hrsh7th/cmp-buffer
                         :hrsh7th/cmp-path
                         :hrsh7th/cmp-vsnip]
           :config #(: (require :config.cmp) :config)})
-
     (use "neovim/nvim-lspconfig"
          {:event :VeryLazy
           :branch :master
-          :dependencies [:williamboman/mason.nvim
-                         :williamboman/mason-lspconfig.nvim
-                         :WhoIsSethDaniel/mason-tool-installer.nvim]
           :config (fn []
-                    (: (require :config.mason) :setup)
                     (: (require :config.lsp) :config))})
     (use "nvim-treesitter/nvim-treesitter"
          {:branch :main
@@ -97,12 +72,15 @@
           :config #(: (require :config.treesitter) :config)})
 
     (use "L3MON4D3/LuaSnip" {:dependencies [:saadparwaiz1/cmp_luasnip]})
-    
     (use "tpope/vim-commentary")
     (use "tpope/vim-repeat")
     (use "tpope/vim-surround")
     (use "troydm/zoomwintab.vim")
+    (use "danobi/prr"
+	{:init (fn [] (vim.opt.rtp:prepend (.. (vim.fn.stdpath :data) "/lazy/prr/vim")))})
   ])
+
+(vim.filetype.add {:extension {:prr :prr}})
 
 (fn init []
   (let [vimrc (.. (vim.fn.stdpath :config) :/init_.vim)]

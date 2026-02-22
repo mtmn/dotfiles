@@ -22,16 +22,8 @@
 (vim.api.nvim_create_autocmd [:BufRead :BufNewFile]
                              {:pattern [:*.m3u :*.m3u8]
                               :callback (fn []
-                                          (set vim.bo.filetype :m3u)
-                                          (set vim.bo.syntax :m3u))})
-
-; this helps with performance as render-markdown.nvim is slow on big files
-(vim.api.nvim_create_autocmd [:BufRead :BufNewFile]
-                             {:pattern (.. (vim.fn.expand :$HOME)
-                                           :/misc/notes/releases/*)
-                              :callback (fn []
-                                          (set vim.bo.filetype :txt)
-                                          (set vim.bo.syntax :txt))})
+                                          (set vim.bo.filetype :text)
+                                          (set vim.bo.syntax :text))})
 
 (vim.api.nvim_create_autocmd :BufWritePre
                              {:callback (fn [ev]

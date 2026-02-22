@@ -27,7 +27,7 @@ local _ENV = require 'std.normalize' {
    'table',
    merge = 'table.merge',
    min = 'math.min',
-}	
+}
 
 
 

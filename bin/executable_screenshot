@@ -5,7 +5,7 @@ screenshot_file="$HOME/misc/screenshots/${timestamp}.png"
 
 take_screenshot() {
     local temp_file="$1"
-    
+
     if [ -n "$WAYLAND_DISPLAY" ]; then
         area=$(slurp 2>/dev/null) || return 1
         grim -g "$area" "$temp_file" || return 1
@@ -13,13 +13,13 @@ take_screenshot() {
         selection=$(hacksaw -f "-i %i -g %g" 2>/dev/null) || return 1
         shotgun "$selection" "$temp_file" || return 1
     fi
-    
+
     return 0
 }
 
 copy_to_clipboard() {
     local file="$1"
-    
+
     if [ -n "$WAYLAND_DISPLAY" ]; then
         wl-copy < "$file"
     else

@@ -145,5 +145,3 @@ symlink_path: {foreground: *blue}
 control_char: {foreground: *cyan}
 broken_symlink: {foreground: *red}
 broken_path_overlay: {foreground: *pink}
-
-

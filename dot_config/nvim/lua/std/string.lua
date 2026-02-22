@@ -502,4 +502,3 @@ M = {
 
 
 return merge(string, M)
-

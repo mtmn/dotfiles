@@ -1,0 +1,7 @@
+[Unit]
+Description=Backup nota repository
+
+[Service]
+Type=oneshot
+Environment=SSH_AUTH_SOCK=%t/ssh-agent.socket
+ExecStart=%h/bin/bbackup nota --push

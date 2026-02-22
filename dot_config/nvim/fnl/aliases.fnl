@@ -1,6 +1,8 @@
 (vim.cmd "cnoreabbrev nt botright vert new
-          cnoreabbrev sct %!saturn_copy_tracks
-          cnoreabbrev spt %!saturn_play_tracks")
+          cnoreabbrev mft %!saturn_fetch_tracks
+          cnoreabbrev mat %!saturn_add_tracks
+          cnoreabbrev mpc %!mpc clear
+          cnoreabbrev mpl %!mpc play")
 
 (local home (os.getenv :HOME))
 

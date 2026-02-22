@@ -11,7 +11,6 @@
 
 (local single-keymaps {:<leader>g :<cmd>Neogit<CR>
                        :- :<cmd>Oil<CR>
-                       :<leader>t :<cmd>ToggleTerm<CR>
                        :f :<cmd>HopWord<CR>
                        :mn :<cmd>Mnav<CR>})
 
@@ -43,3 +42,5 @@
                 "<cmd>lua vim.lsp.buf.format({async = true})<CR>")
 
 (vim.keymap.set :i :<C-Space> "<cmd>lua vim.lsp.buf.completion()<CR>")
+
+(vim.keymap.set :n :x "\"_x")

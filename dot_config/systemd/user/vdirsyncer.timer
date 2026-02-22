@@ -1,0 +1,11 @@
+[Unit]
+Description=Run vdirsyncer periodically
+Documentation=https://vdirsyncer.readthedocs.io
+
+[Timer]
+OnBootSec=5min
+OnUnitActiveSec=6h
+Persistent=true
+
+[Install]
+WantedBy=timers.target

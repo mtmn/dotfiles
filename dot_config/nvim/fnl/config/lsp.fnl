@@ -40,22 +40,13 @@
       (create-autocmd :FileType {:pattern filetype : callback}))))
 
 (fn config []
-
   (let [servers {:basedpyright {}
-                 :bash-language-server {}
-                 :bashls {}
                  :clangd {}
-                 :dockerls {}
-                 :fennel_ls {}
                  :gopls {:settings {:gopls {:analyses {:unusedparams true}
                                             :staticcheck true
                                             :gofumpt true}}}
-                 :html {}
                  :intelephense {}
-                 :lua-language-server {}
                  :rust_analyzer {}
-                 :starpls {}
-                 :yamlls {}
                  :zls {}}]
     (each [server config (pairs servers)]
       (vim.lsp.enable server config))

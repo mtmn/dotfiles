@@ -1,0 +1,10 @@
+[Unit]
+Description=Change power profiles on battery status
+
+[Service]
+Type=simple
+Restart=on-failure
+ExecStart=%h/bin/ppctl_autoswitch
+
+[Install]
+WantedBy=default.target

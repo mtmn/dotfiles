@@ -1,0 +1,6 @@
+[Service]
+ExecStart=/usr/bin/bb %h/bin/habitual.clj
+Restart=on-failure
+
+[Install]
+WantedBy=default.target

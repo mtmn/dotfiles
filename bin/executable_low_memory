@@ -1,0 +1,2 @@
+#!/bin/sh
+exec systemd-run --scope --user --slice=low-memory.slice "$@"

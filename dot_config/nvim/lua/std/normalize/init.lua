@@ -1340,4 +1340,3 @@ return setmetatable(G, {
 --    integers
 -- @treturn string stringified rendering of separator between previous and
 --    next pairs
-

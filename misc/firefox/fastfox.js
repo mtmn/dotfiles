@@ -1,4 +1,3 @@
-
 /****************************************************************************************
  * Fastfox                                                                              *
  * "Non ducor duco"                                                                     *
@@ -9,7 +8,7 @@
 
 /****************************************************************************
  * SECTION: GENERAL                                                        *
-****************************************************************************/
+ ****************************************************************************/
 
 // PREF: initial paint delay
 // How long FF will wait before rendering the page (in ms)
@@ -20,7 +19,7 @@
 // [3] https://old.reddit.com/r/firefox/comments/o0xl1q/reducing_cpu_usage_of_dark_reader_extension/
 // [4] https://reddit.com/r/browsers/s/wvNB7UVCpx
 //user_pref("nglayout.initialpaint.delay", 5); // DEFAULT; formerly 250
-    //user_pref("nglayout.initialpaint.delay_in_oopif", 5); // DEFAULT
+//user_pref("nglayout.initialpaint.delay_in_oopif", 5); // DEFAULT
 
 // PREF: page reflow timer
 // Rather than wait until a page has completely downloaded to display it to the user,
@@ -69,7 +68,7 @@ user_pref("content.notify.interval", 100000); // (.10s); default=120000 (.12s)
 // true=Tabs are not loaded until they are selected (default)
 // false=Tabs begin to load immediately.
 //user_pref("browser.sessionstore.restore_on_demand", true); // DEFAULT
-    //user_pref("browser.sessionstore.restore_pinned_tabs_on_demand", true);
+//user_pref("browser.sessionstore.restore_pinned_tabs_on_demand", true);
 //user_pref("browser.sessionstore.restore_tabs_lazily", true); // DEFAULT
 
 // PREF: disable preSkeletonUI on startup [WINDOWS]
@@ -78,7 +77,7 @@ user_pref("content.notify.interval", 100000); // (.10s); default=120000 (.12s)
 // PREF: lazy load iframes
 //user_pref("dom.iframe_lazy_loading.enabled", true); // DEFAULT [FF121+]
 
-// PREF: Prioritized Task Scheduling API 
+// PREF: Prioritized Task Scheduling API
 // [1] https://github.com/yokoffing/Betterfox/issues/355
 // [2] https://blog.mozilla.org/performance/2022/06/02/prioritized-task-scheduling-api-is-prototyped-in-nightly/
 // [3] https://medium.com/airbnb-engineering/building-a-faster-web-experience-with-the-posttask-scheduler-276b83454e91
@@ -89,7 +88,7 @@ user_pref("content.notify.interval", 100000); // (.10s); default=120000 (.12s)
 
 /****************************************************************************
  * SECTION: GFX RENDERING TWEAKS                                            *
-****************************************************************************/
+ ****************************************************************************/
 
 // PREF: Webrender tweaks
 // [1] https://searchfox.org/mozilla-central/rev/6e6332bbd3dd6926acce3ce6d32664eab4f837e5/modules/libpref/init/StaticPrefList.yaml#6202-6219
@@ -100,12 +99,12 @@ user_pref("content.notify.interval", 100000); // (.10s); default=120000 (.12s)
 //user_pref("gfx.webrender.all", true); // enables WR + additional features
 //user_pref("gfx.webrender.precache-shaders", true); // longer initial startup time
 //user_pref("gfx.webrender.compositor", true); // DEFAULT WINDOWS macOS
-    //user_pref("gfx.webrender.compositor.force-enabled", true); // enforce
+//user_pref("gfx.webrender.compositor.force-enabled", true); // enforce
 
 // PREF: if your hardware doesn't support Webrender, you can fallback to Webrender's software renderer
 // [1] https://www.ghacks.net/2020/12/14/how-to-find-out-if-webrender-is-enabled-in-firefox-and-how-to-enable-it-if-it-is-not/
 //user_pref("gfx.webrender.software", true); // Software Webrender uses CPU instead of GPU
-    //user_pref("gfx.webrender.software.opengl", true); // LINUX
+//user_pref("gfx.webrender.software.opengl", true); // LINUX
 
 // PREF: GPU-accelerated Canvas2D
 // Uses Accelerated Canvas2D for hardware acceleration of Canvas2D.
@@ -118,20 +117,20 @@ user_pref("content.notify.interval", 100000); // (.10s); default=120000 (.12s)
 // [2] https://github.com/yokoffing/Betterfox/issues/153
 // [3] https://github.com/yokoffing/Betterfox/issues/198
 //user_pref("gfx.canvas.accelerated", true); // [DEFAULT FF133+]
-    //user_pref("gfx.canvas.accelerated.cache-items", 8192); // DEFAULT FF135+; Chrome=4096
-    user_pref("gfx.canvas.accelerated.cache-size", 512); // default=256; Chrome=512
-    user_pref("gfx.content.skia-font-cache-size", 20); // default=5; Chrome=20
-    // [1] https://bugzilla.mozilla.org/show_bug.cgi?id=1239151#c2
+//user_pref("gfx.canvas.accelerated.cache-items", 8192); // DEFAULT FF135+; Chrome=4096
+user_pref("gfx.canvas.accelerated.cache-size", 512); // default=256; Chrome=512
+user_pref("gfx.content.skia-font-cache-size", 20); // default=5; Chrome=20
+// [1] https://bugzilla.mozilla.org/show_bug.cgi?id=1239151#c2
 
 // PREF: prefer GPU over CPU
 // At best, the prefs do nothing on Linux/macOS.
 // At worst, it'll result in crashes if the sandboxing is a WIP.
 // [1] https://firefox-source-docs.mozilla.org/dom/ipc/process_model.html#gpu-process
 //user_pref("layers.gpu-process.enabled", true); // DEFAULT WINDOWS
-    //user_pref("layers.gpu-process.force-enabled", true); // enforce
-    //user_pref("layers.mlgpu.enabled", true); // LINUX
+//user_pref("layers.gpu-process.force-enabled", true); // enforce
+//user_pref("layers.mlgpu.enabled", true); // LINUX
 //user_pref("media.hardware-video-decoding.enabled", true); // DEFAULT WINDOWS macOS
-    //user_pref("media.hardware-video-decoding.force-enabled", true); // enforce
+//user_pref("media.hardware-video-decoding.force-enabled", true); // enforce
 //user_pref("media.gpu-process-decoder", true); // DEFAULT WINDOWS
 //user_pref("media.ffmpeg.vaapi.enabled", true); // LINUX
 
@@ -139,13 +138,13 @@ user_pref("content.notify.interval", 100000); // (.10s); default=120000 (.12s)
 // [1] https://bugzilla.mozilla.org/show_bug.cgi?id=1829063
 // [2] https://phabricator.services.mozilla.com/D175993
 //user_pref("gfx.webrender.dcomp-video-hw-overlay-win", true); // DEFAULT
-    //user_pref("gfx.webrender.dcomp-video-hw-overlay-win-force-enabled", true); // enforce
+//user_pref("gfx.webrender.dcomp-video-hw-overlay-win-force-enabled", true); // enforce
 //user_pref("gfx.webrender.dcomp-video-sw-overlay-win", true); // DEFAULT
-    //user_pref("gfx.webrender.dcomp-video-sw-overlay-win-force-enabled", true); // enforce
+//user_pref("gfx.webrender.dcomp-video-sw-overlay-win-force-enabled", true); // enforce
 
 /****************************************************************************
  * SECTION: DISK CACHE                                                     *
-****************************************************************************/
+ ****************************************************************************/
 
 // PREF: disk cache
 // [NOTE] If you think it helps performance, then feel free to override this.
@@ -256,7 +255,7 @@ user_pref("browser.cache.disk.enable", false);
 
 /****************************************************************************
  * SECTION: MEMORY CACHE                                                   *
-****************************************************************************/
+ ****************************************************************************/
 
 // PREF: memory cache
 // The "automatic" size selection (default) is based on a decade-old table
@@ -285,7 +284,7 @@ user_pref("browser.sessionhistory.max_total_viewers", 4);
 
 /****************************************************************************
  * SECTION: MEDIA CACHE                                                     *
-****************************************************************************/
+ ****************************************************************************/
 
 // PREF: media disk cache
 //user_pref("media.cache_size", 512000); // DEFAULT
@@ -315,7 +314,7 @@ user_pref("media.cache_resume_threshold", 3600); // 60 min; default=30; when a n
 
 /****************************************************************************
  * SECTION: IMAGE CACHE                                                     *
-****************************************************************************/
+ ****************************************************************************/
 
 // PREF: image cache
 //user_pref("image.cache.size", 5242880); // DEFAULT; in MiB; alt=10485760 (cache images up to 10MiB in size)
@@ -330,7 +329,7 @@ user_pref("image.mem.decode_bytes_at_a_time", 32768); // default=16384; alt=6553
 
 /****************************************************************************
  * SECTION: NETWORK                                                         *
-****************************************************************************/
+ ****************************************************************************/
 
 // PREF: use bigger packets
 // [WARNING] Cannot open HTML files bigger than 4MB if value is too large [2].
@@ -348,8 +347,8 @@ user_pref("image.mem.decode_bytes_at_a_time", 32768); // default=16384; alt=6553
 // [3] https://www.reddit.com/r/firefox/comments/11m2yuh/how_do_i_make_firefox_use_more_of_my_900_megabit/jbfmru6/
 user_pref("network.http.max-connections", 1800); // default=900
 user_pref("network.http.max-persistent-connections-per-server", 10); // default=6; download connections; anything above 10 is excessive
-    user_pref("network.http.max-urgent-start-excessive-connections-per-host", 5); // default=3
-    //user_pref("network.http.max-persistent-connections-per-proxy", 48); // default=32
+user_pref("network.http.max-urgent-start-excessive-connections-per-host", 5); // default=3
+//user_pref("network.http.max-persistent-connections-per-proxy", 48); // default=32
 //user_pref("network.websocket.max-connections", 200); // DEFAULT
 
 // PREF: pacing requests [FF23+]
@@ -362,8 +361,8 @@ user_pref("network.http.max-persistent-connections-per-server", 10); // default=
 // false=Firefox will send as many requests as possible without pacing
 // true=Firefox will pace requests (default)
 user_pref("network.http.pacing.requests.enabled", false);
-    //user_pref("network.http.pacing.requests.min-parallelism", 10); // default=6
-    //user_pref("network.http.pacing.requests.burst", 14); // default=10
+//user_pref("network.http.pacing.requests.min-parallelism", 10); // default=6
+//user_pref("network.http.pacing.requests.burst", 14); // default=10
 
 // PREF: increase DNS cache
 // [1] https://developer.mozilla.org/en-US/docs/Web/Performance/Understanding_latency
@@ -373,18 +372,18 @@ user_pref("network.http.pacing.requests.enabled", false);
 // [ABOUT] about:networking#dns
 // [NOTE] These prefs will be ignored by DNS resolver if using DoH/TRR.
 user_pref("network.dnsCacheExpiration", 3600); // keep entries for 1 hour
-    //user_pref("network.dnsCacheExpirationGracePeriod", 240); // default=60; cache DNS entries for 4 minutes after they expire
+//user_pref("network.dnsCacheExpirationGracePeriod", 240); // default=60; cache DNS entries for 4 minutes after they expire
 
 // PREF: the number of threads for DNS
 //user_pref("network.dns.max_high_priority_threads", 40); // DEFAULT [FF 123?]
 //user_pref("network.dns.max_any_priority_threads", 24); // DEFAULT [FF 123?]
 
-// PREF: increase TLS token caching 
+// PREF: increase TLS token caching
 user_pref("network.ssl_tokens_cache_capacity", 10240); // default=2048; more TLS token caching (fast reconnects)
 
 /****************************************************************************
  * SECTION: SPECULATIVE LOADING                                            *
-****************************************************************************/
+ ****************************************************************************/
 
 // These are connections that are not explicitly asked for (e.g., clicked on).
 // [1] https://developer.mozilla.org/en-US/docs/Web/Performance/Speculative_loading
@@ -425,7 +424,7 @@ user_pref("network.http.speculative-parallel-limit", 0);
 // [4] http://www.mecs-press.org/ijieeb/ijieeb-v7-n5/IJIEEB-V7-N5-2.pdf
 // [5] https://bugzilla.mozilla.org/show_bug.cgi?id=1596935#c28
 user_pref("network.dns.disablePrefetch", true);
-    user_pref("network.dns.disablePrefetchFromHTTPS", true); // [FF127+ false]
+user_pref("network.dns.disablePrefetchFromHTTPS", true); // [FF127+ false]
 
 // PREF: DNS prefetch for HTMLAnchorElement (speculative DNS)
 // Disable speculative DNS calls to prevent Firefox from resolving
@@ -545,7 +544,7 @@ user_pref("network.predictor.enabled", false);
 
 /****************************************************************************
  * SECTION: EXPERIMENTAL                                                    *
-****************************************************************************/
+ ****************************************************************************/
 
 // PREF: CSS Masonry Layout [NIGHTLY]
 // [1] https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Grid_Layout/Masonry_Layout
@@ -554,7 +553,7 @@ user_pref("layout.css.grid-template-masonry-value.enabled", true);
 
 /****************************************************************************
  * SECTION: TAB UNLOAD                                                      *
-****************************************************************************/
+ ****************************************************************************/
 
 // PREF: unload tabs on low memory
 // [ABOUT] about:unloads
@@ -586,7 +585,7 @@ user_pref("layout.css.grid-template-masonry-value.enabled", true);
 
 /****************************************************************************
  * SECTION: PROCESS COUNT                                                  *
-****************************************************************************/
+ ****************************************************************************/
 
 // PREF: process count
 // [ABOUT] View in about:processes.
@@ -595,7 +594,7 @@ user_pref("layout.css.grid-template-masonry-value.enabled", true);
 // by processCount.webIsolated. Disabling fission.autostart or changing
 // fission.webContentIsolationStrategy reverts control back to processCount.
 // [1] https://www.reddit.com/r/firefox/comments/r69j52/firefox_content_process_limit_is_gone/
-// [2] https://firefox-source-docs.mozilla.org/dom/ipc/process_model.html#web-content-processes 
+// [2] https://firefox-source-docs.mozilla.org/dom/ipc/process_model.html#web-content-processes
 //user_pref("dom.ipc.processCount", 8); // DEFAULT; Shared Web Content
 //user_pref("dom.ipc.processCount.webIsolated", 1); // default=4; Isolated Web Content
 
@@ -612,7 +611,7 @@ user_pref("layout.css.grid-template-masonry-value.enabled", true);
 // if site-origin could not be determined.
 //user_pref("fission.webContentIsolationStrategy", 1); // DEFAULT
 //user_pref("browser.preferences.defaultPerformanceSettings.enabled", true); // DEFAULT
-    //user_pref("dom.ipc.processCount.webIsolated", 1); // one process per site origin
+//user_pref("dom.ipc.processCount.webIsolated", 1); // one process per site origin
 
 // OPTION 2: isolate only "high value" websites
 // Only isolates web content loaded by sites which are considered "high
@@ -621,8 +620,8 @@ user_pref("layout.css.grid-template-masonry-value.enabled", true);
 // response to certain actions.
 //user_pref("fission.webContentIsolationStrategy", 2);
 //user_pref("browser.preferences.defaultPerformanceSettings.enabled", false);
-    //user_pref("dom.ipc.processCount.webIsolated", 1); // one process per site origin (high value)
-    //user_pref("dom.ipc.processCount", 8); // determine by number of CPU cores/processors
+//user_pref("dom.ipc.processCount.webIsolated", 1); // one process per site origin (high value)
+//user_pref("dom.ipc.processCount", 8); // determine by number of CPU cores/processors
 
 // OPTION 3: do not isolate websites
 // All web content is loaded into a shared `web` content process. This is
@@ -631,5 +630,4 @@ user_pref("layout.css.grid-template-masonry-value.enabled", true);
 // mozillaweb content processes.
 //user_pref("fission.webContentIsolationStrategy", 0);
 //user_pref("browser.preferences.defaultPerformanceSettings.enabled", false);
-    //user_pref("dom.ipc.processCount", 8); // determine by number of CPU cores/processors
-
+//user_pref("dom.ipc.processCount", 8); // determine by number of CPU cores/processors

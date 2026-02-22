@@ -2,7 +2,7 @@
 
 # Simple reminder tool that stores reminders in a file and triggers notify-send alerts
 # Usage: remind <time> "<message>"
-# Examples: 
+# Examples:
 #   remind 30m "Take a break"
 #   remind 18:50 "Time to leave"
 
@@ -26,12 +26,12 @@ if [[ "$TIME" =~ ^([0-1][0-9]|2[0-3]):([0-5][0-9])$ ]]; then
     # Calculate seconds until the specified time
     CURRENT_TIME=$(date +%s)
     TARGET_TIME=$(date -d "$(date +%Y-%m-%d) $TIME" +%s)
-    
+
     # If the target time is already passed for today, schedule for tomorrow
     if [ $TARGET_TIME -le $CURRENT_TIME ]; then
         TARGET_TIME=$(date -d "$(date -d 'tomorrow' +%Y-%m-%d) $TIME" +%s)
     fi
-    
+
     SECONDS=$((TARGET_TIME - CURRENT_TIME))
     TRIGGER_TIME=$(date -d "@$TARGET_TIME" "+%Y-%m-%d %H:%M:%S")
     SLEEP_ARG="${SECONDS}s"
@@ -44,7 +44,7 @@ else
         *d) SECONDS=$((${TIME%d} * 86400)) ;;
         *) SECONDS="$TIME" ;;
     esac
-    
+
     TRIGGER_TIME=$(date -d "+$SECONDS seconds" "+%Y-%m-%d %H:%M:%S")
     SLEEP_ARG="$TIME"
 fi
@@ -58,7 +58,7 @@ echo "[$TRIGGER_TIME] $MESSAGE" >> "$LOG_FILE"
 
 # Schedule the notification
 (
-    sleep "$SLEEP_ARG" 
+    sleep "$SLEEP_ARG"
     notify-send -u critical "Reminder" "$MESSAGE"
     echo "Completed: [$TRIGGER_TIME] $MESSAGE" >> "$LOG_FILE"
     # Remove from active reminders file once completed

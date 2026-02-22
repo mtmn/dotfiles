@@ -73,4 +73,3 @@ for dns_server in parsed_data:
     if dns_server['type'] == "conclusion":
         if dns_server['ip']:
             print(dns_server['ip'])
-

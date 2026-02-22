@@ -1,10 +1,10 @@
 toolbarbutton.bookmark-item > .toolbarbutton-icon {
-  display: none !important;
+	display: none !important;
 }
 
 * {
-  font-family: "Comic Mono" !important;
-  font-size: 12px;
+	font-family: "Comic Mono" !important;
+	font-size: 12px;
 }
 
 .urlbarView-url,
@@ -16,5 +16,5 @@ toolbarbutton.bookmark-item > .toolbarbutton-icon {
 .sidebar-placesTreechildren,
 #bookmarks-view treechildren,
 #historyTree treechildren {
-  font-family: "Comic Mono" !important;
+	font-family: "Comic Mono" !important;
 }

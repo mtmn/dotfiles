@@ -49,4 +49,3 @@ case "$file" in
         ;;
     *) open_img "$PWD/$file" "$@" ;;
 esac
-

@@ -1,6 +1,13 @@
 #!/bin/sh
-alias rd='magnolia recent-dirs'
-alias rf='magnolia recent-files'
+
+alias f='magdalena look-file'
+alias mg='magdalena'
+
+alias mrd='magdalena recent-dirs'
+alias mrf='magdalena recent-files'
+alias mgr='magdalena grep'
+
+alias clam='moshrc clam'
 
 alias pw='LC_ALL=C tr -dc a-zA-Z0-9 < /dev/urandom | head -c 20; echo'
 
@@ -15,10 +22,7 @@ alias q='sudo '
 alias lopri='nice -n 19 ionice -c2 -n7 '
 alias scan='sudo nmap -n -PN -sT -sU -p-'
 
-alias tl='tmux ls'
 alias tls='tmux ls'
-
-alias ts='tmux split-window -l "30%"'
 
 alias ss='sudo systemctl start'
 alias st='sudo systemctl stop'
@@ -29,39 +33,34 @@ alias ut='systemctl --user stop'
 alias ud='systemctl --user -n 100 status'
 
 alias l='ls -l'
-alias t='ta'
+alias tma='tmux attach-session -t'
 
 alias foo='fooyin . & disown'
 alias mpva='mpv --no-video'
 
 alias pp='mpc toggle'
-alias nn='mpc next'
 alias qq='mpc playlist'
-alias pre='mpc previous'
 
-alias n='nota'
 alias no='nota'
+alias nor='NOTA_READ_ONLY=1 nota'
 
 alias to='nota today'
 alias ye='nota yesterday'
 alias tom='nota tomorrow'
 
-alias todo='rg "^todo:" ~/misc/notes.txt'
+alias todo='nota todo'
+alias wish='nota wishlist'
 
 alias bnp='backup nota --push'
 alias bpp='backup pass --push'
-alias bdp='backup dotfiles --push'
-alias brp='backup releases --push'
 
-alias h='histdb'
 alias hs='histdb-sync'
 
-alias nb='newsboat'
-alias nbe='vim $HOME/.config/newsboat/urls'
+alias nr='newsraft'
+alias nre='$EDITOR ~/.config/newsraft/feeds && backup releases'
 
 alias cbd='cargo build'
 alias cbr='cargo build --release'
-alias cip='cargo install --path'
 alias cup='cargo update --recursive'
 
 alias btcon='btctl connect'
@@ -73,27 +72,30 @@ alias zed='zeditor .'
 alias ap='ansible-playbook --diff'
 alias apc='ansible-playbook --check --diff'
 
-alias filen='filen-cli'
-
-alias kto='khal new tomorrow'
-alias khn='khal new'
-
-alias khl='khal list now 30d'
-alias khi='khal interactive'
-alias kat='khal at'
-
 alias yt_dlp_audio_url='yt-dlp -f bestaudio -g'
 alias yt_dlp_audio='yt-dlp --embed-thumbnail --write-thumbnail --extract-audio --audio-format mp3 --audio-quality 0'
 
 alias matchamix='matchakey --mixxx ~/.mixxx/mixxxdb.sqlite'
-alias datasmix='datasette serve $HOME/.mixxx/mixxxdb.sqlite --setting sql_time_limit_ms 50000'
+alias datamix='datasette serve $HOME/.mixxx/mixxxdb.sqlite --setting sql_time_limit_ms 50000'
 
 alias ag='antigravity .'
 alias agkill='pkill -9 -f antigravity'
 
 alias hm='home-manager'
-alias hms='home-manager switch'
-alias hmsf='hms --flake $HOME/src/haravara.org/$USER/tools/nix/$(hostname)'
 
-alias nts1='mpva https://stream-relay-geo.ntslive.net/stream'
-alias nts2='mpva https://stream-relay-geo.ntslive.net/stream2'
+alias hms='hm switch'
+alias hmsf='hms --impure --flake $HOME/src/haravara.org/$USER/tools/nix/$(hostname)'
+
+alias amsp='mpva https://radio.stereoscenic.com/asp-s --no-resume-playback'
+alias nts1='mpva https://stream-relay-geo.ntslive.net/stream --no-resume-playback'
+alias nts2='mpva https://stream-relay-geo.ntslive.net/stream2 --no-resume-playback'
+
+alias ch='cliphist list | fzf --no-sort | cliphist decode | wl-copy'
+
+alias op='offpunk'
+alias sr='speedread -w 400'
+
+alias chop='perl -pe chop'
+alias chomp='perl -pe chomp'
+
+alias ndev='nix develop'

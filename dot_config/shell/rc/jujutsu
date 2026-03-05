@@ -1,0 +1,48 @@
+#!/bin/sh
+alias jjf='jj-fzf'
+alias jst='jj status'                       # git status
+alias jd='jj diff'                          # git diff (gd)
+alias jdc='jj diff --stat'                  # git diff --cached --stat (gdc)
+alias jdw='jj diff --color-words'           # git diff --color-words (gdw)
+alias js='jj show'                          # git show
+alias jl='jj log'                           # git log (gl)
+alias jlo='jj log -r "..@"'                 # git log ..HEAD — ancestors of working copy (glu)
+alias jop='jj op log'                       # git reflog
+alias jops='jj op show'                     # git reflog show <entry>
+alias jn='jj new'                           # git checkout -b <branch> (gco -b)
+alias jne='jj new --no-edit'                # git commit --allow-empty / branch without switching
+alias jc='jj commit'                        # git add -A && git commit (gc)
+alias jde='jj describe'                     # git commit --amend --only -m (gc --amend msg)
+alias jsq='jj squash'                       # git commit --amend / git add && git commit --amend (gcaa)
+alias ji='jj squash -i'                     # git rebase -i (gri)
+alias jsp='jj split'                        # git add -p && git commit (no direct equivalent)
+alias jdup='jj duplicate'                   # git cherry-pick (gcp)
+alias je='jj edit'                          # git checkout <commit> (detached HEAD)
+alias jnp='jj next --edit'                  # no direct equivalent — like git checkout HEAD~-1
+alias jpp='jj prev --edit'                  # git checkout HEAD~1
+alias jb='jj bookmark list'                 # git branch (gb)
+alias jbc='jj bookmark create'              # git branch <name> (gb <name>)
+alias jbs='jj bookmark set'                 # git branch -f <name>
+alias jbd='jj bookmark delete'              # git branch -d (gb -d)
+alias jbm='jj bookmark move'                # git branch -f / git branch -m
+alias jr='jj rebase'                        # git rebase (grr)
+alias jrd='jj rebase -d'                    # git rebase <dest>
+alias jrb='jj rebase -b'                    # git rebase --onto <dest> <base>
+alias jgf='jj git fetch'                    # git fetch (gf)
+alias jgfa='jj git fetch --all-remotes'     # git fetch --all
+alias jgp='jj git push'                     # git push (gp)
+alias jgpf='jj git push --force-with-lease' # git push --force-with-lease (gpf)
+alias jgpc='jj git push --change @'         # git push origin HEAD:<branch>
+alias jgl='jj git clone'                    # git clone
+alias ju='jj undo'                          # git reset HEAD~ / git reflog + reset (grh / grhu)
+alias juu='jj op undo'                      # git reflog + git reset --hard <hash>
+alias jres='jj restore'                     # git checkout -- <file> / git restore (gco <file>)
+alias jab='jj abandon'                      # git reset --hard && drop commit
+alias jdu='jj diff -r @{u}..@'              # git diff @{u}..HEAD (gdu)
+alias jw='jj workspace list'                # git worktree list
+alias jwa='jj workspace add'                # git worktree add
+alias jabs='jj absorb'                      # git add -p + fixup rebase (no direct equivalent)
+jdm() {
+	bookmark="${1:-main@origin}"
+	jj diff -r "roots(${bookmark}..@)..@" # git diff main...HEAD — full branch diff
+}

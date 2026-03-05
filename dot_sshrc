@@ -1,3 +1,6 @@
+export PATH="$PATH:$HOME/go/bin"
+export GOPATH="$HOME/go"
+
 alias q='sudo '
 alias dfh='df -h /'
 alias duh='du -hs .'
@@ -13,8 +16,19 @@ alias us='systemctl --user start'
 alias ut='systemctl --user stop'
 alias ud='systemctl --user -n 100 status'
 
+mkdir -p ~/.config/shell/rc
+
 cp "$SSHHOME/.sshrc.d/vimrc" ~/.vimrc
-cp "$SSHHOME/.sshrc.d/podman" ~/.podman.aliases
 cp "$SSHHOME/.sshrc.d/tmuxconf" ~/.config/.tmux.conf
 
-source ~/.podman.aliases
+cp "$SSHHOME/.sshrc.d/early-funcs" ~/.config/shell
+
+cp "$SSHHOME/.sshrc.d/git" ~/.config/shell/rc
+cp "$SSHHOME/.sshrc.d/podman" ~/.config/shell/rc
+cp "$SSHHOME/.sshrc.d/jujutsu" ~/.config/shell/rc
+cp "$SSHHOME/.sshrc.d/prompt-functions" ~/.config/shell/rc
+cp "$SSHHOME/.sshrc.d/aliased-short-names" ~/.config/shell/rc
+
+cp "$SSHHOME/.sshrc.d/bashrc" ~/.bashrc
+
+source ~/.bashrc

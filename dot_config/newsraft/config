@@ -1,0 +1,12 @@
+scrolloff 5
+feeds-menu-paramount-explore true
+color-list-item-important bold red default
+global-section-name all
+notification-command ""
+download-max-connections 15
+
+bind ^P mark-unread-all
+
+bind p exec offpunk "%l"
+bind m exec mpv --no-terminal "%l" &
+bind b exec mpv --force-window --no-terminal --ytdl-format=bestaudio --prefetch-playlist=yes --demuxer-max-bytes=150M --demuxer-readahead-secs=60 --cache-secs=120 "%l" &

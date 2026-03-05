@@ -1,25 +1,3 @@
-(local home (os.getenv :HOME))
-
-(fn log-file-event [action]
-  (let [file-path (vim.fn.expand "%:p")]
-    (when (and (not= file-path "") (not= file-path nil))
-      (let [db-path (.. (vim.fn.expand :$HOME) :/.magnolia.db)
-            escaped-path (file-path:gsub "'" "''")
-            sql-query (string.format "DELETE FROM file_history WHERE path LIKE 'oil://%%'; INSERT INTO file_history (path, file_type, action) VALUES ('%s', '%s', '%s');"
-                                     escaped-path file-type action)
-            command (string.format "sqlite3 '%s' \"%s\"" db-path sql-query)]
-        (vim.fn.system command)))))
-
-(let [augroup (vim.api.nvim_create_augroup :FzfFileHistory {:clear true})]
-  (vim.api.nvim_create_autocmd [:BufReadPost]
-                               {:group augroup
-                                :pattern "*"
-                                :callback (fn [] (log-file-event :open))})
-  (vim.api.nvim_create_autocmd [:BufWritePost]
-                               {:group augroup
-                                :pattern "*"
-                                :callback (fn [] (log-file-event :open))}))
-
 (vim.api.nvim_create_autocmd [:BufRead :BufNewFile]
                              {:pattern [:*.m3u :*.m3u8]
                               :callback (fn []

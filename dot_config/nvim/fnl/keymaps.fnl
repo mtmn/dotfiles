@@ -31,6 +31,24 @@
 (each [key func (pairs lsp-keymaps)]
   (vim.keymap.set :n key (.. "<cmd>lua vim.lsp.buf." func "()<CR>")))
 
+(vim.keymap.set :n :<leader>ta
+                (fn []
+                  (let [row (. (vim.api.nvim_win_get_cursor 0) 1)]
+                    (vim.api.nvim_buf_set_lines 0 row row false ["- [ ] "])
+                    (vim.api.nvim_win_set_cursor 0 [(+ row 1) 5]))))
+
+(vim.keymap.set :n :<leader>tt
+                (fn []
+                  (let [line (vim.api.nvim_get_current_line)]
+                    (var new-line nil)
+                    (if (line:match "%[ %]")
+                        (set new-line (line:gsub "%[ %]" "[-]" 1))
+                        (line:match "%[%-%]")
+                        (set new-line (line:gsub "%[%-%]" "[x]" 1))
+                        (line:match "%[x%]")
+                        (set new-line (line:gsub "%[x%]" "[ ]" 1)))
+                    (when new-line (vim.api.nvim_set_current_line new-line)))))
+
 (local diagnostic-keymaps {:<leader>gl :open_float
                            :<leader>gp :goto_prev
                            :<leader>gn :goto_next})

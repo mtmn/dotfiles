@@ -1,5 +1,5 @@
 [Service]
-ExecStart=/usr/bin/bb %h/bin/habitual.clj
+ExecStart=/usr/bin/bb %h/bin/habitual.clj -p "/usr/bin/notify-send -u critical"
 Restart=on-failure
 
 [Install]

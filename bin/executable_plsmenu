@@ -1,8 +1,6 @@
 #!/bin/bash
 set -euo pipefail
 
-eval "$("$HOME/bin/amen-or-not")"
-
 month=$(date "+%B" | tr '[:upper:]' '[:lower:]')
 year=$(date "+%y")
 month_sanitized=".${month}_${year}"
@@ -23,7 +21,7 @@ options=(
     "screenshots"
 )
 
-choice=$(printf '%s\n' "${options[@]}" | fuzzel --dmenu "$@")
+choice=$(printf '%s\n' "${options[@]}" | dmenu "$@")
 
 [ -z "$choice" ] && exit 0
 
@@ -33,4 +31,4 @@ else
     playlist="$choice"
 fi
 
-zsh -c "mpd_add_to_playlist '$playlist'"
+eval "$("$HOME/bin/amen-or-not")" && zsh -c "mpd_add_to_playlist '$playlist'"

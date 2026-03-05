@@ -6,8 +6,9 @@ alt="Mod4"
 term="alacritty"
 
 wobsock="$XDG_RUNTIME_DIR/wob.sock"
+dmenu_args="-fn 'UW ttyp0:size=10' -l 10 -h 20 -nb '#130911' -nf '#d0d0d0' -sb '#3f2f40' -sf '#d0d0d0' -nhb '#130911' -nhf '#1dbfcf'"
 
-rivertile -view-padding 0 -outer-padding 0 -main-ratio 0.55 &
+rivertile -view-padding 0 -outer-padding 0 -main-ratio 0.50 &
 
 riverctl border-color-focused "0xb33a4a"
 riverctl border-color-unfocused "0x8b2a3a"
@@ -29,30 +30,31 @@ riverctl map normal Super Return zoom
 riverctl map normal $mod+Shift Return spawn "$term"
 riverctl map normal $alt+Shift Return spawn "$term"
 
-riverctl map normal $mod p spawn "fuzzel"
-riverctl map normal $alt p spawn "fuzzel"
-
-riverctl map normal $mod b spawn "waybar_switch"
-riverctl map normal $alt b spawn "waybar_switch"
+riverctl map normal $mod p spawn "dmenu_run $dmenu_args"
+riverctl map normal $alt p spawn "dmenu_run $dmenu_args"
 
 riverctl map normal Control+$alt l spawn "waylock"
+
+riverctl map normal $alt b spawn "waybar_switch"
 
 riverctl map normal $mod F1 spawn "firefox"
 riverctl map normal $mod F3 spawn "pcmanfm-qt"
 riverctl map normal $mod F4 spawn "picard"
 
-riverctl map normal $mod+Shift b spawn "btctl connect"
-riverctl map normal $mod+Shift p spawn "fuzzelpass"
-riverctl map normal $mod+Shift m spawn "plsmenu"
-riverctl map normal $mod+Shift p spawn "passmenu"
-riverctl map normal $mod+Shift d spawn "clipmenu"
-riverctl map normal $alt+Shift m spawn "plsmenu"
-riverctl map normal $alt+Shift h spawn "huemenu"
-riverctl map normal $alt+Shift p spawn "passmenu"
-riverctl map normal $alt+Shift l spawn "langmenu"
-riverctl map normal $alt+Shift t spawn "tempmenu"
-riverctl map normal $alt+Shift d spawn "clipmenu"
+riverctl map normal $mod+Shift p spawn "passmenu $dmenu_args"
+riverctl map normal $mod+Shift m spawn "plsmenu $dmenu_args"
+riverctl map normal $mod+Shift p spawn "passmenu $dmenu_args"
+riverctl map normal $mod+Shift d spawn "clipmenu $dmenu_args"
+riverctl map normal $alt+Shift m spawn "plsmenu $dmenu_args"
+riverctl map normal $alt+Shift h spawn "huemenu $dmenu_args"
+riverctl map normal $alt+Shift p spawn "passmenu $dmenu_args"
+riverctl map normal $alt+Shift l spawn "langmenu $dmenu_args"
+riverctl map normal $alt+Shift t spawn "tempmenu $dmenu_args"
+riverctl map normal $alt+Shift d spawn "clipmenu $dmenu_args"
 riverctl map normal $alt+Shift w spawn "define"
+
+riverctl map normal $mod+Shift b spawn "btmenu con $dmenu_args"
+riverctl map normal $alt+Shift b spawn "btmenu dis $dmenu_args"
 
 riverctl map normal $mod+Shift s spawn "screenshot"
 riverctl map normal $alt+Shift s spawn "screenshot"
@@ -79,12 +81,13 @@ riverctl map normal $mod l send-layout-cmd rivertile "main-ratio +0.05"
 riverctl map normal $mod i send-layout-cmd rivertile "main-count +1"
 riverctl map normal $mod d send-layout-cmd rivertile "main-count -1"
 
-riverctl map normal $mod Space toggle-float
-
 riverctl map normal $mod+Shift Space toggle-float
 
 riverctl map normal $mod+Shift f toggle-fullscreen
 riverctl map normal $alt+Shift f toggle-fullscreen
+
+riverctl map normal $mod Space spawn "dunstctl close"
+riverctl map normal $alt Space spawn "dunstctl history-pop"
 
 for i in $(seq 1 9)
 do
@@ -127,20 +130,24 @@ riverctl map normal $mod+Shift Tab send-to-previous-tags
 riverctl xcursor-theme default 16
 
 pcmanfm-qt --daemon-mode &
-swaybg -m fit -c "#15050f" -i "$HOME"/misc/random/wallpapers/theblanksignature.jpg &
+swaybg -m fill -c "#15050f" -i "$HOME"/misc/random/wallpapers/13.jpg &
 
 services_to_start=(
     "battery-notify"
     "cliphist"
     "dunst"
+    "habitual"
     "kanshi"
+    "listenbrainz-mpd"
     "plants-daemon"
     "ppctl-autoswitch"
     "psi-notify"
     "singlefile-sync"
+    "swayidle"
     "wob"
     "xdg-desktop-portal"
     "xdg-desktop-portal-gtk"
+    "xdg-desktop-portal-wlr"
 )
 
 for s in "${services_to_start[@]}"; do

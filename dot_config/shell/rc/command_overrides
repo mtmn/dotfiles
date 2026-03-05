@@ -9,7 +9,7 @@
 	alias ls="$(use_first_to_exist eza ls) --color=auto --group-directories-first"
 	alias sed="$(use_first_to_exist sed)"
 	alias awk="$(use_first_to_exist awk)"
-	alias diff="$(use_first_to_exist colordiff diff)"
+	alias diff="$(use_first_to_exist difft colordiff diff)"
 }
 alias cp='cp --backup=numbered --reflink=auto --sparse=always'
 alias mv='mv --backup=numbered'
@@ -51,19 +51,17 @@ done
 alias mosh='LC_ALL=en_US.UTF-8 mosh'
 alias leafpad='mousepad'
 
-alias filen-cli='filen-cli --skip-update'
 alias backup='bbackup'
 
-alias vi='vim'
-alias vim='nvim'
-
 # Allow other aliases to be used after the program name
-alias sudo='sudo '
+alias sudo='sudo-rs '
 alias watch='watch '
 
+alias vim='nvim'
 alias gdb='gdb -q'
 
 alias dmesg='dmesg -T --color=always | less -R +G'
 alias mksrcinfo='makepkg --printsrcinfo >| .SRCINFO'
 
 alias ncdu='sudo ncdu -x --exclude /nix --exclude $HOME/misc/mnt /'
+alias pracomer='pracomer --file /tmp/pracomer.log'

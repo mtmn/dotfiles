@@ -1,33 +1,50 @@
 # vim: ft=sh
+_C_RESET=$(tput sgr0)
+_C_1=$(tput setaf 141)
+_C_2=$(tput setaf 209)
+_C_3=$(tput setaf 203)
+_C_4=$(tput setaf 174)
+_C_6=$(tput setaf 167)
 
 colour_part() {
-	local colour="$1"
-	local msg="$2"
-	local delim="${3- }"
-
+	local colour_val msg delim
+	msg="$2"
+	delim="${3- }"
 	[ "$msg" ] || return 1
-
+	case $1 in
+	1) colour_val=$_C_1 ;;
+	2) colour_val=$_C_2 ;;
+	3) colour_val=$_C_3 ;;
+	4) colour_val=$_C_4 ;;
+	6) colour_val=$_C_6 ;;
+	esac
 	if [ "$BASH" ]; then
 		printf '%s ' "$msg"
 	elif [ "$ZSH_VERSION" ]; then
-		printf '%%{%s%%}%s%%{%s%%}'"${delim}" "$(tput setaf "$colour")" "$msg" "$(tput sgr0)"
+		printf '%%{%s%%}%s%%{%s%%}'"${delim}" "$colour_val" "$msg" "$_C_RESET"
 	fi
-
 }
 
-_hg_prompt() {
-	local hg_bookmark
-	hg_bookmark=$(hg bookmarks 2>/dev/null | awk '/\*/ { print $2 }')
-	colour_part 2 "$hg_bookmark"
+_jj_prompt() {
+	local jj_wc jj_bookmarks jj_state
+	if ! jj root >/dev/null 2>&1; then
+		return 1
+	fi
+	jj_wc=$(jj log -r @ --no-graph -T 'description.first_line()' 2>/dev/null | head -c 30)
+	jj_bookmarks=$(jj bookmark list --color never 2>/dev/null | awk '/^@ / { gsub(/:.*/, "", $2); print $2 }')
+	if jj status 2>/dev/null | grep -q 'conflict:'; then
+		jj_state='!'
+	fi
+	if [ "$jj_bookmarks" ]; then
+		colour_part 2 "$jj_bookmarks"
+	elif [ "$jj_wc" ]; then
+		colour_part 2 "$jj_wc"
+	fi
+	colour_part 1 "$jj_state"
 }
 
 _git_prompt() {
-	local branch
-	local git_state
-	local git_head
-	local git_dir
-	local tag
-
+	local branch git_state git_head git_dir tag
 	if branch="$(git rev-parse --abbrev-ref HEAD 2>/dev/null)"; then
 		if [ "$branch" != HEAD ]; then
 			git_head=$branch
@@ -36,12 +53,8 @@ _git_prompt() {
 		else
 			git_head=$(git rev-parse --short HEAD)
 		fi
-
 		git_dir=$(git rev-parse --git-dir)
-
-		if [ -d "$git_dir/rebase-apply" ]; then
-			git_state=rebase
-		elif [ -d "$git_dir/rebase-merge" ]; then
+		if [ -d "$git_dir/rebase-apply" ] || [ -d "$git_dir/rebase-merge" ]; then
 			git_state=rebase
 		elif [ -f "$git_dir/MERGE_HEAD" ]; then
 			git_state=merge
@@ -53,94 +66,71 @@ _git_prompt() {
 			git_state=bisect
 		fi
 	fi
-
 	[ "$git_head" = master ] && unset git_head
 	[ "$git_head" = main ] && unset git_head
-
 	colour_part 2 "$git_head"
 	colour_part 1 "$git_state"
 }
 
 _virt_prompt() {
-	# We assume virtualisation won't change for one shell session
 	if [ "$_VIRT" ]; then
-		# Skip other branches
 		:
 	elif [ "${JUNEST_ENV:-0}" -eq 1 ]; then
 		_VIRT=junest
 	else
 		_VIRT=$(systemd-detect-virt 2>/dev/null)
-		if [ "$_VIRT" = none ]; then
-			unset _VIRT
-		fi
+		[ "$_VIRT" = none ] && unset _VIRT
 	fi
-
 	colour_part 6 "$_VIRT"
 }
 
 _hostname_prompt() {
-	local hostname
-
-	if ! [ "$SSH_CLIENT" ]; then
-		return
-	fi
-
+	[ "$SSH_CLIENT" ] || return
 	if ! [ "$_HOSTNAME" ]; then
-		hostname=$(cat /etc/hostname 2>/dev/null || hostname)
-		_HOSTNAME="${hostname%%.*}"
+		_HOSTNAME=$(hostname)
+		_HOSTNAME="${_HOSTNAME%%.*}"
 	fi
-
 	colour_part 3 "$_HOSTNAME"
 }
 
 _user_prompt() {
-	local user
-
-	# Still skip if it's empty, only go in if unset
 	if ! [ "${_USER+x}" ]; then
+		local user
 		user=$(id -un)
 		case $user in
 		miro) _USER='' ;;
 		*) _USER=$user ;;
 		esac
 	fi
-
 	colour_part 3 "${_USER:+"$_USER@"}" ''
 }
 
 _pwd_prompt() {
-	local current_dir
-	local stripped_pwd
+	[ "$PWD" = "$HOME" ] && return
+	local stripped_pwd="${PWD##*/}"
+	colour_part 4 "${stripped_pwd:-/}"
+}
 
-	if [ "$PWD" = "$HOME" ]; then
-		return
-	else
-		stripped_pwd=${PWD##*/}
-		if [ "$stripped_pwd" ]; then
-			current_dir=$stripped_pwd
-		else
-			current_dir=/
-		fi
+_vcs_prompt() {
+	if [ "$PWD" != "$_VCS_LAST_PWD" ]; then
+		_VCS_LAST_PWD=$PWD
+		_VCS_CACHE=$(_jj_prompt || _git_prompt)
 	fi
-
-	colour_part 4 "$current_dir"
+	printf '%s' "$_VCS_CACHE"
 }
 
 _get_ps1() {
-	local prompt
 	local prompt_ender
-
 	if [ "$ZSH_VERSION" ]; then
-		prompt_ender="%(?:%%:%{$(tput setaf 1)%}%%%{%{$(tput sgr0)%}%})"
+		prompt_ender="%(?:%%:%{${_C_1}%}%%%{${_C_RESET}%})"
 	else
 		prompt_ender=%
 	fi
-
-	prompt="$(_user_prompt)$(_hostname_prompt)$(_pwd_prompt)$(_git_prompt)$(_hg_prompt)"
-	printf '%s%s ' "$prompt" "$prompt_ender"
-}
-
-# Mostly for WSL, since on Linux I don't have window titles.
-_term_title() {
-	printf '\e]0;%s\a' "${1?}"
+	printf '%s%s%s%s%s%s ' \
+		"$(_user_prompt)" \
+		"$(_hostname_prompt)" \
+		"$(_pwd_prompt)" \
+		"$(_vcs_prompt)" \
+		"$(_virt_prompt)" \
+		"$prompt_ender"
 }

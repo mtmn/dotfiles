@@ -18,6 +18,4 @@
                                                :window {:winhighlight "Normal:CmpNormal"}}}
                   :sources {:default [:lsp :snippets :path :buffer]}})))
 
-; luasnip -> snippets
-
 {: config}

@@ -1,0 +1,5 @@
+#!/bin/sh
+
+alias obs='obsidian "obsidian://open?vault=notes" & disown'
+alias obsno='obsidian "obsidian://open?vault=nota" & disown'
+alias obscpt='obsidian "obsidian://open?vault=counterpoint" & disown'

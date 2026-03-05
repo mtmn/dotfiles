@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+
+devices() {
+	bluetoothctl devices "$1" | while read -r _ mac name; do
+		echo "$mac $name"
+	done
+}
+
+pick() {
+	local type="$1"
+	shift 1
+	devices "$type" | dmenu "$@" | awk '{print $1}'
+}
+
+get_name() {
+	bluetoothctl info "$1" | awk '/Name:/ {sub(/.*Name: /, ""); print}'
+}
+
+case "$1" in
+connect | con | c)
+	cmd=connect
+	mac=$(pick Paired "${@:2}")
+	;;
+disconnect | dis | d)
+	cmd=disconnect
+	mac=$(pick Connected "${@:2}")
+	;;
+*)
+	echo "Usage: $0 connect|disconnect [dmenu_args]" >&2
+	exit 1
+	;;
+esac
+
+[ -z "$mac" ] && exit 1
+
+name=$(get_name "$mac")
+
+bluetoothctl "$cmd" "$mac" && notify-send "Bluetooth" "${cmd^}ed $name"

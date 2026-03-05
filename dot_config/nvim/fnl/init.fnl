@@ -34,6 +34,10 @@
           :lazy false
           :priority 1000
           :config (fn []
+		    ((. (require :ef-themes) :setup) {:dark :ef-tritanopia-dark
+                                  :styles {:diagnostic :full
+                                           :pickers :borderless}
+                                  :transparent true})
                     (set vim.opt.background :dark)
                     (vim.cmd.colorscheme :ef-tritanopia-dark))})
 
@@ -73,10 +77,6 @@
     (use "tpope/vim-repeat")
     (use "tpope/vim-surround")
     (use "troydm/zoomwintab.vim")
-(use "danobi/prr"
-     {:init (fn []
-              (vim.opt.rtp:prepend (.. (vim.fn.stdpath :data) "/lazy/prr/vim"))
-              (vim.filetype.add {:extension {:prr :prr}}))})
   ])
 
 (fn init []

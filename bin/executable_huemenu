@@ -1,39 +1,32 @@
 #!/bin/bash
 set -euo pipefail
 
-# Mode selection
-if ! mode=$(echo -e "work\nsleep" | fuzzel --dmenu "Mode: " "$@"); then
+if ! mode=$(echo -e "work\nsleep" | dmenu "$@"); then
     exit 1
 fi
 [ -z "$mode" ] && exit 1
 
-# Color selection
-if ! color=$(echo -e "relax\nconcentrate\nreading\ndimmed\nskip\noff" | fuzzel --dmenu "Color: " "$@"); then
+if ! color=$(echo -e "relax\nconcentrate\nreading\ndimmed\nskip\noff" | dmenu "$@"); then
     exit 1
 fi
 [ -z "$color" ] && exit 1
 
-# Brightness selection (if not off)
 brightness="skip"
 if [ "$color" != "off" ]; then
-    if ! brightness=$(seq 100 -10 10 | sed 's/$/%/' | fuzzel --dmenu "Brightness: " "$@"); then
+    if ! brightness=$(seq 100 -10 10 | sed 's/$/%/' | dmenu "$@"); then
         exit 1
     fi
     [ -z "$brightness" ] && exit 1
 fi
 
-# Setup ruby/hue environment
 eval "$(rbenv init - --no-rehash bash)"
-trap "rbenv shell --unset" EXIT
 
-# Determine light ID based on mode
 case "$mode" in
     work)  light_id=2 ;;
     sleep) light_id=1 ;;
     *) echo "Error: Unknown mode '$mode'" >&2; exit 1 ;;
 esac
 
-# Execute lighting commands
 if [ "$color" = "off" ]; then
     hue "$light_id" off || echo "Warning: Failed to turn off light $light_id" >&2
 else

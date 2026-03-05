@@ -29,6 +29,7 @@ local function plugin_specs()
     return opts0
   end
   local function _3_()
+    require("ef-themes").setup({dark = "ef-tritanopia-dark", styles = {diagnostic = "full", pickers = "borderless"}, transparent = true})
     vim.opt.background = "dark"
     return vim.cmd.colorscheme("ef-tritanopia-dark")
   end
@@ -59,11 +60,7 @@ local function plugin_specs()
   local function _10_()
     return require("config.treesitter"):config()
   end
-  local function _11_()
-    vim.opt.rtp:prepend((vim.fn.stdpath("data") .. "/lazy/prr/vim"))
-    return vim.filetype.add({extension = {prr = "prr"}})
-  end
-  return {use("oonamo/ef-themes.nvim", {priority = 1000, config = _3_, lazy = false, version = false}), use("windwp/nvim-autopairs", {event = "VeryLazy", config = true}), use("ibhagwan/fzf-lua", {config = true}), use("smoka7/hop.nvim", {version = "*", opts = {keys = "etovxqpdygfblzhckisuran"}}), use("stevearc/oil.nvim", {config = _4_}), use("neogitorg/neogit", {dependencies = {"nvim-lua/plenary.nvim", "sindrets/diffview.nvim"}, config = true}), use("saghen/blink.cmp", {version = "^1", dependencies = {"L3MON4D3/LuaSnip"}, config = _7_, lazy = false}), use("mrcjkb/rustaceanvim", {version = "^7", lazy = false}), use("neovim/nvim-lspconfig", {event = "VeryLazy", branch = "master", config = _8_}), use("nvim-treesitter/nvim-treesitter", {branch = "main", build = _9_, config = _10_}), use("tpope/vim-commentary"), use("tpope/vim-repeat"), use("tpope/vim-surround"), use("troydm/zoomwintab.vim"), use("danobi/prr", {init = _11_})}
+  return {use("oonamo/ef-themes.nvim", {priority = 1000, config = _3_, lazy = false, version = false}), use("windwp/nvim-autopairs", {event = "VeryLazy", config = true}), use("ibhagwan/fzf-lua", {config = true}), use("smoka7/hop.nvim", {version = "*", opts = {keys = "etovxqpdygfblzhckisuran"}}), use("stevearc/oil.nvim", {config = _4_}), use("neogitorg/neogit", {dependencies = {"nvim-lua/plenary.nvim", "sindrets/diffview.nvim"}, config = true}), use("saghen/blink.cmp", {version = "^1", dependencies = {"L3MON4D3/LuaSnip"}, config = _7_, lazy = false}), use("mrcjkb/rustaceanvim", {version = "^7", lazy = false}), use("neovim/nvim-lspconfig", {event = "VeryLazy", branch = "master", config = _8_}), use("nvim-treesitter/nvim-treesitter", {branch = "main", build = _9_, config = _10_}), use("tpope/vim-commentary"), use("tpope/vim-repeat"), use("tpope/vim-surround"), use("troydm/zoomwintab.vim")}
 end
 local function init()
   do

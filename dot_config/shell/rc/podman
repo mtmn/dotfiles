@@ -1,16 +1,17 @@
 #!/bin/sh
 
+alias pst='podman stats'
+
 alias pps='podman ps'
 alias ppsa='podman ps -a'
 
 alias plo='podman logs'
-alias plo='podman logs -f'
+alias plof='podman logs -f'
 
-alias pcup='podman-compose up'
-alias pcupd='podman-compose up -d'
+alias pcu='podman-compose up'
+alias pcud='podman-compose up -d'
 
-alias pcdo='podman-compose down'
-alias pcst='podman-compose stop'
+alias pcd='podman-compose down'
+alias pcs='podman-compose stop'
 
 alias pbu='podman build'
-alias pcbu='podman-compose build'

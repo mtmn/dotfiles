@@ -1,10 +1,10 @@
 #!/bin/sh
 
 nixpkgs_cache_index_update() {
-	filename="index-$(uname -m | sed 's/^arm64$/aarch64/')-$(uname | tr A-Z a-z)"
-	mkdir -p ~/.cache/nix-index && cd ~/.cache/nix-index
-	wget -q -N https://github.com/nix-community/nix-index-database/releases/latest/download/$filename
-	ln -f $filename files
+	filename="index-$(uname -m | sed 's/^arm64$/aarch64/')-$(uname | tr "[:upper:]" "[:lower:]")"
+	mkdir -p ~/.cache/nix-index && cd ~/.cache/nix-index || exit
+	wget -q -N https://github.com/nix-community/nix-index-database/releases/latest/download/"$filename"
+	ln -f "$filename" files
 }
 
 nvimrecomp() {
@@ -21,8 +21,9 @@ nvimrecomp() {
 			lua_file="$nvim_config_path/lua/${rel_path%.fnl}.lua"
 		fi
 
+		fnlfmt --fix "$fnl_file"
 		fennel --compile "$fnl_file" | tee "$lua_file" >/dev/null
-		echo "$lua_file recompiled"
+		echo "$lua_file"
 	done
 }
 
@@ -48,21 +49,28 @@ tracklist() {
 
 fetch_rss() {
 	url="${1?}"
-        curl -s "$url" | xmllint --html --xpath "//link[@type='application/rss+xml' or @type='application/atom+xml']/@href" - 2>/dev/null
+	curl -s "$url" | xmllint --html --xpath "//link[@type='application/rss+xml' or @type='application/atom+xml']/@href" - 2>/dev/null
 }
 
 tempfox() {
 	profile_dir=$(mktemp -d)
-	trap "rm -rf '$profile_dir'" EXIT
-	cp ~/src/haravara.org/$USER/tools/tempfox/user.js "$profile_dir"/user.js
+	trap 'rm -rf $profile_dir' EXIT
+	cp ~/src/haravara.org/"$USER"/tools/tempfox/user.js "$profile_dir"/user.js
 	firefox -no-remote -new-instance -profile "$profile_dir"
 }
 
 labels() {
-	input="${1:-all.txt}"
-	base=$(basename "$input" .txt)
+	inputs="${*:-all.txt}"
 	mkdir -p ./labels
-	cat "$input" | cut -d'/' -f1 | sort | uniq | tee labels/"${base}_labels.txt"
+	for input in $inputs; do
+		base=$(basename "$input" .txt)
+		cut -d'/' -f1 "$input" | sort | uniq | tee labels/"${base}_labels.txt"
+	done
+}
+
+reval() {
+	eval "$(rbenv init - --no-rehash shell)"
+	ruby --version
 }
 
 cheadd() {
@@ -108,19 +116,11 @@ mpa() {
 	mpc add "${1?}"
 }
 
-nn() {
-	{
-		echo
-		date --rfc-3339=s
-	} >>~/misc/notes/nota/todo.txt
-	/usr/local/bin/ne + ~/misc/notes/nota/todo.txt
+cd() {
+	builtin cd "$@" && magdalena log-dir "$PWD"
 }
 
-nne() {
-	/usr/local/bin/ne + ~/misc/notes/nota/todo.txt
-}
-
-ta() {
+t() {
 	session="${1:=magnolia}"
 
 	if [ -n "$TMUX" ]; then
@@ -146,8 +146,17 @@ u() {
 
 o() {
 	if [ $# -eq 0 ]; then
-		vim "$(pwd)"
+		nvim "$(pwd)"
 	else
-		vim "$1"
+		nvim "$1"
+	fi
+}
+
+d() {
+	local target_dir
+	target_dir=$(magdalena look-dir)
+
+	if [ -n "$target_dir" ]; then
+		cd "$target_dir" && magdalena log-dir "$PWD"
 	fi
 }

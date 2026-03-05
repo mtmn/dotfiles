@@ -1,6 +1,5 @@
 (local {: map} (require :std.functional))
 (local tbl (require :std.table))
-;; (local local-plugins-lspconfig (require :local.plugins.lspconfig)) ; check if we need this
 
 (local {:nvim_create_augroup create-augroup
         :nvim_create_autocmd create-autocmd
@@ -42,11 +41,15 @@
 (fn config []
   (let [servers {:basedpyright {}
                  :clangd {}
+                 :expert {}
                  :gopls {:settings {:gopls {:analyses {:unusedparams true}
                                             :staticcheck true
                                             :gofumpt true}}}
+                 :gleam {}
+                 :harper_ls {:settings {:harper-ls {:isolateEnglish true}}}
                  :intelephense {}
                  :rust_analyzer {}
+                 :typos_lsp {}
                  :zls {}}]
     (each [server config (pairs servers)]
       (vim.lsp.enable server config))

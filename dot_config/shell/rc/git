@@ -5,12 +5,12 @@ alias cdg='cd "$(git rev-parse --show-toplevel)"'
 alias ng='nvim -c ":Neogit"'
 alias gn='git number --column'
 alias ga='git number add'
-alias gb='git branch'
+alias gb='gbf'
 alias gc='git commit -v'
 alias gco='git checkout'
 alias gcp='git cherry-pick --strategy=recursive --strategy-option=diff-algorithm=histogram'
 alias gd='git diff --no-prefix'
-alias gl='git lg'
+alias gl='git gol'
 alias gm='git merge'
 alias gmc='gm --no-ff'
 alias gp='git push'
@@ -20,35 +20,14 @@ alias gref='git reflog --date=iso'
 
 alias grab='git grab'
 
-gcm() {
-	git "${1?}" "${2?}"
-}
-
-gf() {
-	if [ "$1" ]; then
-		git fetch -p "$1"
-	else
-		git fetch -p --all
-	fi
-}
-
-gcopr() {
-	git fetch origin pull/"${1?need pr num}"/head:pr"$1" && gco pr"$1"
-}
-
 alias grr='git rebase -r'
 alias gri='grr -i'
 alias grrm='grr master@{u}'
 alias gru='grr @{u}'
 alias gabs='git absorb --and-rebase'
 
-git_diff_merge_base() {
-	feature="${2-HEAD}"
-	gd "$(git merge-base "$1" "$feature")..$feature"
-}
-
 alias gdm='git_diff_merge_base master@{u}'
-alias gdmain='git_diff_merge_base main@{u}'
+alias gdma='git_diff_merge_base main@{u}'
 alias gdd='git_diff_merge_base develop@{u}'
 alias gdu='gd @{u}..'
 alias gdc='gd --cached'
@@ -68,3 +47,47 @@ alias grhu='grh @{u}'
 alias gpf='gp -f'
 alias gu='gf && grrm'
 alias gcl='git clean -dffx'
+
+# Functions
+git_diff_merge_base() {
+	feature="${2:-HEAD}"
+	gd "$(git merge-base "$1" "$feature")..$feature"
+}
+
+gcm() {
+	git "${1?}" "${2?}"
+}
+
+gf() {
+	if [ "$1" ]; then
+		git fetch -p "$1"
+	else
+		git fetch -p --all
+	fi
+}
+
+gcopr() {
+	git fetch origin pull/"${1?need pr num}"/head:pr"$1" && gco pr"$1"
+}
+
+glf() {
+	git log \
+		--color=always \
+		--date=short \
+		--pretty=format:"%cd %C(auto)%h %d %s %C(green)%cr %C(bold blue)<%an>" "$@" |
+		fzf \
+			--ansi \
+			--preview "git show --color=always {2}" |
+		awk '{print $2}' | wl-copy
+}
+
+gbf() {
+	branch=$(
+		git branch --all | grep -v HEAD | sed 's/^[* ]*//' | sed 's/remotes\///' | sort -u | tac | fzf \
+			--height=40% \
+			--reverse \
+			--preview 'git log --oneline --color=always {1} 2>/dev/null | head -20' \
+			--preview-window=right:50%
+	)
+	[ -n "$branch" ] && git switch "${branch#origin/}"
+}

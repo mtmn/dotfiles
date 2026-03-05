@@ -12,14 +12,19 @@ export NSS_DEFAULT_DB_TYPE=sql
 export BC_ENV_ARGS="$HOME/.config/bcrc"
 export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
 export GRAB_HOME="$HOME/src"
-export GOPATH="$HOME/src/go"
+export GOPATH="$HOME/src/misc/go"
 export MPD_HOST="127.0.0.1"
 export MPD_PORT="6695"
 export CARGO_TERM_COLOR="always"
+export CDK_DISABLE_CLI_TELEMETRY=true
+export ZVM_INSTALL="$HOME/.zvm/self"
+export PHP_VERSION="8.5.2"
+export NIXPKGS_ALLOW_UNFREE=1
+export MANPAGER='nvim +Man!'
 
 # shellcheck disable=SC2154
 {
-    export PATH="$config_home/src/misc/go/bin:$config_home/.node_modules/bin:$config_home/bin:/usr/bin/vendor_perl:/usr/bin/core_perl:/usr/bin/site_perl:config_home/bin:$config_home/.local/bin:$config_home/.cargo/bin:$config_home/go/bin:$config_home/.phpenv/versions/8.5.0/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/share/bcc:/opt/tools"
+	export PATH="$config_home/.gem/ruby/3.4.0/bin:$config_home/src/go/bin:$config_home/.nix-profile/bin:$config_home/.zvm/bin:$config_home/.zvm/self:$config_home/src/misc/go/bin:$config_home/.node_modules/bin:$config_home/bin:/usr/bin/vendor_perl:/usr/bin/core_perl:/usr/bin/site_perl:config_home/bin:$config_home/.local/bin:$config_home/.cargo/bin:$config_home/go/bin:$config_home/.phpenv/versions/$PHP_VERSION/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/share/bcc:/opt/tools:/nix/var/nix/profiles/default/bin:/opt/forticlient"
 }
 
 umask 0022

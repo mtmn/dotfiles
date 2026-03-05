@@ -2,7 +2,7 @@
 set -euo pipefail
 
 choices=$(echo "off"; seq 6000 -500 1000)
-chosen=$(printf '%s\n' "$choices" | fuzzel --dmenu "$@")
+chosen=$(printf '%s\n' "$choices" | dmenu "$@")
 [ -z "$chosen" ] && exit 0
 
 if [ "$chosen" != "off" ] && ! [[ "$chosen" =~ ^[0-9]+$ ]]; then

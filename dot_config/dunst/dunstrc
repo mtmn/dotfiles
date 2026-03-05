@@ -16,20 +16,32 @@ notification_limit = 5
 frame_width = 0
 show_indicators = no
 stack_duplicates = no
-close_all = mod4+space
-history = mod4+h
 
 [urgency_low]
-    background = "#15050f"
-    foreground = "#dfd0d5"
+    background = "#334c50"
+    foreground = "#d7dfd9"
     timeout = 30
 
 [urgency_normal]
-    background = "#15050f"
-    foreground = "#dfd0d5"
+    background = "#334c50"
+    foreground = "#d7dfd9"
     timeout = 30
 
 [urgency_critical]
     background = "#671822"
-    foreground = "#ffffff"
+    foreground = "#d7dfd9"
+    timeout = 0
+
+[khal_notifier]
+    appname = khal_notifier
+    urgency = normal
+    background = "#7a3f6a"
+    foreground = "#d7dfd9"
+    timeout = 0
+
+[aerc]
+    appname = aerc
+    urgency = normal
+    background = "#7a3f6a"
+    foreground = "#d7dfd9"
     timeout = 0

@@ -53,7 +53,7 @@ local function auto_format_on_save(filetypes, extra_opts)
 end
 local function config()
   do
-    local servers = {basedpyright = {}, clangd = {}, gopls = {settings = {gopls = {analyses = {unusedparams = true}, staticcheck = true, gofumpt = true}}}, intelephense = {}, rust_analyzer = {}, zls = {}}
+    local servers = {basedpyright = {}, clangd = {}, expert = {}, gopls = {settings = {gopls = {analyses = {unusedparams = true}, staticcheck = true, gofumpt = true}}}, gleam = {}, harper_ls = {settings = {["harper-ls"] = {isolateEnglish = true}}}, intelephense = {}, rust_analyzer = {}, typos_lsp = {}, zls = {}}
     for server, config0 in pairs(servers) do
       vim.lsp.enable(server, config0)
     end

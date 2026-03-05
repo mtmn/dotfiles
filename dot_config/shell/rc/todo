@@ -1,0 +1,20 @@
+#!/bin/sh
+
+alias tt='rg "^todo:" ~/misc/notes/nota/todo.txt'
+
+ta() {
+	if [ $# -eq 0 ]; then
+		{
+			echo
+			date --rfc-3339=s
+			echo -n "todo: "
+		} >>~/misc/notes/nota/todo.txt
+		/usr/local/bin/ne + --macro "end-of-line" ~/misc/notes/nota/todo.txt
+	else
+		tma "$@"
+	fi
+}
+
+te() {
+	/usr/local/bin/ne + ~/misc/notes/nota/todo.txt
+}

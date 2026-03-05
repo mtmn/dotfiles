@@ -9,7 +9,7 @@ Type=simple
 Restart=always
 RestartSec=5
 Environment=WAYLAND_DISPLAY=wayland-1
-ExecStart=%h/.cargo/bin/listenbrainz-mpd -c %h/.config/listenbrainz-mpd/config.toml
+ExecStart=/usr/bin/listenbrainz-mpd -c %h/.config/listenbrainz-mpd/config.toml
 
 [Install]
 WantedBy=mpd.service

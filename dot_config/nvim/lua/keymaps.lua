@@ -11,6 +11,30 @@ local lsp_keymaps = {["<leader>gg"] = "hover", ["<leader>gd"] = "definition", ["
 for key, func in pairs(lsp_keymaps) do
   vim.keymap.set("n", key, ("<cmd>lua vim.lsp.buf." .. func .. "()<CR>"))
 end
+local function _1_()
+  local row = vim.api.nvim_win_get_cursor(0)[1]
+  vim.api.nvim_buf_set_lines(0, row, row, false, {"- [ ] "})
+  return vim.api.nvim_win_set_cursor(0, {(row + 1), 5})
+end
+vim.keymap.set("n", "<leader>ta", _1_)
+local function _2_()
+  local line = vim.api.nvim_get_current_line()
+  local new_line = nil
+  if line:match("%[ %]") then
+    new_line = line:gsub("%[ %]", "[-]", 1)
+  elseif line:match("%[%-%]") then
+    new_line = line:gsub("%[%-%]", "[x]", 1)
+  elseif line:match("%[x%]") then
+    new_line = line:gsub("%[x%]", "[ ]", 1)
+  else
+  end
+  if new_line then
+    return vim.api.nvim_set_current_line(new_line)
+  else
+    return nil
+  end
+end
+vim.keymap.set("n", "<leader>tt", _2_)
 local diagnostic_keymaps = {["<leader>gl"] = "open_float", ["<leader>gp"] = "goto_prev", ["<leader>gn"] = "goto_next"}
 for key, func in pairs(diagnostic_keymaps) do
   vim.keymap.set("n", key, ("<cmd>lua vim.diagnostic." .. func .. "()<CR>"))

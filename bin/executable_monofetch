@@ -1,5 +1,12 @@
 #!/usr/bin/env bash
 
+wl_focused_title="$(get-river-title)"
+
+if [[ ! $wl_focused_title == *"Mozilla Firefox"* ]]; then
+    notify-send -u critical "Error" "Focused window is not Firefox (Title: $wl_focused_title)"
+    exit 1
+fi
+
 # yank current tab in firefox
 /usr/bin/wtype "yy" && sleep 0.5
 

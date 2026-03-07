@@ -55,6 +55,9 @@ riverctl map normal $alt+Shift t spawn "tempmenu $dmenu_args"
 riverctl map normal $alt+Shift d spawn "clipmenu $dmenu_args"
 riverctl map normal $alt+Shift w spawn "define"
 
+riverctl map normal $mod+Control l spawn "monofetch"
+riverctl map normal $alt+Control l spawn "monofetch"
+
 riverctl map normal $mod+Shift b spawn "btmenu con $dmenu_args"
 riverctl map normal $alt+Shift b spawn "btmenu dis $dmenu_args"
 
@@ -143,7 +146,6 @@ services_to_start=(
 	"plants-daemon"
 	"ppctl-autoswitch"
 	"psi-notify"
-	"singlefile-sync"
 	"swayidle"
 	"wob"
 	"xdg-desktop-portal"

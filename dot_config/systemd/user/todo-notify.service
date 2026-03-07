@@ -1,0 +1,10 @@
+[Unit]
+PartOf=graphical-session.target
+
+[Service]
+Environment=WAYLAND_DISPLAY=wayland-1
+ExecStart=%h/bin/todo-notify
+Restart=on-failure
+
+[Install]
+WantedBy=default.target

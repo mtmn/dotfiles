@@ -45,6 +45,8 @@ riverctl map normal $mod+Shift p spawn "passmenu $dmenu_args"
 riverctl map normal $mod+Shift m spawn "plsmenu $dmenu_args"
 riverctl map normal $mod+Shift p spawn "passmenu $dmenu_args"
 riverctl map normal $mod+Shift d spawn "clipmenu $dmenu_args"
+riverctl map normal $mod+Shift t spawn "todomenu $dmenu_args"
+riverctl map normal $mod+Shift o spawn "todomenu $dmenu_args"
 riverctl map normal $alt+Shift m spawn "plsmenu $dmenu_args"
 riverctl map normal $alt+Shift h spawn "huemenu $dmenu_args"
 riverctl map normal $alt+Shift p spawn "passmenu $dmenu_args"
@@ -89,18 +91,17 @@ riverctl map normal $alt+Shift f toggle-fullscreen
 riverctl map normal $mod Space spawn "dunstctl close"
 riverctl map normal $alt Space spawn "dunstctl history-pop"
 
-for i in $(seq 1 9)
-do
-    tags=$((1 << (i - 1)))
-    riverctl map normal $mod "$i" set-focused-tags "$tags"
-    riverctl map normal $mod+Shift "$i" set-view-tags "$tags"
-    riverctl map normal $mod+Control "$i" toggle-focused-tags "$tags"
-    riverctl map normal $mod+Shift+Control "$i" toggle-view-tags "$tags"
+for i in $(seq 1 9); do
+	tags=$((1 << (i - 1)))
+	riverctl map normal $mod "$i" set-focused-tags "$tags"
+	riverctl map normal $mod+Shift "$i" set-view-tags "$tags"
+	riverctl map normal $mod+Control "$i" toggle-focused-tags "$tags"
+	riverctl map normal $mod+Shift+Control "$i" toggle-view-tags "$tags"
 
-    riverctl map normal $alt "$i" set-focused-tags "$tags"
-    riverctl map normal $alt+Shift "$i" set-view-tags "$tags"
-    riverctl map normal $alt+Control "$i" toggle-focused-tags "$tags"
-    riverctl map normal $alt+Shift+Control "$i" toggle-view-tags "$tags"
+	riverctl map normal $alt "$i" set-focused-tags "$tags"
+	riverctl map normal $alt+Shift "$i" set-view-tags "$tags"
+	riverctl map normal $alt+Control "$i" toggle-focused-tags "$tags"
+	riverctl map normal $alt+Shift+Control "$i" toggle-view-tags "$tags"
 done
 
 riverctl map normal $mod 0 set-focused-tags $(((1 << 32) - 1))
@@ -130,26 +131,26 @@ riverctl map normal $mod+Shift Tab send-to-previous-tags
 riverctl xcursor-theme default 16
 
 pcmanfm-qt --daemon-mode &
-swaybg -m fill -c "#15050f" -i "$HOME"/misc/random/wallpapers/13.jpg &
+swaybg -m fill -c "#15050f" -i "$HOME"/misc/random/wallpapers/15.jpg &
 
 services_to_start=(
-    "battery-notify"
-    "cliphist"
-    "dunst"
-    "habitual"
-    "kanshi"
-    "listenbrainz-mpd"
-    "plants-daemon"
-    "ppctl-autoswitch"
-    "psi-notify"
-    "singlefile-sync"
-    "swayidle"
-    "wob"
-    "xdg-desktop-portal"
-    "xdg-desktop-portal-gtk"
-    "xdg-desktop-portal-wlr"
+	"battery-notify"
+	"cliphist"
+	"dunst"
+	"habitual"
+	"kanshi"
+	"listenbrainz-mpd"
+	"plants-daemon"
+	"ppctl-autoswitch"
+	"psi-notify"
+	"singlefile-sync"
+	"swayidle"
+	"wob"
+	"xdg-desktop-portal"
+	"xdg-desktop-portal-gtk"
+	"xdg-desktop-portal-wlr"
 )
 
 for s in "${services_to_start[@]}"; do
-    systemctl restart --user "$s"
+	systemctl restart --user "$s"
 done

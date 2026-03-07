@@ -1,6 +1,6 @@
 #!/bin/sh
 
-alias tt='rg "^todo:" ~/misc/notes/nota/todo.txt'
+alias tt='rg -N -B 1 "^todo:" ~/misc/notes/nota/todo.txt'
 
 ta() {
 	if [ $# -eq 0 ]; then

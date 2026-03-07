@@ -1,0 +1,21 @@
+#!/bin/bash
+# Check media files for embedded cover art using ffmpeg/ffprobe
+
+SEARCH_DIR="${1:-.}"
+EXTENSIONS=("flac" "mp3" "aiff" "aif" "m4a" "ogg" "wav")
+
+find_args=()
+for i in "${!EXTENSIONS[@]}"; do
+    if [ "$i" -gt 0 ]; then
+        find_args+=(-o)
+    fi
+    find_args+=(-iname "*.${EXTENSIONS[$i]}")
+done
+
+while IFS= read -r -d '' file; do
+    has_cover=$(ffprobe -v error -select_streams v -show_entries stream=codec_type -of csv=p=0 "$file" 2>/dev/null | grep -c "video")
+
+    if [ "$has_cover" -eq 0 ]; then
+        echo "[✗] $file"
+    fi
+done < <(find "$SEARCH_DIR" -type f \( "${find_args[@]}" \) -print0 | sort -z)

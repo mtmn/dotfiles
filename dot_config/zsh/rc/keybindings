@@ -51,7 +51,9 @@ shift_left=$(tput kLFT 2>/dev/null)
 shift_right=$(tput kRIT 2>/dev/null)
 [[ $shift_right ]] && bindkey "$shift_right" forward-word
 
-# ~/.config/zsh/plugins/magnolia
-bindkey '^F' 'magnolia_zle_change_to_file'
-bindkey '^K' 'magnolia_zle_change_to_dir'
-bindkey '^G' 'magnolia_zle_custom_dirs'
+zle -N fzf_copy_from_cliphist
+
+bindkey '^J' 'fzf_copy_from_cliphist'
+bindkey '^F' 'magdalena_goto_file'
+bindkey '^K' 'magdalena_goto_dir'
+bindkey '^G' 'magdalena_fav_dirs'

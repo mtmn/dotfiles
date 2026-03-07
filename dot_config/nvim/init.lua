@@ -49,18 +49,21 @@ local function plugin_specs()
     return vim.api.nvim_create_autocmd("BufEnter", {pattern = "oil://*", callback = oil_cd_on_enter})
   end
   local function _7_()
-    return require("config.blink"):config()
+    return require("diffview").setup({git_cmd = {"git"}, hg_cmd = {"hg"}, watch_index = true, diff_binaries = false, enhanced_diff_hl = false, show_help_hints = false, use_icons = false})
   end
   local function _8_()
-    return require("config.lsp"):config()
+    return require("config.blink"):config()
   end
   local function _9_()
-    return require("config.treesitter"):build()
+    return require("config.lsp"):config()
   end
   local function _10_()
+    return require("config.treesitter"):build()
+  end
+  local function _11_()
     return require("config.treesitter"):config()
   end
-  return {use("oonamo/ef-themes.nvim", {priority = 1000, config = _3_, lazy = false, version = false}), use("windwp/nvim-autopairs", {event = "VeryLazy", config = true}), use("ibhagwan/fzf-lua", {config = true}), use("smoka7/hop.nvim", {version = "*", opts = {keys = "etovxqpdygfblzhckisuran"}}), use("stevearc/oil.nvim", {config = _4_}), use("neogitorg/neogit", {dependencies = {"nvim-lua/plenary.nvim", "sindrets/diffview.nvim"}, config = true}), use("saghen/blink.cmp", {version = "^1", dependencies = {"L3MON4D3/LuaSnip"}, config = _7_, lazy = false}), use("mrcjkb/rustaceanvim", {version = "^7", lazy = false}), use("neovim/nvim-lspconfig", {event = "VeryLazy", branch = "master", config = _8_}), use("nvim-treesitter/nvim-treesitter", {branch = "main", build = _9_, config = _10_}), use("tpope/vim-commentary"), use("tpope/vim-repeat"), use("tpope/vim-surround"), use("troydm/zoomwintab.vim")}
+  return {use("oonamo/ef-themes.nvim", {priority = 1000, config = _3_, lazy = false, version = false}), use("windwp/nvim-autopairs", {event = "VeryLazy", config = true}), use("ibhagwan/fzf-lua", {config = true}), use("smoka7/hop.nvim", {version = "*", opts = {keys = "etovxqpdygfblzhckisuran"}}), use("stevearc/oil.nvim", {config = _4_}), use("neogitorg/neogit", {dependencies = {"nvim-lua/plenary.nvim"}, config = true}), use("sindrets/diffview.nvim", {config = _7_}), use("saghen/blink.cmp", {version = "^1", dependencies = {"L3MON4D3/LuaSnip"}, config = _8_, lazy = false}), use("mrcjkb/rustaceanvim", {version = "^7", lazy = false}), use("neovim/nvim-lspconfig", {event = "VeryLazy", branch = "master", config = _9_}), use("nvim-treesitter/nvim-treesitter", {branch = "main", build = _10_, config = _11_}), use("tpope/vim-commentary"), use("tpope/vim-repeat"), use("tpope/vim-surround"), use("troydm/zoomwintab.vim")}
 end
 local function init()
   do

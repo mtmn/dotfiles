@@ -1,0 +1,222 @@
+#!/usr/bin/env python3
+"""
+ffpurge: remove cookies and associated site data not used in the last N days
+
+Usage:
+  python ffpurge            # dry run
+  python ffpurge --purge    # delete
+  python ffpurge --days 14  # threshold (default: 7)
+"""
+
+import argparse
+import shutil
+import sqlite3
+import sys
+import time
+from pathlib import Path
+
+
+def get_profiles() -> list[Path]:
+    base = Path.home() / ".mozilla/firefox"
+    if not base.exists():
+        sys.exit(f"Firefox profiles not found: {base}")
+    return [p for p in base.iterdir() if p.is_dir()]
+
+
+def get_cache_dirs(profile: Path) -> list[Path]:
+    cache_root = Path.home() / f".cache/mozilla/firefox/{profile.name}"
+    return [
+        cache_root / "cache2",
+        cache_root / "startupCache",
+        cache_root / "thumbnails",
+        profile / "shader-cache",
+    ]
+
+
+def days_to_us(days: int) -> int:
+    return int((time.time() - days * 86400) * 1_000_000)
+
+
+def dir_size(path: Path) -> int:
+    return sum(f.stat().st_size for f in path.rglob("*") if f.is_file())
+
+
+def fmt_size(b: int) -> str:
+    f = float(b)
+    for u in ["B", "KB", "MB", "GB"]:
+        if f < 1024:
+            return f"{f:.1f} {u}"
+        f /= 1024
+    return f"{f:.1f} GB"
+
+
+def query_cookies(profile: Path, threshold: int) -> list[tuple[str, str, int]]:
+    db = profile / "cookies.sqlite"
+    if not db.exists():
+        return []
+    try:
+        con = sqlite3.connect(f"file:{db}?mode=ro", uri=True)
+        rows = con.execute(
+            "SELECT host, name, lastAccessed FROM moz_cookies WHERE lastAccessed < ? ORDER BY host",
+            (threshold,),
+        ).fetchall()
+        con.close()
+        return rows
+    except sqlite3.OperationalError as e:
+        print(f"  cannot read cookies.sqlite: {e}")
+        return []
+
+
+def delete_cookies(profile: Path, threshold: int) -> int:
+    db = profile / "cookies.sqlite"
+    if not db.exists():
+        return 0
+    try:
+        con = sqlite3.connect(db)
+        n = con.execute(
+            "DELETE FROM moz_cookies WHERE lastAccessed < ?", (threshold,)
+        ).rowcount
+        con.commit()
+        con.close()
+        return n
+    except sqlite3.OperationalError as e:
+        print(f"  cannot write cookies.sqlite: {e}")
+        return 0
+
+
+def get_ls_scopes(profile: Path, hosts: set[str]) -> list[str]:
+    db = profile / "webappsstore.sqlite"
+    if not db.exists():
+        return []
+    try:
+        con = sqlite3.connect(f"file:{db}?mode=ro", uri=True)
+        scopes = [
+            r[0]  # type: ignore[unknown-variable-type]
+            for r in con.execute("SELECT DISTINCT scope FROM webappsstore2").fetchall()
+        ]
+        con.close()
+        result: list[str] = []
+        for scope in scopes:
+            rev = scope.split(":")[0].rstrip(".")  # type: ignore[unknown-variable-type]
+            host = ".".join(reversed(rev.split(".")))  # type: ignore[unknown-variable-type]
+            if any(h in host or host in h for h in hosts):
+                result.append(scope)  # type: ignore[unknown-argument-type]
+        return result
+    except sqlite3.OperationalError:
+        return []
+
+
+def delete_ls(profile: Path, hosts: set[str]) -> int:
+    db = profile / "webappsstore.sqlite"
+    scopes = get_ls_scopes(profile, hosts)
+    if not scopes:
+        return 0
+    try:
+        con = sqlite3.connect(db)
+        n = sum(
+            con.execute("DELETE FROM webappsstore2 WHERE scope = ?", (s,)).rowcount
+            for s in scopes
+        )
+        con.commit()
+        con.close()
+        return n
+    except sqlite3.OperationalError as e:
+        print(f"  cannot write webappsstore.sqlite: {e}")
+        return 0
+
+
+def get_stale_folders(profile: Path, hosts: set[str]) -> list[Path]:
+    root = profile / "storage/default"
+    if not root.exists():
+        return []
+    result: list[Path] = []
+    for folder in root.iterdir():
+        if not folder.is_dir():
+            continue
+        fhost = folder.name.replace("https+++", "").replace("http+++", "").split("+")[0]
+        if any(h in fhost or fhost in h for h in hosts):
+            result.append(folder)
+    return result
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--purge", action="store_true")  # type: ignore[unused-call-result]
+    ap.add_argument("--days", type=int, default=7)  # type: ignore[unused-call-result]
+    args = ap.parse_args()
+
+    threshold = days_to_us(args.days)  # type: ignore[arg-type, unknown-variable-type]
+    cutoff = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(threshold / 1_000_000))
+    purge = args.purge  # type: ignore[attr-defined, unknown-variable-type]
+    days = args.days  # type: ignore[attr-defined, unknown-variable-type]
+    print(
+        f"\nMode: {'PURGE' if purge else 'DRY RUN'}  |  threshold: {days} days (before {cutoff})\n"
+    )
+
+    profiles = get_profiles()
+    totals: dict[str, int] = dict(cookies=0, ls=0, storage=0, cache=0)
+
+    for profile in profiles:
+        print(f"--- Profile: {profile.name} ---")
+
+        # cookies
+        rows = query_cookies(profile, threshold)
+        hosts = set(r[0].lstrip(".") for r in rows)
+        print(f"  cookies      : {len(rows)} ({len(hosts)} hosts)")
+        for host, name, us in rows:
+            print(
+                f"    {host}  {name}  last={time.strftime('%Y-%m-%d', time.localtime(us / 1e6))}"
+            )
+        if purge:
+            n = delete_cookies(profile, threshold)
+            print(f"  deleted {n} cookies")
+        totals["cookies"] += len(rows)
+
+        # localStorage
+        scopes = get_ls_scopes(profile, hosts)
+        print(f"  localStorage : {len(scopes)} scope(s)")
+        for s in scopes:
+            print(f"    {s}")
+        if purge and scopes:
+            n = delete_ls(profile, hosts)
+            print(f"  deleted {n} localStorage rows")
+        totals["ls"] += len(scopes)
+
+        # site storage
+        folders = get_stale_folders(profile, hosts)
+        storage_bytes = sum(dir_size(f) for f in folders)
+        print(f"  site storage : {len(folders)} folder(s), {fmt_size(storage_bytes)}")
+        for f in folders:
+            print(f"    {f.name}")
+        if purge:
+            for f in folders:
+                shutil.rmtree(f, ignore_errors=True)
+            if folders:
+                print(f"  deleted {len(folders)} folder(s)")
+        totals["storage"] += storage_bytes
+
+        # cache
+        for cache_path in get_cache_dirs(profile):
+            if not cache_path.exists():
+                continue
+            cache_size = dir_size(cache_path)
+            print(f"  cache        : {fmt_size(cache_size)}  ({cache_path.name})")
+            if purge:
+                shutil.rmtree(cache_path, ignore_errors=True)
+                print(f"  deleted {cache_path.name}")
+            totals["cache"] += cache_size
+        print()
+
+    print("--- Summary ---")
+    action = "deleted" if purge else "would delete"
+    print(
+        f"  {action}: {totals['cookies']} cookies, {totals['ls']} localStorage scopes, {fmt_size(totals['storage'])} site storage, {fmt_size(totals['cache'])} cache"
+    )
+    if not purge:
+        print("\n  dry run - use --purge to delete")
+    else:
+        print("\n  done")
+
+
+if __name__ == "__main__":
+    main()

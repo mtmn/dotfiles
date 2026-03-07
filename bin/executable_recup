@@ -1,0 +1,10 @@
+#!/bin/sh
+cd ~/misc/recordings || exit 1
+
+PICKED=$(eza --oneline --reverse --sort=created | fzf --reverse --preview='stat {}')
+
+if [ -n "$PICKED" ]; then
+	aws s3 cp "$PICKED" "s3://mine/recordings/$PICKED"
+	shirt "$(aws s3 presign "s3://mine/recordings/$PICKED" --expires-in 604800 | tr -d '\n')"
+
+fi

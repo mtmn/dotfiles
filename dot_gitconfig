@@ -1,5 +1,11 @@
 [includeIf "gitdir:~/src/"]
-    path = ~/src/misc/gitconfig-gpgsign-enabled
+    path = ~/src/misc/git/gitconfig-gpgsign-enabled
+
+[includeIf "gitdir:~/src/haravara.org/"]
+    path = ~/src/misc/git/gitconfig-gpgsign-disabled
+
+[includeIf "gitdir:~/src/misc/"]
+    path = ~/src/misc/git/gitconfig-gpgsign-disabled
 
 [init]
     defaultBranch = master
@@ -24,7 +30,7 @@
 [alias]
     why-ignore = check-ignore -v
     wip = for-each-ref --sort='authordate:iso8601' --format=' %(color:green)%(authordate:relative)%09%(color:white)%(refname:short)' refs/heads
-    lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+    gol = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
 
 [pull]
     rebase = false

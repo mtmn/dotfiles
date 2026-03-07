@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+
+# yank current tab in firefox
+/usr/bin/wtype "yy" && sleep 0.5
+
+url=${1:-$(wl-paste 2>/dev/null)}
+
+if [[ -z "$url" ]]; then
+	notify-send "No URL found"
+	exit 1
+fi
+
+if [[ ! "$url" =~ ^https?:// ]]; then
+	notify-send "Invalid URL format" "$url"
+	exit 1
+fi
+
+domain=$(echo "$url" | sed -e 's|^https\?://||' -e 's|/.*||' -e 's|^www\.||')
+path_part=$(echo "$url" | sed -e 's|^https\?://||' -e 's|[?#].*||')
+
+if [[ "$path_part" == */ ]] || [[ "$path_part" != */* ]]; then
+	if [[ "$path_part" != */* ]]; then
+		full_rel_path="$path_part/index.html"
+	else
+		full_rel_path="${path_part}index.html"
+	fi
+else
+	full_rel_path="$path_part"
+fi
+
+target_file_path="$HOME/misc/www/$full_rel_path"
+target_dir=$(dirname "$target_file_path")
+
+md_slug=$(echo "$path_part" | tr '/' '-' | sed 's/^-//;s/-$//')
+if [[ -z "$md_slug" ]] || [[ "$md_slug" == "index.html" ]]; then
+	md_slug="index"
+fi
+
+md_filename="${domain}-${md_slug%.html}.md"
+target_md_path="$HOME/misc/notes/www/$md_filename"
+
+mkdir -p "$target_dir" || {
+	notify-send -u critical "Error" "Failed to create directory"
+	exit 1
+}
+if monolith -o "$target_file_path" "$url"; then
+	notify-send "Saved" "$url"
+else
+	notify-send -u critical "Error" "Failed to download $url"
+	exit 1
+fi
+
+cat "$target_file_path" | html2markdown >"$target_md_path"
+
+if [[ ! -s "$target_md_path" ]]; then
+	notify-send -u critical "Error" "Conversion failed"
+fi

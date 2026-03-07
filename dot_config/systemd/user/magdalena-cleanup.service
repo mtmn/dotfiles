@@ -1,0 +1,6 @@
+[Unit]
+Description=Interactive shell history cleanup
+
+[Service]
+Type=oneshot
+ExecStart=/opt/tools/magdalena --cleanup

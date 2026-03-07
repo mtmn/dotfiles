@@ -4,7 +4,7 @@ Documentation=https://vdirsyncer.readthedocs.io
 
 [Timer]
 OnBootSec=5min
-OnUnitActiveSec=6h
+OnUnitActiveSec=30min
 Persistent=true
 
 [Install]

@@ -78,7 +78,8 @@ glf() {
 		fzf \
 			--ansi \
 			--preview "git show --color=always {2}" |
-		awk '{print $2}' | wl-copy
+		awk '{print $2}' | wl-copy &&
+	nvim -c ":DiffviewOpen $(wl-paste)"
 }
 
 gbf() {

@@ -1,0 +1,8 @@
+[Unit]
+Description=Low Memory Slice with early out of memory settings
+
+[Slice]
+OOMScoreAdjust=1000
+MemorySwapMax=0
+MemoryHigh=3200M
+MemoryMax=3500M

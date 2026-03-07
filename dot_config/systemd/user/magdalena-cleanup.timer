@@ -1,0 +1,10 @@
+[Unit]
+Description=Run magdalena cleanup periodically
+
+[Timer]
+OnBootSec=15min
+OnUnitActiveSec=60min
+Persistent=true
+
+[Install]
+WantedBy=timers.target

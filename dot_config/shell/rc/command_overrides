@@ -19,6 +19,7 @@ alias fd='fd --hidden --exclude .git --exclude $HOME/misc/mnt --exclude /nix'
 alias rg='rg --hidden -i'
 
 alias eza='eza -a --sort=modified'
+alias cat='bat'
 
 alias startx='exec startx &>| /tmp/startx-$USER'
 

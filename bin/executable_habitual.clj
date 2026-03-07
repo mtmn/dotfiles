@@ -41,7 +41,7 @@
      :weekdays (parse-cron-field weekdays 0 6)}))
 
 (defn next-cron-ms
-  "Returns milliseconds until the next matching cron instant."
+  "Returns milliseconds until the next matching habit"
   [cron]
   (let [now (System/currentTimeMillis)
         start (-> now (quot 60000) inc (* 60000))]
@@ -51,7 +51,7 @@
         (let [ldt     (java.time.LocalDateTime/ofInstant
                         (java.time.Instant/ofEpochMilli t)
                         (java.time.ZoneId/systemDefault))
-              month   (.getMonthValue ldt)          ; 1-12
+              month   (.getMonthValue ldt)           ; 1-12
               mday    (.getDayOfMonth ldt)           ; 1-31
               hour    (.getHour ldt)                 ; 0-23
               minute  (.getMinute ldt)               ; 0-59
@@ -80,7 +80,7 @@
 
 (def cli-options
   [["-p" "--prog PROG" "Program to send notifications to"
-    :default "notify-send -u critical"]
+    :default "notify-send"]
    ["-h" "--help"]])
 
 (defn -main [& args]

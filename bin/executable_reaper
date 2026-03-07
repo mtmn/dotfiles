@@ -1,0 +1,8 @@
+#!/bin/bash
+export STEAM_COMPAT_DATA_PATH="$HOME/.local/share/reaktor"
+export STEAM_COMPAT_CLIENT_INSTALL_PATH="$HOME/.local/share/reaktor"
+
+export WINE="/usr/share/steam/compatibilitytools.d/proton-ge-custom/files/bin/wine"
+export WINEPREFIX="$HOME/.local/share/reaktor/pfx"
+
+exec /usr/bin/reaper "$@"

@@ -56,8 +56,18 @@
                                                    {:pattern "oil://*"
                                                     :callback oil-cd-on-enter})))})
     (use "neogitorg/neogit"
-         {:dependencies [:nvim-lua/plenary.nvim :sindrets/diffview.nvim]
+         {:dependencies [:nvim-lua/plenary.nvim]
           :config true})
+    (use "sindrets/diffview.nvim"
+         {:config (fn []
+                    ((. (require :diffview) :setup)
+                     {:diff_binaries false
+                      :enhanced_diff_hl false
+                      :git_cmd ["git"]
+                      :hg_cmd ["hg"]
+                      :use_icons false
+                      :show_help_hints false
+                      :watch_index true}))})
     (use "saghen/blink.cmp"
 	{:version :^1
 	:lazy false

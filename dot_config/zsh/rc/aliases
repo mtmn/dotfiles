@@ -1,8 +1,0 @@
-#!/bin/zsh
-alias j='jog'
-alias h='histdb'
-
-alias jr='jog_run'
-alias hr='histdb_run'
-
-alias l='ls -l'

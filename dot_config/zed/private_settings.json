@@ -1,4 +1,9 @@
 {
+	"agent_servers": {
+		"qwen-code": {
+			"type": "registry"
+		}
+	},
 	"relative_line_numbers": "enabled",
 	"buffer_font_family": "Comic Code",
 	"telemetry": {
@@ -19,7 +24,7 @@
 	"ui_font_size": 16,
 	"buffer_font_size": 16,
 	"theme": "ef-tritanopia-dark",
-	"disable_ai": true,
+	"disable_ai": false,
 	"collaboration_panel": {
 		"button": false
 	},

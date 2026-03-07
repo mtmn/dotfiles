@@ -1,0 +1,77 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+HARPER_DICT="${XDG_CONFIG_HOME:-$HOME/.config}/harper-ls/dictionary.txt"
+BASE_URL="https://raw.githubusercontent.com/streetsidesoftware/cspell-dicts/main/dictionaries"
+
+DICTS=(
+  "software-terms/dict/softwareTerms.txt"
+  "typescript/dict/typescript.txt"
+  "node/dict/node.txt"
+  "css/dict/css.txt"
+  "html/dict/html.txt"
+  "python/dict/python.txt"
+  "rust/dict/rust.txt"
+  "bash/samples/bash-words.txt"
+  "golang/dict/go.txt"
+  "docker/dict/docker-words.txt"
+  "k8s/dict/k8s.txt"
+  "aws/dict/aws.txt"
+  "sql/src/sql.txt"
+  "zig/dict/zig.txt"
+  "php/dict/php.txt"
+
+)
+
+WORK_DIR=$(mktemp -d)
+trap 'rm -rf "$WORK_DIR"' EXIT
+
+log()  { echo "▸ $*"; }
+warn() { echo "⚠ $*" >&2; }
+
+clean_cspell_words() {
+  # - blank lines and comments (#)
+  # - cspell flags: lines starting with !, *, ~, /
+  # - inline flags after words: word+, word!, word~
+  # - leading/trailing whitespace
+  grep -v '^\s*$' \
+  | grep -v '^\s*#' \
+  | grep -v '^\s*[!*~/]' \
+  | sed 's/[+!~*]$//' \
+  | sed 's/^\s*//;s/\s*$//' \
+  | grep -E '^[A-Za-z]' \
+  | tr '[:upper:]' '[:lower:]'
+}
+
+log "Fetching cspell dictionaries"
+
+MERGED="$WORK_DIR/merged.txt"
+
+for dict in "${DICTS[@]}"; do
+  url="$BASE_URL/$dict"
+  name=$(basename "$dict")
+  log "  $name"
+  if curl -fsSL "$url" -o "$WORK_DIR/$name" 2>/dev/null; then
+    clean_cspell_words < "$WORK_DIR/$name" >> "$MERGED"
+  else
+    warn "Failed to fetch $url"
+  fi
+done
+
+sort -u "$MERGED" -o "$MERGED"
+FETCHED_COUNT=$(wc -l < "$MERGED")
+log "Fetched $FETCHED_COUNT unique words from cspell-dicts"
+
+mkdir -p "$(dirname "$HARPER_DICT")"
+touch "$HARPER_DICT"
+
+# Preserve any words added manually
+USER_ONLY=$(comm -23 <(sort "$HARPER_DICT") <(sort "$MERGED") || true)
+
+{ cat "$MERGED"; echo "$USER_ONLY"; } | sort -u > "$WORK_DIR/final.txt"
+
+FINAL_COUNT=$(wc -l < "$WORK_DIR/final.txt")
+cp "$WORK_DIR/final.txt" "$HARPER_DICT"
+
+log "Harper dictionary updated: $FINAL_COUNT words"

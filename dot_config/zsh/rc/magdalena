@@ -1,0 +1,17 @@
+#!/bin/zsh
+
+magdalena_goto_file() {
+	magdalena goto-file "$@" && zle reset-prompt 2>/dev/null || true
+}
+
+magdalena_goto_dir() {
+	dir=$(magdalena goto-dir) && cd "$dir" && zle reset-prompt 2>/dev/null || true
+}
+
+magdalena_fav_dirs() {
+	dir=$(magdalena fav-dirs) && cd "$dir" && zle reset-prompt 2>/dev/null || true
+}
+
+zle -N magdalena_goto_file
+zle -N magdalena_goto_dir
+zle -N magdalena_fav_dirs

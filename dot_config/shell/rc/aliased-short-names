@@ -1,13 +1,18 @@
 #!/bin/sh
 
-alias f='magdalena look-file'
 alias mg='magdalena'
+alias f='magdalena look-file'
 
-alias mrd='magdalena recent-dirs'
 alias mrf='magdalena recent-files'
+alias mrd='magdalena recent-dirs'
 alias mgr='magdalena grep'
 
-alias clam='moshrc clam'
+alias ncom="alafont --font 'Comic Code' --size '14.0'"
+alias bcom="alafont --font 'Comic Code' --size '16.0'"
+alias nbit="alafont --font 'UW ttyp0' --size '14.0'"
+alias bbit="alafont --font 'UW ttyp0' --size '22.0'"
+
+alias clam='sshrc clam'
 
 alias pw='LC_ALL=C tr -dc a-zA-Z0-9 < /dev/urandom | head -c 20; echo'
 
@@ -32,6 +37,15 @@ alias us='systemctl --user start'
 alias ut='systemctl --user stop'
 alias ud='systemctl --user -n 100 status'
 
+alias pps='podman ps'
+alias plo='podman logs'
+alias pst='podman stats'
+alias pbu='podman build'
+
+alias pcu='podman-compose up'
+alias pcd='podman-compose down'
+alias pcs='podman-compose stop'
+
 alias l='ls -l'
 alias tma='tmux attach-session -t'
 
@@ -51,6 +65,15 @@ alias tom='nota tomorrow'
 alias todo='nota todo'
 alias wish='nota wishlist'
 
+alias obs='obsidian "obsidian://open?vault=notes" & disown'
+alias obsno='obsidian "obsidian://open?vault=nota" & disown'
+alias obscpt='obsidian "obsidian://open?vault=counterpoint" & disown'
+
+alias kat='khal at'
+alias kan='khal new'
+alias khw='khal list now 7d'
+alias khi='khal interactive'
+
 alias bnp='backup nota --push'
 alias bpp='backup pass --push'
 
@@ -67,7 +90,6 @@ alias btcon='btctl connect'
 alias btdis='btctl disconnect'
 
 alias ze='zeditor .'
-alias zed='zeditor .'
 
 alias ap='ansible-playbook --diff'
 alias apc='ansible-playbook --check --diff'
@@ -78,24 +100,17 @@ alias yt_dlp_audio='yt-dlp --embed-thumbnail --write-thumbnail --extract-audio -
 alias matchamix='matchakey --mixxx ~/.mixxx/mixxxdb.sqlite'
 alias datamix='datasette serve $HOME/.mixxx/mixxxdb.sqlite --setting sql_time_limit_ms 50000'
 
-alias ag='antigravity .'
-alias agkill='pkill -9 -f antigravity'
+alias ndev='nix develop'
 
-alias hm='home-manager'
-
-alias hms='hm switch'
+alias hms='home-manager switch'
 alias hmsf='hms --impure --flake $HOME/src/haravara.org/$USER/tools/nix/$(hostname)'
 
 alias amsp='mpva https://radio.stereoscenic.com/asp-s --no-resume-playback'
 alias nts1='mpva https://stream-relay-geo.ntslive.net/stream --no-resume-playback'
 alias nts2='mpva https://stream-relay-geo.ntslive.net/stream2 --no-resume-playback'
 
-alias ch='cliphist list | fzf --no-sort | cliphist decode | wl-copy'
-
 alias op='offpunk'
 alias sr='speedread -w 400'
 
 alias chop='perl -pe chop'
 alias chomp='perl -pe chomp'
-
-alias ndev='nix develop'

@@ -1,0 +1,6 @@
+#!/bin/sh
+todo_file=~/misc/notes/nota/todo.txt
+
+if item=$(dmenu "$@" < /dev/null) && [ -n "$item" ]; then
+    printf "\n%s\ntodo: %s" "$(date --rfc-3339=s)" "$item" >> "$todo_file"
+fi

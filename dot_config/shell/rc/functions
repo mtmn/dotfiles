@@ -7,6 +7,15 @@ nixpkgs_cache_index_update() {
 	ln -f "$filename" files
 }
 
+fetch_rss_youtube() {
+	CHANNEL_URL="$1"
+	if [ -n "$CHANNEL_URL" ]; then
+		curl -s "$CHANNEL_URL" |
+			grep -Po '<link rel="canonical" href="https://www.youtube.com/channel/\K.*?(?=">)' |
+			xargs -I@ echo 'https://www.youtube.com/feeds/videos.xml?channel_id=@' | wl-copy
+	fi
+}
+
 nvimrecomp() {
 	nvim_config_path="$HOME/.config/nvim"
 
@@ -99,21 +108,24 @@ cheat() {
 	curl cht.sh/"${1?}"
 }
 
-ytrss() {
-	CHANNEL_URL="$1"
-	if [ -n "$CHANNEL_URL" ]; then
-		curl -s "$CHANNEL_URL" |
-			grep -Po '<link rel="canonical" href="https://www.youtube.com/channel/\K.*?(?=">)' |
-			xargs -I@ echo 'https://www.youtube.com/feeds/videos.xml?channel_id=@' | wl-copy
-	fi
-}
-
 mpas() {
 	mpc add "$(yt-dlp -f bestaudio -g "${1?}")"
 }
 
 mpa() {
 	mpc add "${1?}"
+}
+
+ae() {
+	if tmux has-session -t aerc 2>/dev/null; then
+		if [ -n "$TMUX" ]; then
+			tmux switch-client -t aerc
+		else
+			tmux attach -t aerc
+		fi
+	else
+		tmux new -s aerc aerc
+	fi
 }
 
 cd() {

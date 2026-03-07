@@ -1,6 +1,6 @@
 (vim.cmd "cnoreabbrev nt botright vert new
-          cnoreabbrev mft %!saturn_fetch_tracks
-          cnoreabbrev mat %!saturn_add_tracks
+          cnoreabbrev sft %!sft
+          cnoreabbrev ptn %!ptn
           cnoreabbrev mpc %!mpc clear
           cnoreabbrev mpl %!mpc play")
 

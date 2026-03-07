@@ -49,7 +49,7 @@ local function plugin_specs()
     return vim.api.nvim_create_autocmd("BufEnter", {pattern = "oil://*", callback = oil_cd_on_enter})
   end
   local function _7_()
-    return require("diffview").setup({git_cmd = {"git"}, hg_cmd = {"hg"}, watch_index = true, diff_binaries = false, enhanced_diff_hl = false, show_help_hints = false, use_icons = false})
+    return require("diffview").setup({git_cmd = {"git"}, watch_index = true, diff_binaries = false, enhanced_diff_hl = false, show_help_hints = false, use_icons = false})
   end
   local function _8_()
     return require("config.blink"):config()

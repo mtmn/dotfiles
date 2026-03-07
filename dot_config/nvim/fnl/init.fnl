@@ -64,7 +64,6 @@
                      {:diff_binaries false
                       :enhanced_diff_hl false
                       :git_cmd ["git"]
-                      :hg_cmd ["hg"]
                       :use_icons false
                       :show_help_hints false
                       :watch_index true}))})

@@ -41,15 +41,12 @@
 (fn config []
   (let [servers {:basedpyright {}
                  :clangd {}
-                 :expert {}
                  :gopls {:settings {:gopls {:analyses {:unusedparams true}
                                             :staticcheck true
                                             :gofumpt true}}}
                  :gleam {}
-                 :harper_ls {:settings {:harper-ls {:isolateEnglish true}}}
                  :intelephense {}
                  :rust_analyzer {}
-                 :typos_lsp {}
                  :zls {}}]
     (each [server config (pairs servers)]
       (vim.lsp.enable server config))

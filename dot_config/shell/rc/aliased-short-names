@@ -1,11 +1,19 @@
 #!/bin/sh
 
-alias mg='magdalena'
 alias f='magdalena look-file'
+alias fg='cdg && magdalena look-file && cd -'
 
-alias mrf='magdalena recent-files'
-alias mrd='magdalena recent-dirs'
+alias zb='zig build'
+
+alias tailup='ss tailscaled && tailscale up'
+
 alias mgr='magdalena grep'
+alias mgrf='cdg && magdalena grep && cd -'
+
+alias mrd='magdalena recent-dirs'
+alias mrf='magdalena recent-files'
+
+alias pdm='pkill --require-handler -f dmenu'
 
 alias ncom="alafont --font 'Comic Code' --size '14.0'"
 alias bcom="alafont --font 'Comic Code' --size '16.0'"
@@ -20,8 +28,6 @@ alias pcm='pcmanfm-qt'
 
 alias duh='du -hs'
 alias dfh='df -h'
-
-alias chediff='chezmoi diff'
 
 alias q='sudo '
 alias lopri='nice -n 19 ionice -c2 -n7 '
@@ -74,13 +80,13 @@ alias kan='khal new'
 alias khw='khal list now 7d'
 alias khi='khal interactive'
 
-alias bnp='backup nota --push'
 alias bpp='backup pass --push'
+alias bnp='backup nota --push'
 
 alias hs='histdb-sync'
 
 alias nr='newsraft'
-alias nre='$EDITOR ~/.config/newsraft/feeds && backup releases'
+alias nre='$EDITOR ~/.config/newsraft/feeds && backup rss'
 
 alias cbd='cargo build'
 alias cbr='cargo build --release'
@@ -100,10 +106,8 @@ alias yt_dlp_audio='yt-dlp --embed-thumbnail --write-thumbnail --extract-audio -
 alias matchamix='matchakey --mixxx ~/.mixxx/mixxxdb.sqlite'
 alias datamix='datasette serve $HOME/.mixxx/mixxxdb.sqlite --setting sql_time_limit_ms 50000'
 
-alias ndev='nix develop'
-
-alias hms='home-manager switch'
-alias hmsf='hms --impure --flake $HOME/src/haravara.org/$USER/tools/nix/$(hostname)'
+alias nd='nix develop'
+alias hms='nh home switch ~/src/haravara.org/nix'
 
 alias amsp='mpva https://radio.stereoscenic.com/asp-s --no-resume-playback'
 alias nts1='mpva https://stream-relay-geo.ntslive.net/stream --no-resume-playback'

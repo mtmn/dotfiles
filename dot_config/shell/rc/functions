@@ -64,7 +64,7 @@ fetch_rss() {
 tempfox() {
 	profile_dir=$(mktemp -d)
 	trap 'rm -rf $profile_dir' EXIT
-	cp ~/src/haravara.org/"$USER"/tools/tempfox/user.js "$profile_dir"/user.js
+	cp ~/src/haravara.org/tools/tempfox/user.js "$profile_dir"/user.js
 	firefox -no-remote -new-instance -profile "$profile_dir"
 }
 

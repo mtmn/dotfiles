@@ -1,16 +1,17 @@
 #!/usr/bin/env bash
 
-wl_focused_title="$(get-river-title)"
-
-if [[ ! "$wl_focused_title" == *"Mozilla Firefox"* ]]; then
-	notify-send -u critical "Error" "Focused window is not a web browser ($wl_focused_title)"
-	exit 1
+if [[ -n "$1" ]]; then
+	url="$1"
+else
+	wl_focused_title="$(get-river-title)"
+	if [[ "$wl_focused_title" == *"Mozilla Firefox"* ]]; then
+		/usr/bin/wtype "yy" && sleep 0.5
+		url=$(wl-paste 2>/dev/null)
+	else
+		notify-send -u critical "Error" "Focused window is not a web browser ($wl_focused_title)"
+		exit 1
+	fi
 fi
-
-# yank current tab in firefox
-/usr/bin/wtype "yy" && sleep 0.5
-
-url=${1:-$(wl-paste 2>/dev/null)}
 
 if [[ -z "$url" ]]; then
 	notify-send "No URL found"

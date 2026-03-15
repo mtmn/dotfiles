@@ -34,6 +34,7 @@ riverctl map normal $mod p spawn "dmenu_run $dmenu_args"
 riverctl map normal $alt p spawn "dmenu_run $dmenu_args"
 
 riverctl map normal Control+$alt l spawn "waylock"
+riverctl map normal Control+$mod l spawn "monofetch"
 
 riverctl map normal $alt b spawn "waybar_switch"
 
@@ -55,8 +56,6 @@ riverctl map normal $alt+Shift t spawn "tempmenu $dmenu_args"
 riverctl map normal $alt+Shift d spawn "clipmenu $dmenu_args"
 riverctl map normal $alt+Shift w spawn "define"
 
-riverctl map normal $mod+Control l spawn "monofetch"
-riverctl map normal $alt+Control l spawn "monofetch"
 
 riverctl map normal $mod+Shift b spawn "btmenu con $dmenu_args"
 riverctl map normal $alt+Shift b spawn "btmenu dis $dmenu_args"
@@ -134,7 +133,7 @@ riverctl map normal $mod+Shift Tab send-to-previous-tags
 riverctl xcursor-theme default 16
 
 pcmanfm-qt --daemon-mode &
-swaybg -m fill -c "#15050f" -i "$HOME"/misc/random/wallpapers/15.jpg &
+swaybg -m fill -c "#15050f" -i "$HOME"/misc/random/wallpapers/13.jpg &
 
 services_to_start=(
 	"battery-notify"

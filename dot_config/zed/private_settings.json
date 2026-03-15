@@ -23,7 +23,7 @@
 	"vim_mode": true,
 	"ui_font_size": 16,
 	"buffer_font_size": 16,
-	"theme": "ef-tritanopia-dark",
+	"theme": "Modus Vivendi Tritanopia",
 	"disable_ai": false,
 	"collaboration_panel": {
 		"button": false

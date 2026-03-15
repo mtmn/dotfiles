@@ -18,8 +18,8 @@ alias ln='ln --backup=numbered'
 alias fd='fd --hidden --exclude .git --exclude $HOME/misc/mnt --exclude /nix'
 alias rg='rg --hidden -i'
 
+alias vim='nvim'
 alias eza='eza -a --sort=modified'
-alias cat='bat'
 
 alias startx='exec startx &>| /tmp/startx-$USER'
 
@@ -55,10 +55,9 @@ alias leafpad='mousepad'
 alias backup='bbackup'
 
 # Allow other aliases to be used after the program name
-alias sudo='sudo-rs '
+alias sudo='sudo '
 alias watch='watch '
 
-alias vim='nvim'
 alias gdb='gdb -q'
 
 alias dmesg='dmesg -T --color=always | less -R +G'

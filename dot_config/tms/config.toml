@@ -1,0 +1,18 @@
+[[search_dirs]]
+path = "/home/miro/src/github.com"
+depth = 2
+
+[[search_dirs]]
+path = "/home/miro/src/codeberg.org"
+depth = 2
+
+[[search_dirs]]
+path = "/home/miro/src/haravara.org"
+depth = 1
+
+[picker_colors]
+highlight_color = "#a6699f"
+highlight_text_color = "#15050f"
+border_color = "#b0648f"
+info_color = "#3fafcf"
+prompt_color = "#2fa526"

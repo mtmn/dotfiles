@@ -4,6 +4,10 @@ fzf_copy_from_cliphist() {
 	{ cliphist list | fzf --no-sort | cliphist decode | wl-copy && zle reset-prompt || true } 2>/dev/null
 }
 
+tms_open() {
+	tms && zle reset-prompt || true 2>/dev/null
+}
+
 erg() {
 	$EDITOR \
 		+'/\v'"${1/\//\\/}" \

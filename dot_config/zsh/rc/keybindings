@@ -52,7 +52,9 @@ shift_right=$(tput kRIT 2>/dev/null)
 [[ $shift_right ]] && bindkey "$shift_right" forward-word
 
 zle -N fzf_copy_from_cliphist
+zle -N tms_open
 
+bindkey '^T' 'tms_open'
 bindkey '^J' 'fzf_copy_from_cliphist'
 bindkey '^F' 'magdalena_goto_file'
 bindkey '^K' 'magdalena_goto_dir'

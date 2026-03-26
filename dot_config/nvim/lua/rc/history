@@ -1,0 +1,9 @@
+#!/bin/bash
+
+set +H
+
+HISTSIZE=50000
+HISTFILESIZE=$HISTSIZE
+HISTCONTROL=ignoreboth
+
+shopt -s histappend

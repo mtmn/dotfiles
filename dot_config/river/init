@@ -1,0 +1,4 @@
+.config/zsh/plugins/zsh-histdb/histdb-migrate
+.config/gtk-2.0
+.config/gtk-3.0
+docs

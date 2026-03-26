@@ -2,7 +2,7 @@
 TERM = "xterm-256color"
 
 [window]
-opacity = 0.93
+opacity = 0.90
 
 [window.padding]
 x = 2
@@ -29,37 +29,37 @@ style  = "Regular"
 family = "UW ttyp0"
 style  = "Regular"
 
-[colors.normal]
-black   = '#282026'
-red     = '#cf4f5f'
-green   = '#2fa526'
-yellow  = '#c48702'
-blue    = '#379cf6'
-magenta = '#b0648f'
-cyan    = '#3fafcf'
-white   = '#dfd0d5'
+# [colors.normal]
+# black   = '#282026'
+# red     = '#cf4f5f'
+# green   = '#2fa526'
+# yellow  = '#c48702'
+# blue    = '#379cf6'
+# magenta = '#b0648f'
+# cyan    = '#3fafcf'
+# white   = '#dfd0d5'
 
-[colors.bright]
-black   = '#554f4f'
-red     = '#d24f7f'
-green   = '#00b066'
-yellow  = '#df8f6f'
-blue    = '#029fff'
-magenta = '#a6699f'
-cyan    = '#4fafaf'
-white   = '#908890'
+# [colors.bright]
+# black   = '#554f4f'
+# red     = '#d24f7f'
+# green   = '#00b066'
+# yellow  = '#df8f6f'
+# blue    = '#029fff'
+# magenta = '#a6699f'
+# cyan    = '#4fafaf'
+# white   = '#908890'
 
-[colors.cursor]
-cursor = '#fd3333'
-text   = '#15050f'
+# [colors.cursor]
+# cursor = '#fd3333'
+# text   = '#15050f'
 
-[colors.primary]
-background = '#15050f'
-foreground = '#dfd0d5'
+# [colors.primary]
+# background = '#15050f'
+# foreground = '#dfd0d5'
 
-[colors.selection]
-background = '#293140'
-text       = '#dfd0d5'
+# [colors.selection]
+# background = '#293140'
+# text       = '#dfd0d5'
 
 [cursor.style]
 shape    = "Block"
@@ -119,3 +119,31 @@ action = "ToggleViMode"
 key    = "U"
 mods   = "Control|Shift"
 action = "ToggleViMode"
+
+[colors.normal]
+black = '#332d38'
+red = '#eca28f'
+green = '#b9d0aa'
+yellow = '#c0b080'
+blue = '#9fbfe7'
+magenta = '#e9acbf'
+cyan = '#a0c0d0'
+white = '#ffffff'
+[colors.bright]
+black = '#332d38'
+red = '#eca28f'
+green = '#b9d0aa'
+yellow = '#c0b080'
+blue = '#9fbfe7'
+magenta = '#e9acbf'
+cyan = '#a0c0d0'
+white = '#ffffff'
+[colors.cursor]
+cursor = '#ccaaee'
+text = '#000000'
+[colors.primary]
+background = '#000000'
+foreground = '#ffffff'
+[colors.selection]
+background = '#50447f'
+text = '#ffffff'

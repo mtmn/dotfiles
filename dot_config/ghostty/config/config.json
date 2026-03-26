@@ -1,0 +1,53 @@
+{
+	"ignored_patterns": [
+		".git",
+		".jj",
+		".zig-cache",
+		"target",
+		"vendor",
+		"node_modules",
+		"composer.lock",
+		"deps",
+		"_build",
+		".expert",
+		".nix-data"
+	],
+	"fzf_opts": [
+		"--highlight-line",
+		"--ansi",
+		"--layout=reverse",
+		"--border=rounded",
+		"--color=bg+:#2a1f2e,bg:-1,spinner:#c084b8,hl:#e08060",
+		"--color=fg:#c8b8bf,header:#c4607a,info:#7a6e7a,pointer:#c084b8",
+		"--color=marker:#e06fad,fg+:#f0dfe5,prompt:#7a9fd4,hl+:#f0a070",
+		"--color=border:#3d2a42"
+	],
+	"fav_dirs": ["/home/miro/src", "/home/miro/src/misc", "/home/miro/Downloads"],
+	"openers": [
+		{
+			"extensions": ["mp4", "mkv", "avi", "webm"],
+			"action": "media_player",
+			"command": "mpv"
+		},
+		{
+			"extensions": ["flac", "aiff", "aif", "mp3", "wav"],
+			"action": "audio_player",
+			"command": "mpv"
+		},
+		{
+			"extensions": ["jpg", "jpeg", "png", "webp", "svg"],
+			"action": "image_viewer",
+			"command": "nsxiv-rifle"
+		},
+		{
+			"extensions": ["pdf", "epub", "mobi"],
+			"action": "document_reader",
+			"command": "sioyek"
+		},
+		{
+			"extensions": ["html"],
+			"action": "web_browser",
+			"command": "offpunk"
+		}
+	]
+}
